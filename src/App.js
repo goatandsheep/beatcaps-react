@@ -9,10 +9,19 @@ const Route = require('react-router-dom').Route;
  * @return {Object} reactDOM
  */
 function App() {
+  const SERVER_DOMAIN=process.env.SERVER_DOMAIN;
+  const SERVER_KEY=process.env.SERVER_KEY;
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     console.log('Effect has been run');
   }, [counter]);
+  const getData = async () => {
+    const response = await fetch(`${SERVER_DOMAIN}/jobs`, {
+      headers: {
+        'apikey': SERVER_KEY,
+      },
+    });
+  };
   return (
     <div className="App">
       <header >

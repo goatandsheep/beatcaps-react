@@ -1,0 +1,18 @@
+{
+  "id": "LoginModel",
+  "type": "object",
+  "properties": {
+    "email": {
+      "type": "string",
+      "faker": "internet.email"
+    },
+    "password": {
+      "type": "string",
+      "faker": "internet.password"
+    }
+  },
+  "required": [
+    "email",
+    "password"
+  ]
+}
