@@ -35,9 +35,9 @@ function verifyToken(token) {
 }
 
 // Check if the user exists in database
-function isAuthenticated({ email, password }) {
-  return (email && password)
-  // return userdb.users.findIndex(user => user.email === 'user@example.com' && user.password === 'password') !== -1
+function isAuthenticated({ username, password }) {
+  return (username && password)
+  // return userdb.users.findIndex(user => user.username === 'user@example.com' && user.password === 'password') !== -1
 }
 const middlewares = jsonServer.defaults()
 
@@ -92,13 +92,13 @@ app.post('/auth/logout', (req, res) => {
 
 // app.post('/auth/login', (req, res) => {
 app.post('/login', (req, res) => {
-  const { email, password } = req.body
-  if (isAuthenticated({ email, password }) === false) {
+  const { username, password } = req.body
+  if (isAuthenticated({ username, password }) === false) {
     const status = 401
-    const message = 'Incorrect email or password'
+    const message = 'Incorrect username or password'
     res.status(status).jsonp({ status, message })
   } else {
-    const access_token = createToken({ email, password })
+    const access_token = createToken({ username, password })
     // res.cookie('access_token', access_token)
     // res.header('Set-Cookie', `access_token=${access_token}`)
     res.header('Authorization', `Bearer ${access_token}`)

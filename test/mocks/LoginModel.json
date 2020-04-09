@@ -2,9 +2,9 @@
   "id": "LoginModel",
   "type": "object",
   "properties": {
-    "email": {
+    "username": {
       "type": "string",
-      "faker": "internet.email"
+      "faker": "internet.userName"
     },
     "password": {
       "type": "string",
@@ -12,7 +12,7 @@
     }
   },
   "required": [
-    "email",
+    "username",
     "password"
   ]
 }
