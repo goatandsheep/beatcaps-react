@@ -2,10 +2,10 @@ import React, {useContext, useEffect, useState} from 'react';
 import {ConstsContext} from '../ConstsContext';
 
 /**
- * Home page component
+ * Login page component
  * @return {Object} reactDom
  */
-const Home = () => {
+const Login = () => {
   const {SERVER_DOMAIN} = useContext(ConstsContext);
   const [counter, setCounter] = useState(0);
   useEffect(() => {
@@ -54,4 +54,4 @@ const Home = () => {
     </>
   );
 };
-export default Home;
+export default Login;

@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router} from 'react-router-dom';
-import Home from './pages/Home';
+import Login from './pages/Login';
 import {ConstsProvider} from './ConstsContext';
 const Route = require('react-router-dom').Route;
 
@@ -29,9 +29,9 @@ function App() {
         <Router>
           <main className="section">
             {/* <Route path="/" render={
-              () => (<Home />)
+              () => (<Login />)
             } /> */}
-            <Route path="/" component={Home} isAuthed={false} />
+            <Route path="/" component={Login} isAuthed={false} />
           </main>
         </Router>
       </ConstsProvider>
