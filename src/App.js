@@ -1,7 +1,7 @@
 import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router} from 'react-router-dom';
-import Home from './views/Home';
+import Home from './pages/Home';
 import {ConstsProvider} from './ConstsContext';
 const Route = require('react-router-dom').Route;
 
