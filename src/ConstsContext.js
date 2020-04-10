@@ -3,15 +3,15 @@ import React, {createContext} from 'react';
 /**
  * App constants
  */
-export const AppContext = createContext();
+export const ConstsContext = createContext();
 
-export const AppProvider = (props) => {
+export const ConstsProvider = (props) => {
   const attrs = {
     SERVER_DOMAIN: process.env.REACT_APP_SERVER_DOMAIN,
   };
   return (
-    <AppContext.Provider value={attrs}>
+    <ConstsContext.Provider value={attrs}>
       {props.children}
-    </AppContext.Provider>
+    </ConstsContext.Provider>
   );
 };

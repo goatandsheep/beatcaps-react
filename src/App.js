@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router} from 'react-router-dom';
 import Home from './views/Home';
-import {AppProvider} from './AppContext';
+import {ConstsProvider} from './ConstsContext';
 const Route = require('react-router-dom').Route;
 
 /**
@@ -25,7 +25,7 @@ function App() {
           Learn React
         </a>
       </header>
-      <AppProvider>
+      <ConstsProvider>
         <Router>
           <main className="section">
             {/* <Route path="/" render={
@@ -34,7 +34,7 @@ function App() {
             <Route path="/" component={Home} isAuthed={false} />
           </main>
         </Router>
-      </AppProvider>
+      </ConstsProvider>
     </div>
   );
 }

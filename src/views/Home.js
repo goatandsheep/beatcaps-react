@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {AppContext} from '../AppContext';
+import {ConstsContext} from '../ConstsContext';
 
 /**
  * Home page component
  * @return {Object} reactDom
  */
 const Home = () => {
-  const {SERVER_DOMAIN} = useContext(AppContext);
+  const {SERVER_DOMAIN} = useContext(ConstsContext);
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     console.log('Effect has been run');
