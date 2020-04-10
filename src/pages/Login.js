@@ -1,12 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {ConstsContext} from '../ConstsContext';
+import {GlobalContext} from '../contexts/GlobalState';
 
 /**
  * Login page component
  * @return {Object} reactDom
  */
 const Login = () => {
-  const {SERVER_DOMAIN} = useContext(ConstsContext);
+  const {SERVER_DOMAIN} = useContext(GlobalContext);
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     console.log('Effect has been run');

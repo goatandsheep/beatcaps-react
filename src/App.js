@@ -2,7 +2,7 @@ import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router} from 'react-router-dom';
 import Login from './pages/Login';
-import {ConstsProvider} from './ConstsContext';
+import {GlobalProvider} from './contexts/GlobalState';
 const Route = require('react-router-dom').Route;
 
 /**
@@ -25,7 +25,7 @@ function App() {
           Learn React
         </a>
       </header>
-      <ConstsProvider>
+      <GlobalProvider>
         <Router>
           <main className="section">
             {/* <Route path="/" render={
@@ -34,7 +34,7 @@ function App() {
             <Route path="/" component={Login} isAuthed={false} />
           </main>
         </Router>
-      </ConstsProvider>
+      </GlobalProvider>
     </div>
   );
 }
