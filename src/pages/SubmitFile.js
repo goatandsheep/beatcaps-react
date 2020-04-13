@@ -1,14 +1,14 @@
 import React, {useContext} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 
-const Dashboard = () => {
+const SubmitFile = () => {
   const globals = useContext(GlobalContext);
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1>Submit New File</h1>
       <span>{JSON.stringify(globals)}</span>
     </div>
   );
 };
 
-export default Dashboard;
+export default SubmitFile;

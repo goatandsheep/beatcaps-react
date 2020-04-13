@@ -12,4 +12,3 @@ Directory.
 * File submit page: upload song / video, options, etc.
 * Processed file preview page
 * API documentation page
-
