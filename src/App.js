@@ -1,9 +1,10 @@
-import React, {useContext} from 'react';
+import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
+import AuthButton from './components/AuthButton';
 const Route = require('react-router-dom').Route;
 
 /**
@@ -14,26 +15,27 @@ function App() {
   const PrivateRoute = ({component: Component, ...attrs}) => (
     <Route {...attrs} render={(props) => (
       <GlobalContext.Consumer>
-        {(cons) => (cons.user.auth ? <Component {...props} /> : <Login /> )}
+        {(state) => (state.user.auth ? <Component {...props} /> : <Login /> )}
       </GlobalContext.Consumer>
     )} />
   );
   return (
     <div className="App">
-      <header >
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
       <GlobalProvider>
+        <header >
+          <span>
+            Edit <code>src/App.js</code> and save to reload.
+          </span>
+          <a
+            className="App-link"
+            href="https://reactjs.org"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Learn React
+          </a>
+          <AuthButton />
+        </header>
         <Router>
           <main className="section">
             <Switch>
