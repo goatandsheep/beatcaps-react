@@ -108,6 +108,10 @@ app.post('/login', (req, res) => {
   }
 })
 
+app.post('/file/new', (req, res) => {
+  res.status(200)
+})
+
 app.get('/*', (req, res) => {
   res.status(404).send('Route not found')
 })

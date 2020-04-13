@@ -1,21 +1,15 @@
-import React, {useContext} from 'react';
-import {GlobalContext} from '../contexts/GlobalState';
+import React from 'react';
+import constants from '../constants';
 
-const SubmitFile = (props) => {
-  const globals = useContext(GlobalContext);
+const SubmitFile = () => {
   const handleFileSubmit = async (event) => {
-    event.preventDefault();
     // TODO: create FormData
-    await uploadFile({
-      typeOutput: event.target.typeOutput,
-      typeInput: event.target.typeInput,
-      selectedFile: event.target.file.files[0],
-      loaded: 0,
-    });
+    event.preventDefault();
+    await uploadFile(new FormData(event.target));
     window.location.href = './89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
-    const response = await fetch(`${globals.SERVER_DOMAIN}/file/new`, {
+    const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',
       body: req,
     });
@@ -24,7 +18,7 @@ const SubmitFile = (props) => {
   return (
     <div>
       <h1 className="title is-1">Submit New File</h1>
-      <form className="card" onSubmit={handleFileSubmit}>
+      <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
         <fieldset className="card-content">
           <legend className="subtitle is-6">Enter file information</legend>
           <div className="field">
