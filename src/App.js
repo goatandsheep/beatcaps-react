@@ -24,12 +24,16 @@ function App() {
   return (
     <div className="App">
       <GlobalProvider>
-        <header >
-          <span className="title is-6">BeatCaps Admin Panel</span>
-          <AuthButton />
-        </header>
+        <nav className="navbar" role="navigation" aria-label="main navigation">
+          <div className="navbar-brand">
+            <a className="navbar-item title is-6" href="/">BeatCaps Admin Panel</a>
+          </div>
+          <div className="navbar-end">
+            <AuthButton />
+          </div>
+        </nav>
         <Router>
-          <main className="section">
+          <main className="container">
             <Switch>
               {/* <Route path="/login" component={Login} /> */}
               <PrivateRoute exact={true} path="/" component={Dashboard} />

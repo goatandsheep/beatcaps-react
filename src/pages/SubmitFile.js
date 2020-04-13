@@ -24,7 +24,7 @@ const SubmitFile = () => {
     <div>
       <h1 className="title is-1">Submit New File</h1>
       <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
-        <fieldset className="card-content">
+        <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
           <div className="field">
             <label className="label" htmlFor="typeInput">Media Type</label>

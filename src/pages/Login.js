@@ -20,7 +20,7 @@ const Login = () => {
     <>
       <h1 className="title">BeatCaps Admin Panel</h1>
       <form className="card" onSubmit={handleLoginSubmit}>
-        <fieldset className="card-content">
+        <fieldset className="card-content content">
           <legend className="title">Log in</legend>
           <div className="field">
             <label className="label" htmlFor="usernameInput">Username</label>
