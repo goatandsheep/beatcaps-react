@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {BrowserRouter as Router, Switch, useParams} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
@@ -17,20 +17,10 @@ function App() {
   const PrivateRoute = ({component: Component, ...attrs}) => (
     <Route {...attrs} render={(props) => (
       <GlobalContext.Consumer>
-        {(state) => (state.user.auth ? <Component {...props} /> : <Login /> )}
+        {(state) => (state.user.auth ? <Component route={props} {...props.match.params} /> : <Login {...props.match.params} /> )}
       </GlobalContext.Consumer>
     )} />
   );
-  const ParamsRoute = ({component: Component, ...attrs}) => {
-    const {params} = useParams();
-    console.log('params: ', JSON.stringify(params));
-    return (
-      <Route {...attrs} render={() => {
-        return <Component {...params} />;
-      }}
-      />
-    );
-  };
   return (
     <div className="App">
       <GlobalProvider>
@@ -54,7 +44,7 @@ function App() {
               {/* <Route path="/login" component={Login} /> */}
               <PrivateRoute exact={true} path="/" component={Dashboard} />
               <PrivateRoute exact={true} path="/new" component={SubmitFile} />
-              <ParamsRoute path="/file/:id" component={FileView} />
+              <PrivateRoute path="/file/:id" component={FileView} />
               <Route render={() => (<h1>Page Not Found</h1>)} />
             </Switch>
           </main>
