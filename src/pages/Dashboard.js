@@ -5,7 +5,7 @@ const Dashboard = () => {
   const globals = useContext(GlobalContext);
   return (
     <div>
-      <h1>Dashboard</h1>
+      <h1 className="title is-1">Dashboard</h1>
       <span>{JSON.stringify(globals)}</span>
     </div>
   );

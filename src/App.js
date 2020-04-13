@@ -25,17 +25,7 @@ function App() {
     <div className="App">
       <GlobalProvider>
         <header >
-          <span>
-            Edit <code>src/App.js</code> and save to reload.
-          </span>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <span className="title is-6">BeatCaps Admin Panel</span>
           <AuthButton />
         </header>
         <Router>
@@ -43,7 +33,7 @@ function App() {
             <Switch>
               {/* <Route path="/login" component={Login} /> */}
               <PrivateRoute exact={true} path="/" component={Dashboard} />
-              <PrivateRoute exact={true} path="/new" component={SubmitFile} />
+              <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
               <PrivateRoute path="/file/:id" component={FileView} />
               <Route render={() => (<h1>Page Not Found</h1>)} />
             </Switch>

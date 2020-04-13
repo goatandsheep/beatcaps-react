@@ -4,7 +4,7 @@ import React, {useContext} from 'react';
 const FileView = (props) => {
   return (
     <div>
-      <h1>File View</h1>
+      <h1 className="title is-1">File View</h1>
       <span>File: {props.id}</span>
     </div>
   );
