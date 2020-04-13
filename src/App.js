@@ -1,8 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './App.scss';
-import {BrowserRouter as Router} from 'react-router-dom';
+import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import Login from './pages/Login';
-import {GlobalProvider} from './contexts/GlobalState';
+import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
+import Dashboard from './pages/Dashboard';
 const Route = require('react-router-dom').Route;
 
 /**
@@ -10,6 +11,13 @@ const Route = require('react-router-dom').Route;
  * @return {Object} reactDOM
  */
 function App() {
+  const PrivateRoute = ({component: Component, ...attrs}) => (
+    <Route {...attrs} render={(props) => (
+      <GlobalContext.Consumer>
+        {(cons) => (cons.user.auth ? <Component {...props} /> : <Login /> )}
+      </GlobalContext.Consumer>
+    )} />
+  );
   return (
     <div className="App">
       <header >
@@ -28,10 +36,11 @@ function App() {
       <GlobalProvider>
         <Router>
           <main className="section">
-            {/* <Route path="/" render={
-              () => (<Login />)
-            } /> */}
-            <Route path="/" component={Login} isAuthed={false} />
+            <Switch>
+              {/* <Route path="/login" component={Login} /> */}
+              <PrivateRoute exact={true} path="/" component={Dashboard} />
+              <Route render={() => (<h1>Page Not Found</h1>)} />
+            </Switch>
           </main>
         </Router>
       </GlobalProvider>

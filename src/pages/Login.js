@@ -1,14 +1,12 @@
-import React, {useEffect, useState} from 'react';
-// import {GlobalContext} from '../contexts/GlobalState';
-import constants from '../constants';
+import React, {useContext, useEffect, useState} from 'react';
+import {GlobalContext} from '../contexts/GlobalState';
 
 /**
  * Login page component
  * @return {Object} reactDom
  */
 const Login = () => {
-  // const context = useContext(GlobalContext);
-  const {SERVER_DOMAIN} = constants;
+  const context = useContext(GlobalContext);
   const [counter, setCounter] = useState(0);
   useEffect(() => {
     console.log('Effect has been run');
@@ -16,20 +14,7 @@ const Login = () => {
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
-    login('username', 'password');
-  };
-
-  const login = async (username, password) => {
-    const req = {
-      username,
-      password,
-    };
-    const response = await fetch(`${SERVER_DOMAIN}/login`, {
-      method: 'POST',
-      body: JSON.stringify(req),
-    });
-    const data = await response.json();
-    console.log(data);
+    context.login('username', 'password');
   };
   return (
     <>
