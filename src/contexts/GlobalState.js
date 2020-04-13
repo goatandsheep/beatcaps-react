@@ -30,6 +30,7 @@ export const GlobalProvider = (props) => {
     const data = await response.json();
     console.log('user', data);
     const newState = {...data, auth: true};
+    newState.token = `Bearer ${newState.token}`;
     sessionStorage.setItem(sessionUserKey, JSON.stringify(newState));
     setUser(newState);
   };
@@ -39,6 +40,9 @@ export const GlobalProvider = (props) => {
     };
     await fetch(`${SERVER_DOMAIN}/logout`, {
       method: 'POST',
+      headers: {
+        Authorization: user.token,
+      },
       body: JSON.stringify(req),
     });
     sessionStorage.removeItem(sessionUserKey);

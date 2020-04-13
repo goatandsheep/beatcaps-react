@@ -7,6 +7,10 @@ jsf.extend('faker', () => require('faker'))
 
 // new
 
+const Element = require('./mocks/Element.json')
+const ElementResponse = require('./mocks/ElementResponse.json')
+const ElementListResponse = require('./mocks/ElementListResponse.json')
+
 const LoginModel = require('./mocks/LoginModel.json')
 const LoginResponseModel = require('./mocks/LoginResponseModel.json')
 
@@ -19,6 +23,9 @@ const app = jsonServer.create()
 let router = jsonServer.router({})
 
 const mockRefs = [
+  Element,
+  ElementResponse,
+  ElementListResponse,
 ]
 
 const SECRET_KEY = '123456789'
@@ -76,6 +83,24 @@ app.use(/^(?!\/login).*$/, (req, res, next) => {
     const message = 'Error: access_token is not valid'
     res.status(status).json({ status, message })
   }
+})
+
+app.get('/files/:uuid', (req, res) => {
+  const rand = jsf.generate(ElementResponse, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+app.post('/files', (req, res) => {
+  const elements = jsf.generate(ElementResponse, mockRefs)
+  let response = {
+    elements
+  }
+  res.status(200).jsonp(response)
+})
+
+app.get('/files', (req, res) => {
+  const rand = jsf.generate(ElementListResponse, mockRefs)
+  res.status(200).jsonp(rand)
 })
 
 // app.post('/login', (req, res) => {

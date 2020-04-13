@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 
 const SubmitFile = () => {
+  const globalConsumer = useContext(GlobalContext);
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
     event.preventDefault();
@@ -12,6 +14,9 @@ const SubmitFile = () => {
     const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',
       body: req,
+      headers: {
+        Authorization: globalConsumer.user.token,
+      },
     });
     return await response.json();
   };
