@@ -13,7 +13,10 @@ export const GlobalProvider = (props) => {
     token: '',
     auth: false,
   };
-  const [user, setUser] = useState(defaultUser);
+  const sessionUserKey = 'userObj';
+  const session = JSON.parse(sessionStorage.getItem(sessionUserKey));
+  console.log(sessionUserKey, JSON.stringify(session));
+  const [user, setUser] = useState(session || defaultUser);
 
   const login = async (username, password) => {
     const req = {
@@ -26,7 +29,9 @@ export const GlobalProvider = (props) => {
     });
     const data = await response.json();
     console.log('user', data);
-    setUser({...data, auth: true});
+    const newState = {...data, auth: true};
+    sessionStorage.setItem(sessionUserKey, JSON.stringify(newState));
+    setUser(newState);
   };
   const logout = async () => {
     const req = {
@@ -36,6 +41,7 @@ export const GlobalProvider = (props) => {
       method: 'POST',
       body: JSON.stringify(req),
     });
+    sessionStorage.removeItem(sessionUserKey);
     setUser(defaultUser);
   };
   return (
