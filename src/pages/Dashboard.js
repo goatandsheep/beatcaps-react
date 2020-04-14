@@ -25,7 +25,7 @@ const Dashboard = () => {
     if (props.data) {
       return props.data.map((item) => (
         <tr>
-          <td>{item.uuid}</td>
+          <td><a href={`/file/${item.uuid}`}>{item.uuid}</a></td>
           <td>{item.elementName}</td>
           <td>{item.elementType}</td>
           <td>{item.creationDate}</td>
@@ -45,6 +45,7 @@ const Dashboard = () => {
           <h2 className="card-header-title">Files list (
             {mediaList ? mediaList.total : '0'})
           </h2>
+          <a className="button is-info is-rounded" href="file/new">New</a>
         </div>
         <div className="card-content content">
           <table className="table">

@@ -1,4 +1,4 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 
 /**
@@ -7,10 +7,6 @@ import {GlobalContext} from '../contexts/GlobalState';
  */
 const Login = () => {
   const context = useContext(GlobalContext);
-  const [counter, setCounter] = useState(0);
-  useEffect(() => {
-    console.log('Effect has been run');
-  }, [counter]);
 
   const handleLoginSubmit = async (event) => {
     event.preventDefault();
@@ -42,7 +38,6 @@ const Login = () => {
           </div>
         </fieldset>
         <button className="button is-primary" type="submit">Submit</button>
-        <button onClick={() => setCounter(counter+1)} className="button is-secondary" type="button">Count: {counter}</button>
       </form>
     </>
   );
