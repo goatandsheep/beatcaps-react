@@ -12,10 +12,6 @@ module.exports = {
       'ecmaVersion': 2018,
       'sourceType': 'module',
     },
-    'parserOptions': {
-      'ecmaVersion': 2018,
-      'sourceType': 'module',
-    },
     'rules': {
       'linebreak-style': 0,
       'max-len': ["warn", { 'code': 150 }]
