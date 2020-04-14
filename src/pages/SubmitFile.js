@@ -11,7 +11,7 @@ const SubmitFile = () => {
     window.location.href = './89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
-    const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
+    const response = await fetch(`${constants.SERVER_DOMAIN}/files`, {
       method: 'POST',
       body: req,
       headers: {
