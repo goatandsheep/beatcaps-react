@@ -7,7 +7,8 @@ import Dashboard from './pages/Dashboard';
 import SubmitFile from './pages/SubmitFile';
 import AuthButton from './components/AuthButton';
 import FileView from './pages/FileView';
-const Route = require('react-router-dom').Route;
+import {NavLink, Route} from 'react-router-dom';
+
 
 /**
  * Main App builder
@@ -26,7 +27,7 @@ function App() {
       <GlobalProvider>
         <nav className="navbar" role="navigation" aria-label="main navigation">
           <div className="navbar-brand">
-            <a className="navbar-item title is-6" href="/">BeatCaps Admin Panel</a>
+            <NavLink className="navbar-item title is-6" to="/">BeatCaps Admin Panel</NavLink>
           </div>
           <div className="navbar-end">
             <AuthButton />

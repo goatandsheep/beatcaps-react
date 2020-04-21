@@ -6,7 +6,7 @@ const TableRow = (props) => {
   if (props.data) {
     return props.data.map((item) => (
       <tr>
-        <td><a href={`/file/${item.uuid}`}>{item.uuid}</a></td>
+        <td><a href={`${props.prefix}/${item.uuid}`}>{item.uuid}</a></td>
         <td>{item.elementName}</td>
         <td>{item.elementType}</td>
         <td>{item.creationDate}</td>

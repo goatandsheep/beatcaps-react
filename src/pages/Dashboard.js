@@ -53,7 +53,7 @@ const Dashboard = () => {
               </tr>
             </tfoot>
             <tbody>
-              <TableRow data={mediaList.elements} />
+              <TableRow prefix="/file" data={mediaList.elements} />
             </tbody>
           </table>
         </div>
