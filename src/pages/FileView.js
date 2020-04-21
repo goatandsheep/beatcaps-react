@@ -21,20 +21,6 @@ const FileView = (props) => {
     fetchData();
   }, [globalConsumer, props.id]);
 
-  // const statusBadge = (status) => {
-  //   switch (status) {
-  //     case 'Complete':
-  //       return <strong className="has-background-success">{status}</strong>;
-  //     case 'Cancelled':
-  //     case 'Error':
-  //       return <strong className="has-background-danger">{status}</strong>;
-  //     case 'Loading':
-  //       return <strong className="has-background-loading">{status}</strong>;
-  //     case 'In Progress':
-  //     default:
-  //       return <strong className="has-background-warning">{status}</strong>;
-  //   }
-  // };
   return (
     <div>
       <h1 className="title is-1">File: {media.elementName}</h1>
