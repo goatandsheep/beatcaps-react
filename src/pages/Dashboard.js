@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
-import StatusBadge from '../components/StatusBadge';
+import TableRow from '../components/TableRow';
 
 const Dashboard = () => {
   const globalConsumer = useContext(GlobalContext);
@@ -20,23 +20,6 @@ const Dashboard = () => {
     };
     fetchData();
   }, [globalConsumer]);
-
-  const TableRow = (props) => {
-    if (props.data) {
-      return props.data.map((item) => (
-        <tr>
-          <td><a href={`/file/${item.uuid}`}>{item.uuid}</a></td>
-          <td>{item.elementName}</td>
-          <td>{item.elementType}</td>
-          <td>{item.creationDate}</td>
-          <td>{item.updatedDate}</td>
-          <td><StatusBadge status={item.status} /></td>
-        </tr>
-      ));
-    } else {
-      return (<tr>Loading</tr>);
-    }
-  };
   return (
     <div>
       <h1 className="title is-1">Dashboard</h1>
