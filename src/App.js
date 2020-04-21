@@ -35,7 +35,6 @@ function App() {
         <Router>
           <main className="container">
             <Switch>
-              {/* <Route path="/login" component={Login} /> */}
               <PrivateRoute exact={true} path="/" component={Dashboard} />
               <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
               <PrivateRoute path="/file/:id" component={FileView} />

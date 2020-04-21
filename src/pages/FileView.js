@@ -56,14 +56,6 @@ const FileView = (props) => {
           </p>
         </div>
       </div>
-      {/* {!media ? <div className="is-loading">Loading</div> : (
-        <div>
-          <div className="field">
-            <label className="label">Element Name</label>
-            <div className="input">{media.elementName}</div>
-          </div>
-        </div>
-      )} */}
     </div>
   );
 };
