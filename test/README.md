@@ -1,6 +1,6 @@
 # Mock Server
 
-## Deployment
+## Lambda Deployment
 
 1. `npm install`
 2. `npm run pack`
@@ -9,6 +9,10 @@
 5. Create Method: ANY
 6. Create Resource: checkbox proxy
 7. Connect it to the lambda you made
+
+## Netlify Deployment
+
+> Coming soon
 
 ## Testing
 
