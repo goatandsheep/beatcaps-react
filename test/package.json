@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "node app",
     "pack": "npm version minor && ./node_modules/.bin/claudia pack",
-    "start": "node src/index.js",
-    "start:server": "netlify-lambda serve ./src",
+    "local": "node src/mock.js",
+    "start": "netlify-lambda serve src",
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "netlify-lambda build ./src"
   },
