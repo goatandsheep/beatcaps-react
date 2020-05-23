@@ -25,15 +25,15 @@ function App() {
   return (
     <div className="App">
       <GlobalProvider>
-        <nav className="navbar" role="navigation" aria-label="main navigation">
-          <div className="navbar-brand">
-            <NavLink className="navbar-item title is-6" to="/">BeatCaps Admin Panel</NavLink>
-          </div>
-          <div className="navbar-end">
-            <AuthButton />
-          </div>
-        </nav>
         <Router>
+          <nav className="navbar" role="navigation" aria-label="main navigation">
+            <div className="navbar-brand">
+              <NavLink className="navbar-item title is-6" to="/">BeatCaps Admin Panel</NavLink>
+            </div>
+            <div className="navbar-end">
+              <AuthButton />
+            </div>
+          </nav>
           <main className="container">
             <Switch>
               <PrivateRoute exact={true} path="/" component={Dashboard} />

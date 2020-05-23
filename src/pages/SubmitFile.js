@@ -63,7 +63,6 @@ const SubmitFile = () => {
                 </span>
                 <span className="file-label">Choose a file</span>
               </span>
-              {/* <span className="file-name">N/A</span> */}
             </label>
           </div>
         </fieldset>
