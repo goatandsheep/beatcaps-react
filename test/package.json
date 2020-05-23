@@ -4,10 +4,12 @@
   "description": "",
   "main": "app.js",
   "scripts": {
-    "dev": "node app.local",
+    "dev": "node app",
     "pack": "npm version minor && ./node_modules/.bin/claudia pack",
-    "start": "node app.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node src/index.js",
+    "start:server": "netlify-lambda serve ./src",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "netlify-lambda build ./src"
   },
   "author": "Kemal Ahmed",
   "license": "ISC",
@@ -20,6 +22,7 @@
     "jsonwebtoken": "^8.5.1"
   },
   "devDependencies": {
-    "claudia": "^5.4.2"
+    "claudia": "^5.4.2",
+    "netlify-lambda": "^1.6.3"
   }
 }

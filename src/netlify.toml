@@ -1,3 +1,0 @@
-[context.production]
-[context.mock]
-    base="test/"
