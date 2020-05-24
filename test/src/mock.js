@@ -2,8 +2,11 @@
 // const express = require('express')
 // const app = express()
 
+const faker = require('faker')
+
 const jsf = require('json-schema-faker')
-jsf.extend('faker', () => require('faker'))
+jsf.extend('faker', () => faker)
+jsf.locate('faker')
 
 // new
 
