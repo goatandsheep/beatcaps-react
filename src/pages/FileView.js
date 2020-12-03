@@ -1,12 +1,34 @@
 import React, {useContext, useEffect, useState} from 'react';
+import { Rnd } from "react-rnd";
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import StatusBadge from '../components/StatusBadge'
 
+const style = {
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  border: "solid 1px #ddd",
+  background: "#f0f0f0"
+};
+
 const FileView = (props) => {
   const globalConsumer = useContext(GlobalContext);
-
   const [media, setMedia] = useState('');
+
+  const [rnd, setRnd] = useState({
+    width: 200,
+    height: 200,
+    x: 10,
+    y: 10
+  });
+
+  // this.state = {
+  //   width: 200,
+  //   height: 200,
+  //   x: 10,
+  //   y: 10
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -20,6 +42,10 @@ const FileView = (props) => {
     };
     fetchData();
   }, [globalConsumer, props.id]);
+
+  useEffect(() => {
+    console.log('X and Y values', rnd);
+  }, [rnd]);
 
   return (
     <div>
@@ -56,6 +82,24 @@ const FileView = (props) => {
           </p>
         </div>
       </div>
+    
+      <Rnd
+        style={style}
+        size={{ width: rnd.width, height: rnd.height }}
+        position={{ x: rnd.x, y: rnd.y }}
+        onDragStop={(e, d) => {
+          setRnd({ x: d.x, y: d.y });
+        }}
+        onResizeStop={(e, direction, ref, delta, position) => {
+          setRnd({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+        >
+        Rnd
+      </Rnd>
     </div>
   );
 };
