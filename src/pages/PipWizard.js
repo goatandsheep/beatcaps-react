@@ -1,13 +1,31 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
-import TableRow from '../components/TableRow';
+
+const MOCKED_TEMPLATES_RESPONSE = [
+  {
+    templateName: 'Template 1',
+    templateId: '1111',
+    videoSlots: 4
+  },
+  {
+    templateName: 'Template 2',
+    templateId: '2222',
+    videoSlots: 1
+  },
+  {
+    templateName: 'Template 3',
+    templateId: '3333',
+    videoSlots: 3
+  },
+]
 
 const PipWizard = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [mediaList, setMediaList] = useState('');
-  const [videoSlots, setVideoSlots] = useState(1);
+  const [templateList, setTemplateList] = useState(null);
+  const [selectedTemplate, setSelectedTemplate] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -23,18 +41,29 @@ const PipWizard = () => {
     fetchData();
   }, [globalConsumer]);
 
+  useEffect(() => {
+    const fetchTemplates = () => {
+      // TODO: use real endpoint
+      setTemplateList(MOCKED_TEMPLATES_RESPONSE)
+    }
+
+    fetchTemplates()
+  }, [])
+
   const makeVideoSlotSelects = () => {
     if (!mediaList || !mediaList.length) return
 
     const selects = []
 
-    for (let i = 0; i < videoSlots; i++) {
+    for (let i = 0; i < mediaList; i++) {
+      const id = `videoSlotOption${i}`
+
       selects.push(
-        <div for="templateName">
-          <label class="label">Video Slot {i + 1}</label>
-          <div class="control">
-            <div id={`videoSlot{i}`} class="select">
-              <select>
+        <div key={id}>
+          <label htmlFor={id} className="label">Video Slot {i + 1}</label>
+          <div className="control">
+            <div className="select">
+              <select id={id}>
                 {
                   mediaList.map(media => {
                     return <option key={media.uuid} value={media.uuid}>
@@ -52,21 +81,28 @@ const PipWizard = () => {
     return selects
   }
 
+  const handleTemplateChange = (evt) => {
+    const newIndex = evt.target.value;
+    console.log(newIndex, templateList[newIndex])
+    setSelectedTemplate(templateList[newIndex])
+  }
+
   return (
     <div>
       <h1 className="title is-1">PIP Wizard</h1>
-      <form class="has-text-left">
-        <label for="templateName" class="label">Template Name</label>
-        <div class="control">
-          <div id="templateName" class="select">
-            <select>
-              <option value="temp1">Template 1</option>
-              <option value="temp2">Template 3</option>
-            </select>
+      <form className="has-text-left">
+        <label htmlFor="templateName" className="label">Template Name</label>
+        <div className="control">
+          <div id="templateName" className="select">
+          {templateList && templateList.length ? (
+            <select onChange={handleTemplateChange}>
+              {templateList.map((template, i) => <option key={template.templateId} value={i}>{template.templateName}</option>)}
+            </select>)
+            : null}
           </div>
         </div>
 
-        <p>Template has {videoSlots} video slot(s)</p>
+        {selectedTemplate ? <p>{selectedTemplate.templateName} has {selectedTemplate.videoSlots} video slot(s)</p> : null}
 
         {makeVideoSlotSelects()}
 
