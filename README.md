@@ -12,3 +12,17 @@ Directory.
 * File submit page: upload song / video, options, etc.
 * Processed file preview page
 * API documentation page
+
+## Setup
+
+### Dotenv
+
+1. Copy the `.env.template`
+2. Rename the copy as `.env`
+3. Customize variables as you please
+
+### Test server
+
+1. `cd` test folder with CLI
+2. `npm install`
+3. `npm run dev`
