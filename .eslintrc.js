@@ -12,6 +12,7 @@ module.exports = {
       'ecmaVersion': 2018,
       'sourceType': 'module',
     },
+    'ignorePatterns': ['test/*'],
     'rules': {
       'linebreak-style': 0,
       'max-len': ["warn", { 'code': 150 }]
