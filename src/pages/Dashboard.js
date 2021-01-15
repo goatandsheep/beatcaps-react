@@ -7,7 +7,7 @@ const Dashboard = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [mediaList, setMediaList] = useState('');
-
+  const attrs = ['elementName', 'elementType', 'creationDate', 'updatedDate'];
   useEffect(() => {
     const fetchData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
@@ -25,7 +25,7 @@ const Dashboard = () => {
       <h1 className="title is-1">Dashboard</h1>
       <div className="level">
         <div className="level-item">
-          <a className="button is-primary is-fullwidth" href="file/new" title="Templates page">
+          <a className="button is-primary is-fullwidth" href="templates" title="Templates page">
             Design&nbsp;&nbsp;
             <span className="icon is-small is-left">
               <i className="fas fa-crop-alt"></i>
@@ -44,7 +44,7 @@ const Dashboard = () => {
       <div className="card">
         <div className="card-header">
           <h2 className="card-header-title">
-            Files list ({mediaList ? mediaList.total : '0'})
+            Outputs list ({mediaList ? mediaList.total : '0'})
           </h2>
           <a className="button is-info is-rounded" href="file/new" title="Begin Process Wizard">
             Create&nbsp;&nbsp;
@@ -76,7 +76,7 @@ const Dashboard = () => {
               </tr>
             </tfoot>
             <tbody>
-              <TableRow prefix="/file" data={mediaList.elements} />
+              <TableRow prefix="/file" attrs={attrs} data={mediaList.elements} />
             </tbody>
           </table>
         </div>

@@ -19,7 +19,7 @@
     },
     "name": {
       "type": "string",
-      "faker": "internet.password"
+      "faker": "random.words"
     },
     "width": {
       "enum": [
