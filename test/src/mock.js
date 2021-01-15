@@ -17,6 +17,13 @@ const ElementListResponse = require('./mocks/ElementListResponse.json')
 const LoginModel = require('./mocks/LoginModel.json')
 const LoginResponseModel = require('./mocks/LoginResponseModel.json')
 
+const OutputResponse = require('./mocks/OutputResponse.json')
+const OutputResponseList = require('./mocks/OutputResponseList.json')
+const Template = require('./mocks/Template.json')
+const TemplateResponse = require('./mocks/TemplateResponse.json')
+const TemplateResponseList = require('./mocks/TemplateResponseList.json')
+const View = require('./mocks/View.json')
+
 const bodyParser = require('body-parser')
 const jsonServer = require('json-server')
 const jwt = require('jsonwebtoken')
@@ -29,6 +36,12 @@ const mockRefs = [
   Element,
   ElementResponse,
   ElementListResponse,
+  OutputResponse,
+  OutputResponseList,
+  Template,
+  TemplateResponse,
+  TemplateResponseList,
+  View,
 ]
 
 const SECRET_KEY = '123456789'
@@ -88,21 +101,86 @@ app.use(/^(?!\/login).*$/, (req, res, next) => {
   }
 })
 
-app.get('/files/:uuid', (req, res) => {
-  const rand = jsf.generate(ElementResponse, mockRefs)
+/**
+ * get info about a single job
+ */
+app.get('/jobs/:uuid', (req, res) => {
+  const rand = jsf.generate(OutputResponse, mockRefs)
   res.status(200).jsonp(rand)
 })
 
-app.post('/files', (req, res) => {
-  const elements = jsf.generate(ElementResponse, mockRefs)
+/**
+ * create job / apply template to file
+ */
+app.post('/jobs', (req, res) => {
+  const elements = jsf.generate(OutputResponse, mockRefs)
   let response = {
     elements
   }
   res.status(200).jsonp(response)
 })
 
-app.get('/files', (req, res) => {
+/**
+ * get jobs / outputs list
+ */
+app.get('/jobs', (req, res) => {
+  const rand = jsf.generate(OutputResponseList, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * create new template
+ */
+app.post('/templates/new', (req, res) => {
+  const rand = jsf.generate(OutputResponseList, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * get template
+ */
+app.get('/templates/:uuid', (req, res) => {
+  const rand = jsf.generate(TemplateResponse, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * update template
+ */
+app.patch('/templates/:uuid', (req, res) => {
+  const rand = jsf.generate(TemplateResponse, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * list templates
+ */
+app.get('/templates', (req, res) => {
+  const rand = jsf.generate(TemplateResponseList, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * list uploaded files
+ */
+app.get('/file/list', (req, res) => {
   const rand = jsf.generate(ElementListResponse, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * upload file
+ */
+app.post('/file', (req, res) => {
+  const rand = jsf.generate(ElementListResponse, mockRefs)
+  res.status(200).jsonp(rand)
+})
+
+/**
+ * get a file
+ */
+app.get('/file', (req, res) => {
+  const rand = jsf.generate(Element, mockRefs)
   res.status(200).jsonp(rand)
 })
 
@@ -134,10 +212,6 @@ app.post('/login', (req, res) => {
     const rand = Object.assign(jsf.generate(LoginResponseModel), { token: access_token })
     res.status(200).jsonp(rand)
   }
-})
-
-app.post('/file/new', (req, res) => {
-  res.status(200)
 })
 
 app.get('/*', (req, res) => {

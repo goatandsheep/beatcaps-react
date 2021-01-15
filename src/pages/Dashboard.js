@@ -10,7 +10,7 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/files`, {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
         headers: {
           Authorization: globalConsumer.user.token,
         },
@@ -23,12 +23,35 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="title is-1">Dashboard</h1>
+      <div className="level">
+        <div className="level-item">
+          <a className="button is-primary is-fullwidth" href="file/new" title="Templates page">
+            Design&nbsp;&nbsp;
+            <span className="icon is-small is-left">
+              <i className="fas fa-crop-alt"></i>
+            </span>
+          </a>
+        </div>
+        <div className="level-item">
+          <a className="button is-warning is-fullwidth" href="file/new" title="Upload file page">
+            Upload&nbsp;&nbsp;
+            <span className="icon is-small is-left">
+              <i className="fas fa-upload"></i>
+            </span>
+          </a>
+        </div>
+      </div>
       <div className="card">
         <div className="card-header">
-          <h2 className="card-header-title">Files list (
-            {mediaList ? mediaList.total : '0'})
+          <h2 className="card-header-title">
+            Files list ({mediaList ? mediaList.total : '0'})
           </h2>
-          <a className="button is-info is-rounded" href="file/new">New</a>
+          <a className="button is-info is-rounded" href="file/new" title="Begin Process Wizard">
+            Create&nbsp;&nbsp;
+            <span className="icon is-small is-left">
+              <i className="fas fa-brush"></i>
+            </span>
+          </a>
         </div>
         <div className="card-content content">
           <table className="table">
