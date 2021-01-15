@@ -43,6 +43,7 @@ const TemplatesView = () => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Height</th>
+                <th>Apply</th>
               </tr>
             </thead>
             <tfoot>
@@ -50,10 +51,11 @@ const TemplatesView = () => {
                 <th>ID</th>
                 <th>Name</th>
                 <th>Height</th>
+                <th>Apply</th>
               </tr>
             </tfoot>
             <tbody>
-              <TableRow prefix="/templates" attrs={attrs} data={mediaList.elements} />
+              <TableRow prefix="/templates" action="/apply" actionLabel="Apply" attrs={attrs} data={mediaList.elements} />
             </tbody>
           </table>
         </div>

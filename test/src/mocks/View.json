@@ -4,23 +4,23 @@
   "properties": {
     "height": {
       "type": "integer",
-      "min": 80,
-      "max": 300
+      "minimum": 80,
+      "maximum": 300
     },
     "width": {
       "type": "integer",
-      "min": 100,
-      "max": 500
+      "minimum": 100,
+      "maximum": 500
     },
     "x": {
       "type": "integer",
-      "min": 10,
-      "max": 300
+      "minimum": 10,
+      "maximum": 300
     },
     "y": {
       "type": "integer",
-      "min": 10,
-      "max": 200
+      "minimum": 10,
+      "maximum": 200
     }
   },
   "required": [
