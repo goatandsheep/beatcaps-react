@@ -7,6 +7,8 @@ const StatusBadge = (props) => {
     case 'Cancelled':
     case 'Error':
       return <strong className="has-background-danger">{props.status}</strong>;
+    case null:
+      return '';
     case 'Loading':
       return <strong className="has-background-loading">{props.status}</strong>;
     case 'In Progress':
