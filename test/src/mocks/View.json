@@ -1,0 +1,31 @@
+{
+  "id": "View",
+  "type": "object",
+  "properties": {
+    "height": {
+      "type": "integer",
+      "min": 80,
+      "max": 300
+    },
+    "width": {
+      "type": "integer",
+      "min": 100,
+      "max": 500
+    },
+    "x": {
+      "type": "integer",
+      "min": 10,
+      "max": 300
+    },
+    "y": {
+      "type": "integer",
+      "min": 10,
+      "max": 200
+    }
+  },
+  "required": [
+    "height",
+    "x",
+    "y"
+  ]
+}

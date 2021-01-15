@@ -1,5 +1,5 @@
 {
-  "id": "ElementListResponse",
+  "id": "OutputResponseList",
   "type": "object",
   "properties": {
     "total": {
@@ -12,7 +12,7 @@
       "minItems": 13,
       "maxItems": 35,
       "items": {
-        "$ref": "Element"
+        "$ref": "OutputResponse"
       }
     }
   },

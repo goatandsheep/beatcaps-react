@@ -1,9 +1,15 @@
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 
 const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
+
+  const [misc, setMisc] = useState('');
+  const chooseFile = async () => {
+    const filename = document.querySelector('#inputFile').files[0].name;
+    setMisc({name: filename});
+  };
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
     event.preventDefault();
@@ -11,7 +17,7 @@ const SubmitFile = () => {
     window.location.href = './89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
-    const response = await fetch(`${constants.SERVER_DOMAIN}/files`, {
+    const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',
       body: req,
       headers: {
@@ -56,13 +62,14 @@ const SubmitFile = () => {
           </div>
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
-              <input className="file-input" id="inputFile" type="file" name="file" required/>
+              <input className="file-input" id="inputFile" type="file" name="file" onChange={chooseFile} required/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
                 </span>
                 <span className="file-label">Choose a file</span>
               </span>
+              <span className="file-name">{misc.name}</span>
             </label>
           </div>
         </fieldset>
