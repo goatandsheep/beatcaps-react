@@ -32,7 +32,6 @@
   "required": [
     "height",
     "views",
-    "name",
-    "width"
+    "name"
   ]
 }
