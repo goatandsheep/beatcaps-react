@@ -68,7 +68,7 @@ const TemplateWizard = (props) => {
   const uploadFile = async (req) => {
     const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
       method: 'POST',
-      body: req,
+      body: JSON.stringify(req),
       headers: {
         Authorization: globalConsumer.user.token,
       },
