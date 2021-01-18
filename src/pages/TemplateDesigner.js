@@ -9,15 +9,15 @@ const marginTop = {
 };
 const formStyles = {
   marginBottom: '50px',
-  overflowX: 'scroll'
+  overflowX: 'scroll',
 };
 
-const dragDropContainerStyles = (height,width) => {
+const dragDropContainerStyles = (height, width) => {
   return {
     height: height + 'px',
     width: width + 'px',
-    border: "1px solid darkgray",
-    background: "lightgray",
+    border: '1px solid darkgray',
+    background: 'lightgray',
   };
 };
 
@@ -67,7 +67,7 @@ const TemplateDesigner = () => {
       ...viewOptions[viewIndex],
       [field]: +value,
     };
-    
+
     setViewOptions(newOptions);
   };
 
@@ -91,9 +91,10 @@ const TemplateDesigner = () => {
   };
 
   const handleTemplateOptionChange = (field, value) => {
-    const newOptions = templateOptions;
+    const newOptions = {...templateOptions};
+
     newOptions[field] = value;
-    console.log("handleTemplateOptionChange", field, value, newOptions);
+
     setTemplateOptions(newOptions);
   };
 
@@ -130,7 +131,7 @@ const TemplateDesigner = () => {
       const currentValues = viewOptions[viewNum - 1];
 
       fieldsets.push(
-          <fieldset className="field card">
+          <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
             <div className="card-content">
               <h3 className="is-size-5">View {viewNum} Options</h3>
               <div className="columns is-desktop">
@@ -138,7 +139,7 @@ const TemplateDesigner = () => {
                   <div className="field">
                     <label htmlFor="viewHeight" className="label">Height</label>
                     <div className="control is-expanded has-icons-left">
-                    <input onChange={(evt) => handleViewOptionChange(viewNum, 'height', +evt.target.value)} id={'viewHeight' + viewNum} className="input" required type="number" value={currentValues.height}/>
+                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'height', +evt.target.value)} id={'viewHeight' + viewNum} className="input" required type="number" value={currentValues.height}/>
                       <span className="icon is-small is-left">
                         <i className="fas fa-ruler-vertical"></i>
                       </span>
@@ -147,10 +148,11 @@ const TemplateDesigner = () => {
                   <div className="field">
                     <label htmlFor="viewWidth" className="label">Width</label>
                     <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => {handleViewOptionChange(viewNum, 'width', +evt.target.value)
-                    }} id={'viewWidth' + viewNum} className="input" type="number" value={currentValues.width}/>
-                      <span class="icon is-small is-left">
-                        <i class="fas fa-ruler-horizontal"></i>
+                      <input onChange={(evt) => {
+                        handleViewOptionChange(viewNum, 'width', +evt.target.value);
+                      }} id={'viewWidth' + viewNum} className="input" type="number" value={currentValues.width}/>
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-ruler-horizontal"></i>
                       </span>
                     </div>
                     <p className="help">Leave blank to use 16:9 aspect ratio</p>
@@ -161,8 +163,8 @@ const TemplateDesigner = () => {
                     <label htmlFor="viewX" className="label">X Coordinate</label>
                     <div className="control is-expanded has-icons-left">
                       <input onChange={(evt) => handleViewOptionChange(viewNum, 'x', evt.target.value)} id={'viewX' + viewNum} className="input" required type="number" value={currentValues.x}/>
-                      <span class="icon is-small is-left">
-                        <i class="fas fa-arrows-alt-h"></i>
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-arrows-alt-h"></i>
                       </span>
                     </div>
                   </div>
@@ -170,8 +172,8 @@ const TemplateDesigner = () => {
                     <label htmlFor="viewY" className="label">Y Coordinate</label>
                     <div className="control is-expanded has-icons-left">
                       <input onChange={(evt) => handleViewOptionChange(viewNum, 'y', evt.target.value)} id={'viewY' + viewNum} className="input" required type="number" value={currentValues.y}/>
-                      <span class="icon is-small is-left">
-                        <i class="fas fa-arrows-alt-v"></i>
+                      <span className="icon is-small is-left">
+                        <i className="fas fa-arrows-alt-v"></i>
                       </span>
                     </div>
                   </div>
@@ -200,8 +202,7 @@ const TemplateDesigner = () => {
             </label>
             <div className="control is-expanded has-icons-left">
               <input
-                onChange={(e) =>
-                  handleTemplateOptionChange("name", e.target.value)
+                onChange={(e) => handleTemplateOptionChange('name', e.target.value)
                 }
                 id="viewName"
                 className="input"
@@ -209,8 +210,8 @@ const TemplateDesigner = () => {
                 type="text"
                 value={templateOptions.name}
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-signature"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-signature"></i>
               </span>
             </div>
           </div>
@@ -221,7 +222,7 @@ const TemplateDesigner = () => {
             <div className="control is-expanded has-icons-left">
               <input
                 onChange={(e) =>
-                  handleTemplateOptionChange("height", +e.target.value)
+                  handleTemplateOptionChange('height', +e.target.value)
                 }
                 id="viewOutputHeight"
                 className="input"
@@ -229,8 +230,8 @@ const TemplateDesigner = () => {
                 type="number"
                 value={templateOptions.height}
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-ruler-vertical"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-ruler-vertical"></i>
               </span>
             </div>
           </div>
@@ -241,20 +242,20 @@ const TemplateDesigner = () => {
             <div className="control is-expanded has-icons-left">
               <input
                 onChange={(e) =>
-                  handleTemplateOptionChange("width", +e.target.value)
+                  handleTemplateOptionChange('width', +e.target.value)
                 }
                 id="viewOutputWidth"
                 className="input"
                 type="number"
                 value={templateOptions.width}
               />
-              <span class="icon is-small is-left">
-                <i class="fas fa-ruler-horizontal"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-ruler-horizontal"></i>
               </span>
             </div>
             <p className="help">Leave blank to use 16:9 aspect ratio</p>
             <button
-              onClick={(e) => handleTemplateOptionChange("width", "")}
+              onClick={(e) => handleTemplateOptionChange('width', 0)}
               className="button is-info"
               type="button"
             >
@@ -279,19 +280,19 @@ const TemplateDesigner = () => {
                   <option value={5}>5</option>
                 </select>
               </div>
-              <span class="icon is-small is-left">
-                <i class="fas fa-list"></i>
+              <span className="icon is-small is-left">
+                <i className="fas fa-list"></i>
               </span>
             </div>
           </div>
-          <h2 className="title is-4" style={marginTop}>
+          <h2 className="title is-3" style={marginTop}>
             Define Views
           </h2>
 
-          <h2 className="title is-4" style={marginTop}>
+          <h3 className="title is-5" style={marginTop}>
             Drag and Drop Editor
-          </h2>
-            <div
+          </h3>
+          <div
             style={dragDropContainerStyles(templateOptions.height, templateOptions.width || templateOptions.height * 16 / 9)}
             id="template-drag-drop-container"
           >

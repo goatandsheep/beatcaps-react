@@ -17,41 +17,40 @@ const TemplateDragDrop = ({
   handleXYChange,
 }) => {
   const rndManagerRef = useRef({
-    maxZIndex: "999",
+    maxZIndex: '999',
     prevDraggedNode: null,
     prevDraggedNodeZIndex: null,
   });
-  console.log(width)
+  console.log(width);
   return (
     <>
-    {console.log('updating dragdrop', width)}
-    <p>{width} width</p>
       {viewOptions.map((view, i) => {
         const viewNum = i + 1;
 
         return (<Rnd
+          key={`rnd-view-${viewNum}`}
           style={dropboxStyles}
           bounds="#template-drag-drop-container"
           size={{
             width: viewOptions[i].width || (viewOptions[i].height * 16) / 9,
             height: viewOptions[i].height,
           }}
-          position={{ x: viewOptions[i].x, y: viewOptions[i].y }}
+          position={{x: viewOptions[i].x, y: viewOptions[i].y}}
           onDragStop={(e, d) => {
-            handleXYChange(viewNum, { x: d.x, y: d.y });
+            handleXYChange(viewNum, {x: d.x, y: d.y});
           }}
           onResizeStop={(e, direction, ref, delta, position) => {
             // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
             handleDragDropResize(viewNum, {
-              width: +ref.style.width.replace("px", ""),
-              height: +ref.style.height.replace("px", ""),
+              width: +ref.style.width.replace('px', ''),
+              height: +ref.style.height.replace('px', ''),
               x: position.x,
               y: position.y,
             });
           }}
         >
           View {viewNum}
-        </Rnd>)
+        </Rnd>);
       })}
     </>
   );
