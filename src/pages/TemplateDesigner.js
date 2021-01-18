@@ -1,9 +1,18 @@
 import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
+import TemplateDragDrop from '../components/TemplateDragDrop'
 
 // styles
-const marginTop = {marginTop: '1.5rem'};
+const marginTop = {
+  marginTop: '1.5rem'
+};
+const formStyles = {
+  marginBottom: '50px'
+};
+const dragDropContainerStyles = {
+  height: '400px'
+};
 const viewInputStyles = {
   width: 'auto',
   minWidth: '75%'
@@ -120,7 +129,7 @@ const TemplateDesigner = () => {
   return (
     <div>
       <h1 className="title is-1">Template Designer</h1>
-      <form className="card has-text-left" onSubmit={handleSubmit}>
+      <form className="card has-text-left" onSubmit={handleSubmit} style={formStyles}>
         <div className="card-content card">
           <div className="field">
             <label htmlFor="viewName" className="label">Template Name</label>
@@ -154,7 +163,13 @@ const TemplateDesigner = () => {
 
           <h2 className="title is-4" style={marginTop}>Define Views</h2>
           {makeViewOptionInputs(viewOptions)}
-
+          
+          <h2 className="title is-4" style={marginTop}>Drag and Drop Editor</h2>
+          <div class="card" style={dragDropContainerStyles}>
+            <div className="card-container">
+              <TemplateDragDrop />
+            </div>
+          </div>
           <button type="submit" className="button is-primary" style={marginTop}>Create Template</button>
         </div>
       </form>
