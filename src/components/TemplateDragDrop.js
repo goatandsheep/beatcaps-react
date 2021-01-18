@@ -1,5 +1,4 @@
-import React, {useContext, useEffect, useState, useRef} from 'react';
-import {GlobalContext} from '../contexts/GlobalState';
+import React, {useEffect, useState, useRef} from 'react';
 import { Rnd } from "react-rnd";
 
 const dropboxStyles = {
@@ -11,8 +10,6 @@ const dropboxStyles = {
 };
 
 const TemplateDragDrop = () => {
-  const globals = useContext(GlobalContext);
-
   const [rnd, setRnd] = useState({
     width: 200,
     height: 200,
