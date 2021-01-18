@@ -1,119 +1,123 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 
-const MOCKED_TEMPLATES_RESPONSE = [
-  {
-    templateName: 'Template 1',
-    templateId: '1111',
-    videoSlots: 4
-  },
-  {
-    templateName: 'Template 2',
-    templateId: '2222',
-    videoSlots: 1
-  },
-  {
-    templateName: 'Template 3',
-    templateId: '3333',
-    videoSlots: 3
-  },
-]
+const marginTop = {marginTop: '1.5rem'};
+const viewInputStyles = {
+  width: 'auto',
+  minWidth: '75%'
+};
+const viewInputsGroupStyles = {
+  display: 'flex',
+  gap: '1rem'
+};
+const viewInputCol = {
+  width: '50%'
+};
+
+const MIN_VIEWS_PER_TEMPLATE = 2
+const MAX_VIEWS_PER_TEMPLATE = 5
 
 const TemplateDesigner = () => {
   const globalConsumer = useContext(GlobalContext);
 
-  const [mediaList, setMediaList] = useState('');
-  const [templateList, setTemplateList] = useState(null);
-  const [selectedTemplate, setSelectedTemplate] = useState(null);
+  const [numberOfViews, setNumberOfViews] = useState(2);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/files`, {
-        headers: {
-          Authorization: globalConsumer.user.token,
-        },
-      });
-      const fileData = await response.json();
-      console.log(fileData)
-      setMediaList(fileData.elements);
-    };
-    fetchData();
-  }, [globalConsumer]);
+  const uploadTemplate = async (req) => {
+    const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
+      method: 'POST',
+      body: req,
+      headers: {
+        Authorization: globalConsumer.user.token,
+      },
+    });
 
-  useEffect(() => {
-    const fetchTemplates = () => {
-      // TODO: use real endpoint
-      setTemplateList(MOCKED_TEMPLATES_RESPONSE)
-    }
+    return await response.json();
+  };
 
-    fetchTemplates()
-  }, [])
+  const handleSubmit =  async (event) => {
+    event.preventDefault();
+    await uploadTemplate(new FormData(event.target));
+    window.location.href = '/file/89awefjsdfaksd';
+  };
 
-  const makeVideoSlotSelects = () => {
-    if (!selectedTemplate) return
+  const makeViewInputs = () => {
+    const inputs = []
 
-    const selects = []
-
-    for (let i = 0; i < templateList.length; i++) {
-      const id = `videoSlotOption${i}`
-
-      selects.push(
-        <div key={id}>
-          <label htmlFor={id} className="label">Video Slot {i + 1}</label>
-          <div className="control">
-            <div className="select">
-              <select id={id}>
-                {
-                  mediaList.map(media => {
-                    return <option key={media.uuid} value={media.uuid}>
-                      {media.elementName}
-                    </option>
-                  })
-                }
-              </select>
-            </div>
-          </div>
-        </div>
+    for (let viewNum = MIN_VIEWS_PER_TEMPLATE; viewNum <= MAX_VIEWS_PER_TEMPLATE; viewNum++) {
+      const id = `videoSlotOption${viewNum}`
+      
+      inputs.push(
+        <option key={id} value={viewNum}>
+          {viewNum}
+        </option>
       )
     }
 
-    return selects
+    return inputs;
   }
 
-  const handleTemplateChange = (evt) => {
-    const newIndex = evt.target.value;
-    console.log(newIndex, templateList[newIndex])
-    setSelectedTemplate(templateList[newIndex])
-  }
+  const makeViewOptionInputs = () => {
+    const fieldsets = []
 
+    for (let viewNum = 1; viewNum <= numberOfViews; viewNum++) {
+      fieldsets.push(
+        <fieldset className="field card">
+          <div className="card-content">
+            <h3 className="is-size-5">View {viewNum} Options</h3>
+            <div style={viewInputsGroupStyles}>
+              <div style={viewInputCol}>
+                <label htmlFor="viewHeight" className="label">Height</label>
+                <input id="viewHeight" className="input" type="number" style={viewInputStyles}/>
+                <label htmlFor="viewWidth" className="label">Width</label>
+                <input id="viewWidth" className="input" type="number" style={viewInputStyles}/>
+              </div>
+              <div style={viewInputCol}>
+                <label htmlFor="viewX" className="label">X Coordinate</label>
+                <input id="viewX" className="input" type="number" style={viewInputStyles}/>
+                <label htmlFor="viewY" className="label">Y Coordinate</label>
+                <input id="viewY" className="input" type="number" style={viewInputStyles}/>
+              </div>
+            </div>
+          </div>
+        </fieldset>
+      )
+    }
+
+    return fieldsets;
+  }
+  
   return (
     <div>
-      <h1 className="title is-1">PIP View Wizard</h1>
-      <form className="has-text-left">
-        <div className="field">
-          <label htmlFor="viewName" className="label">View Name</label>
+      <h1 className="title is-1">Template Designer</h1>
+      <form className="card has-text-left">
+        <div className="card-content card">
+          <div className="field">
+            <label htmlFor="viewName" className="label">Template Name</label>
+            <div className="control">
+              <input id="viewName" className="input" type="text" style={viewInputStyles}/>
+            </div>
+          </div>
+          <div className="field">
+            <label htmlFor="viewOutputWidth" className="label">Template Width</label>
+            <div className="control">
+              <input id="viewOutputWidth" className="input" type="number" style={viewInputStyles}/>
+            </div>
+          </div>
+          <label htmlFor="templateName" className="label">Number of videos in this template</label>
           <div className="control">
-            <input  id="viewName" className="input" type="text" />
+            <div id="templateName" className="select">        
+                <select onChange={(event) => setNumberOfViews(event.target.value)} id="templateName">
+                  {makeViewInputs()}
+                </select>
+            </div>
           </div>
+
+          <h2 className="title is-3" style={marginTop}>Define Views</h2>
+          {makeViewOptionInputs()}
+
+          <button onClick={handleSubmit} className="button is-primary" style={marginTop}>Create Template</button>
         </div>
-
-        <label htmlFor="templateName" className="label">Template Name</label>
-        <div className="control">
-          <div id="templateName" className="select">
-          {templateList && templateList.length ? (
-            <select onChange={handleTemplateChange}>
-              {templateList.map((template, i) => <option key={template.templateId} value={i}>{template.templateName}</option>)}
-            </select>)
-            : null}
-          </div>
-        </div>
-            {console.log('sel', selectedTemplate)}
-        {selectedTemplate ? <p>{selectedTemplate.templateName} has {selectedTemplate.videoSlots} video slot(s)</p> : null}
-
-        {makeVideoSlotSelects()}
-
-        <button onClick={() => console.log('submitting wizard')} className="button is-primary">Create View</button>
       </form>
     </div>
   );

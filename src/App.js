@@ -42,8 +42,8 @@ function App() {
               <PrivateRoute exact={true} path="/" component={Dashboard} />
               <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
               <PrivateRoute exact={true} path="/templates/:id/apply" component={TemplateWizard} />
-              <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
               <PrivateRoute exact={true} path="/templates/new" component={TemplateDesigner} />
+              <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
               <PrivateRoute exact={true} path="/templates" component={TemplatesView} />
               <PrivateRoute path="/file/:id" component={FileView} />
               <Route render={() => (<h1>Page Not Found</h1>)} />
