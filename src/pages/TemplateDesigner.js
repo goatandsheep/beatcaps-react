@@ -20,7 +20,7 @@ const MOCKED_TEMPLATES_RESPONSE = [
   },
 ]
 
-const PipWizard = () => {
+const TemplateDesigner = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [mediaList, setMediaList] = useState('');
@@ -51,11 +51,11 @@ const PipWizard = () => {
   }, [])
 
   const makeVideoSlotSelects = () => {
-    if (!mediaList || !mediaList.length) return
+    if (!selectedTemplate) return
 
     const selects = []
 
-    for (let i = 0; i < mediaList; i++) {
+    for (let i = 0; i < templateList.length; i++) {
       const id = `videoSlotOption${i}`
 
       selects.push(
@@ -89,8 +89,15 @@ const PipWizard = () => {
 
   return (
     <div>
-      <h1 className="title is-1">PIP Wizard</h1>
+      <h1 className="title is-1">PIP View Wizard</h1>
       <form className="has-text-left">
+        <div className="field">
+          <label htmlFor="viewName" className="label">View Name</label>
+          <div className="control">
+            <input  id="viewName" className="input" type="text" />
+          </div>
+        </div>
+
         <label htmlFor="templateName" className="label">Template Name</label>
         <div className="control">
           <div id="templateName" className="select">
@@ -101,15 +108,15 @@ const PipWizard = () => {
             : null}
           </div>
         </div>
-
+            {console.log('sel', selectedTemplate)}
         {selectedTemplate ? <p>{selectedTemplate.templateName} has {selectedTemplate.videoSlots} video slot(s)</p> : null}
 
         {makeVideoSlotSelects()}
 
-        <button onClick={() => console.log('submitting wizard')} className="button is-primary">Submit</button>
+        <button onClick={() => console.log('submitting wizard')} className="button is-primary">Create View</button>
       </form>
     </div>
   );
 };
 
-export default PipWizard;
+export default TemplateDesigner;
