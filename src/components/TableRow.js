@@ -48,7 +48,7 @@ const TableRow = (props) => {
       </tr>
     ));
   } else {
-    return (<tr>Loading</tr>);
+    return (<tr><th>Loading</th></tr>);
   }
 };
 export default TableRow;

@@ -1,11 +1,12 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
+import { Link } from 'react-router-dom';
 
-const InputList = (props) => {
-  if (!props.input) return ""
+const InputList = ({ inputs }) => {
+  if (!inputs) return (<option disabled>Loading</option>)
 
-  return props.inputs.map((input, index) => (
+  return inputs.map((input, index) => (
     <option value={input.elementName} key={`${input.elementName}-${index}`}>{input.elementName}</option>
   ));
 };
@@ -79,6 +80,14 @@ const TemplateWizard = (props) => {
   };
   return (
     <div>
+      <div className="has-text-left">
+        <Link to="/templates" className="button is-text">           
+          <span className="icon is-small mr-1">
+            <i className="fas fa-chevron-circle-left"></i>
+          </span>
+          Return to Template List
+        </Link>
+      </div>
       <h1 className="title is-1">Build a new output</h1>
       {
         media ? (
@@ -86,17 +95,17 @@ const TemplateWizard = (props) => {
             <p>Template name: {media.name}</p>
             <p>Template height: {media.height}</p>
             <p>Template width: {media.width}</p>
-            <p>Videos in this template: {media.views.length}</p>
+            <p>Views in this template: {media.views.length}</p>
           </>
         ) : null
       }
       <div>
-        <h2 className="subtitle is-3">Preview</h2>
+        <h2 className="subtitle is-4 mt-2">Preview</h2>
         <div>Preview Coming soon...</div>
       </div>
-      <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
+      <form className="card mt-2" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
         <fieldset className="card-content content">
-          <legend className="subtitle is-3">Enter template inputs</legend>
+          <p className="subtitle is-4">Choose videos for each view</p>
           <ViewInput inputs={inputs.elements} views={media.views || []} />
         </fieldset>
         <button className="button is-primary" type="submit">Submit</button>

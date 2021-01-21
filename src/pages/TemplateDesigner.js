@@ -1,4 +1,5 @@
 import React, {useContext, useState} from 'react';
+import { Link } from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
@@ -189,6 +190,14 @@ const TemplateDesigner = () => {
 
   return (
     <div>
+      <div className="has-text-left">
+        <Link to="/templates" className="button is-text">           
+          <span className="icon is-small mr-1">
+            <i className="fas fa-chevron-circle-left"></i>
+          </span>
+          Return to Template List
+        </Link>
+      </div>
       <h1 className="title is-1">Template Designer</h1>
       <form
         className="card has-text-left"
