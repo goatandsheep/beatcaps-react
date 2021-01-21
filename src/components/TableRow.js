@@ -9,7 +9,7 @@ const ActionButton = (props) => {
       <Link to={props.url + props.action} className="button is-primary">{props.text || 'Go'}</Link>
     );
   } else {
-    return '';
+    return <></>;
   }
 };
 
@@ -27,7 +27,7 @@ const CondCol = (props) => {
 
 const TableCol = (props) => {
   return props.attrs.map((attr) => (
-    <td>{props.data[attr]}</td>
+    <td key={`table-col-${attr}`}>{props.data[attr]}</td>
   ));
 };
 
@@ -40,7 +40,7 @@ const TableRow = (props) => {
   }
   if (props.data) {
     return props.data.map((item) => (
-      <tr>
+      <tr key={`table-row-${item.uuid}`}>
         <td><a href={`${props.prefix}/${item.uuid}`}>{item.uuid}</a></td>
         <TableCol attrs={attrs} data={item} />
         <CondCol rif={item.status}><StatusBadge status={item.status} /></CondCol>
