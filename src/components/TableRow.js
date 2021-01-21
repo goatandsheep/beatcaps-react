@@ -1,11 +1,12 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import StatusBadge from './StatusBadge';
 
 const ActionButton = (props) => {
   if (props.action) {
     return (
-      <a href={props.url + props.action} className="button is-primary">{props.text || 'Go'}</a>
+      <Link to={props.url + props.action} className="button is-primary">{props.text || 'Go'}</Link>
     );
   } else {
     return '';
