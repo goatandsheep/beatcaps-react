@@ -300,8 +300,6 @@ const TemplateDesigner = () => {
               handleDragDropResize={handleDragDropResize}
               handleXYChange={handleXYChange}
               viewOptions={viewOptions}
-              height={templateOptions.height}
-              width={templateOptions.width || (templateOptions.height * 16) / 9}
             />
           </div>
 

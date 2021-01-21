@@ -23,7 +23,7 @@ const FileView = (props) => {
 
   return (
     <div>
-      <h1 className="title is-1">File: {media.elementName}</h1>
+      <h1 className="title is-2">Output File Details</h1>
       <div className="card card-content content">
         <div>
           <p className="subtitle is-5 has-text-left">

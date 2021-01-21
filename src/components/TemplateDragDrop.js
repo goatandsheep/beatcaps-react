@@ -1,4 +1,4 @@
-import React, {useRef} from 'react';
+import React from 'react';
 import {Rnd} from 'react-rnd';
 
 const dropboxStyles = {
@@ -12,19 +12,11 @@ const dropboxStyles = {
 const TemplateDragDrop = ({
   handleDragDropResize,
   viewOptions,
-  height,
-  width,
   handleXYChange,
 }) => {
-  const rndManagerRef = useRef({
-    maxZIndex: '999',
-    prevDraggedNode: null,
-    prevDraggedNodeZIndex: null,
-  });
-  console.log(width);
   return (
     <>
-      {viewOptions.map((view, i) => {
+      {viewOptions.map((_view, i) => {
         const viewNum = i + 1;
 
         return (<Rnd
@@ -36,10 +28,10 @@ const TemplateDragDrop = ({
             height: viewOptions[i].height,
           }}
           position={{x: viewOptions[i].x, y: viewOptions[i].y}}
-          onDragStop={(e, d) => {
+          onDragStop={(_e, d) => {
             handleXYChange(viewNum, {x: d.x, y: d.y});
           }}
-          onResizeStop={(e, direction, ref, delta, position) => {
+          onResizeStop={(_e, _direction, ref, _delta, position) => {
             // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
             handleDragDropResize(viewNum, {
               width: +ref.style.width.replace('px', ''),
