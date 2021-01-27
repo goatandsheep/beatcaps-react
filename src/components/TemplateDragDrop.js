@@ -1,58 +1,58 @@
-import React, {useRef} from 'react';
-import {Rnd} from 'react-rnd';
+import React, {useState} from 'react';
+import DragDropBox from './DragDropBox';
 
-const dropboxStyles = {
-  display: 'flex',
-  alignItems: 'center',
-  justifyContent: 'center',
-  border: 'solid 1px #ddd',
-  background: '#f0f0f0',
+const dragDropContainerStyles = (height, width) => {
+  return {
+    height: height + 'px',
+    width: width + 'px',
+    border: '1px solid darkgray',
+    background: 'lightgray',
+  };
 };
 
 const TemplateDragDrop = ({
-  handleDragDropResize,
   viewOptions,
-  height,
-  width,
-  handleXYChange,
+  outputHeight,
+  outputWidth,
+  handleDragDropChange,
 }) => {
-  const rndManagerRef = useRef({
-    maxZIndex: '999',
-    prevDraggedNode: null,
-    prevDraggedNodeZIndex: null,
-  });
-  console.log(width);
-  return (
-    <>
-      {viewOptions.map((view, i) => {
-        const viewNum = i + 1;
+  const uiOutputWidth = outputWidth;
+  const uiOutputHeight = outputHeight;
+  const dragDropAreaWidth = 912;
+  const widthRatio = window.innerWidth / outputWidth;
 
-        return (<Rnd
-          key={`rnd-view-${viewNum}`}
-          style={dropboxStyles}
-          bounds="#template-drag-drop-container"
-          size={{
-            width: viewOptions[i].width || (viewOptions[i].height * 16) / 9,
-            height: viewOptions[i].height,
-          }}
-          position={{x: viewOptions[i].x, y: viewOptions[i].y}}
-          onDragStop={(e, d) => {
-            handleXYChange(viewNum, {x: d.x, y: d.y});
-          }}
-          onResizeStop={(e, direction, ref, delta, position) => {
-            // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
-            handleDragDropResize(viewNum, {
-              width: +ref.style.width.replace('px', ''),
-              height: +ref.style.height.replace('px', ''),
-              x: position.x,
-              y: position.y,
-            });
-          }}
-        >
-          View {viewNum}
-        </Rnd>);
+  // const [uiViewOptions, setUiViewOptions] = useState([
+  //   x: 
+  // ])
+  console.log('video width', outputWidth);
+  console.log('window width', window.innerWidth);
+
+  // uiOptions = [uiX, uiY, uiWidth, uiHeight]
+
+  return (
+    <div
+      style={dragDropContainerStyles(dragDropAreaWidth / 16 * 9, dragDropAreaWidth)}
+      id="template-drag-drop-container"
+    >
+      {viewOptions.map((view, i) => {
+        return (
+          <DragDropBox 
+            box={view} 
+            boxIndex={i} 
+            handleDragDropChange={handleDragDropChange}
+          />
+        )
       })}
-    </>
+    </div>
   );
 };
 export default TemplateDragDrop;
+
+// minwidth// content card width
+// 1408 1248 width 
+// 1216 1104
+// 1024 912
+// less 1024 = width - (2 * 24px)
+
+// 912/1280 = 0.7125
+// 1280/ = 0.7125

@@ -12,15 +12,6 @@ const formStyles = {
   overflowX: 'scroll',
 };
 
-const dragDropContainerStyles = (height, width) => {
-  return {
-    height: height + 'px',
-    width: width + 'px',
-    border: '1px solid darkgray',
-    background: 'lightgray',
-  };
-};
-
 // constants
 const DEFAULT_VIEW_OBJECT = {
   height: 250,
@@ -71,21 +62,13 @@ const TemplateDesigner = () => {
     setViewOptions(newOptions);
   };
 
-  const handleXYChange = (viewNum, newXYViewOptionObj) => {
+  const handleDragDropChange = (viewNum, newXYViewOptionObj) => {
     const newOptions = [...viewOptions];
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
       ...viewOptions[viewIndex],
       ...newXYViewOptionObj,
     };
-
-    setViewOptions(newOptions);
-  };
-
-  const handleDragDropResize = (viewNum, newViewOptionObj) => {
-    const newOptions = [...viewOptions];
-    const viewIndex = viewNum - 1;
-    newOptions[viewIndex] = newViewOptionObj;
 
     setViewOptions(newOptions);
   };
@@ -292,18 +275,13 @@ const TemplateDesigner = () => {
           <h3 className="title is-5" style={marginTop}>
             Drag and Drop Editor
           </h3>
-          <div
-            style={dragDropContainerStyles(templateOptions.height, templateOptions.width || templateOptions.height * 16 / 9)}
-            id="template-drag-drop-container"
-          >
-            <TemplateDragDrop
-              handleDragDropResize={handleDragDropResize}
-              handleXYChange={handleXYChange}
-              viewOptions={viewOptions}
-              height={templateOptions.height}
-              width={templateOptions.width || (templateOptions.height * 16) / 9}
-            />
-          </div>
+          
+          <TemplateDragDrop
+            handleDragDropChange={handleDragDropChange}
+            viewOptions={viewOptions}
+            outputHeight={templateOptions.height}
+            outputWidth={templateOptions.width || (templateOptions.height * 16) / 9}
+          />
 
           {makeViewOptionInputs(viewOptions)}
 
