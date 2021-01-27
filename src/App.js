@@ -9,7 +9,7 @@ import TemplateWizard from './pages/TemplateWizard';
 import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
-import {NavLink, Route} from 'react-router-dom';
+import {Route} from 'react-router-dom';
 import NavMenu from './components/NavMenu';
 
 

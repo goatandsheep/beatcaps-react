@@ -12,51 +12,51 @@ const NavMenu = () => {
           </div>
           
           <div>
-            <div class="dropdown is-hoverable">
-              <div class="dropdown-trigger">
-                <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
                   <span>Overleia</span>
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
                 </button>
               </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <Link to="/" class="dropdown-item is-hoverable">
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  <Link to="/" className="dropdown-item is-hoverable">
                     Overleia Outputs
                   </Link>
-                  <hr class="dropdown-divider"></hr>
-                  <Link to="/file/new" class="dropdown-item is-hoverable">
+                  <hr className="dropdown-divider"></hr>
+                  <Link to="/file/new" className="dropdown-item is-hoverable">
                     Upload Video
                   </Link>
                 </div>
               </div>
             </div>
 
-            <div class="dropdown is-hoverable">
-              <div class="dropdown-trigger">
-                <button class="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
                   <span>BeatCaps</span>
-                  <span class="icon is-small">
-                    <i class="fas fa-angle-down" aria-hidden="true"></i>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
                 </button>
               </div>
-              <div class="dropdown-menu" id="dropdown-menu" role="menu">
-                <div class="dropdown-content">
-                  <Link to="/" class="dropdown-item is-hoverable">
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  <Link to="/" className="dropdown-item is-hoverable">
                     Video Outputs
                   </Link>
-                  <hr class="dropdown-divider"></hr>
-                  <Link to="/file/new" class="dropdown-item is-hoverable">
+                  <hr className="dropdown-divider"></hr>
+                  <Link to="/file/new" className="dropdown-item is-hoverable">
                     Upload Video
                   </Link>
-                  <hr class="dropdown-divider"></hr>
-                  <Link to="/templates" class="dropdown-item is-hoverable">
+                  <hr className="dropdown-divider"></hr>
+                  <Link to="/templates" className="dropdown-item is-hoverable">
                     Templates List
                   </Link>
-                  <Link to="/templates/new" class="dropdown-item is-hoverable">
+                  <Link to="/templates/new" className="dropdown-item is-hoverable">
                     Create Template
                   </Link>
                 </div>
