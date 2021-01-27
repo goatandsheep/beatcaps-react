@@ -13,13 +13,12 @@ const dragDropBoxStyles = {
 const DragDropBox = ({
   box,
   boxIndex,
-  handleDragDropChange
+  handleDragDrop,
 }) => {
   const boxNum = boxIndex + 1;
   console.log('box drag', boxIndex, box)
   return (
     <Rnd
-      key={`rnd-view-${boxNum}`} 
       style={dragDropBoxStyles}
       bounds="#template-drag-drop-container"
       size={{
@@ -29,18 +28,17 @@ const DragDropBox = ({
       position={{x: box.x, y: box.y}}
       onDragStop={(e, d) => {
         console.log('drag stop', d.x, d.y)
-        handleDragDropChange(boxNum, {x: d.x, y: d.y});
+        handleDragDrop(boxNum, {x: d.x, y: d.y});
       }}
       onResizeStop={(e, direction, ref, delta, position) => {
         // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
-        handleDragDropChange(boxNum, {
+        handleDragDrop(boxNum, {
           width: +ref.style.width.replace('px', ''),
           height: +ref.style.height.replace('px', ''),
           x: position.x,
           y: position.y,
         });
       }}
-      // scale={0.7125}
     >
       View {boxNum}
     </Rnd>

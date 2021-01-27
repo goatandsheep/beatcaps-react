@@ -15,6 +15,7 @@ const formStyles = {
 // constants
 const DEFAULT_VIEW_OBJECT = {
   height: 250,
+  width: 250*16/9,
   x: 0,
   y: 0,
 };
@@ -112,7 +113,7 @@ const TemplateDesigner = () => {
 
     for (let viewNum = 1; viewNum <= viewOptions.length; viewNum++) {
       const currentValues = viewOptions[viewNum - 1];
-
+debugger
       fieldsets.push(
           <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
             <div className="card-content">
@@ -122,7 +123,17 @@ const TemplateDesigner = () => {
                   <div className="field">
                     <label htmlFor="viewHeight" className="label">Height</label>
                     <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'height', +evt.target.value)} id={'viewHeight' + viewNum} className="input" required type="number" value={currentValues.height}/>
+                      <input 
+                        onChange={(evt) => {
+                          console.log('onchange',evt)
+                          handleViewOptionChange(viewNum, 'height', evt.target.value)
+                        }} 
+                        id={'viewHeight' + viewNum} 
+                        className="input" 
+                        required 
+                        type="number" 
+                        value={currentValues.height}
+                      />
                       <span className="icon is-small is-left">
                         <i className="fas fa-ruler-vertical"></i>
                       </span>
