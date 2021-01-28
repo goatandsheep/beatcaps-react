@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT} from '../utils/templateUtils'
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils'
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -19,13 +19,15 @@ const TemplateDesigner = () => {
     DEFAULT_VIEW_OBJECT,
   ]);
   const [templateOptions, setTemplateOptions] = useState(DEFAULT_TEMPLATE_OBJECT);
+  const [templateKeepsAspectRatio, setTemplateKeepsAspectRatio] = useState(true);
 
   const uploadTemplate = async () => {
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
+
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
       method: 'POST',
-      body: JSON.stringify(templateReq), // TODO: Send correct format
+      body: JSON.stringify(templateReq), 
       headers: {
         Authorization: globalConsumer.user.token,
       },
@@ -66,6 +68,11 @@ const TemplateDesigner = () => {
 
     newOptions[field] = value;
 
+    // if templateKeepsAspectRatio is selected, recalculate the width every time height changes
+    if (templateKeepsAspectRatio) {
+      newOptions.width = get720pWidth(newOptions.height)
+    }
+    
     setTemplateOptions(newOptions);
   };
 
@@ -87,6 +94,17 @@ const TemplateDesigner = () => {
     makeNewOptionsArray();
     setViewOptions(newViewOptions);
   };
+
+  const handleToggleAspectRatio = () => {
+    if (templateKeepsAspectRatio) {
+      // toggling off
+      setTemplateKeepsAspectRatio(false)
+    } else {
+      // toggling on, calculate width
+      handleTemplateOptionChange('width', get720pWidth(templateOptions.height))
+      setTemplateKeepsAspectRatio(true)
+    }
+  }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -124,7 +142,7 @@ const TemplateDesigner = () => {
         <div className="card-content card">
           <div className="field">
             <label htmlFor="viewName" className="label">
-              Template Name
+              Template Name *
             </label>
             <div className="control is-expanded has-icons-left">
               <input
@@ -143,7 +161,7 @@ const TemplateDesigner = () => {
           </div>
           <div className="field">
             <label htmlFor="viewOutputHeight" className="label">
-              Template Height
+              Template Height *
             </label>
             <div className="control is-expanded has-icons-left">
               <input
@@ -165,6 +183,7 @@ const TemplateDesigner = () => {
             <label htmlFor="viewOutputWidth" className="label">
               Template Width
             </label>
+
             <div className="control is-expanded has-icons-left">
               <input
                 onChange={(e) =>
@@ -173,16 +192,22 @@ const TemplateDesigner = () => {
                 id="viewOutputWidth"
                 className="input"
                 type="number"
+                disabled={templateKeepsAspectRatio}
                 value={templateOptions.width}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-horizontal"></i>
               </span>
             </div>
-            <p className="help">Leave blank to use 16:9 aspect ratio</p>
+            <div className="block mt-3">
+              <label className="checkbox">
+                <input type="checkbox" onChange={handleToggleAspectRatio} checked={templateKeepsAspectRatio}/>
+                <span className="ml-2">Use 16:9 aspect ratio</span>
+              </label>
+            </div>
             <button
-              onClick={(e) => handleTemplateOptionChange('width', 0)}
-              className="button is-info"
+              onClick={() => handleTemplateOptionChange('width', 0)}
+              className="button is-text"
               type="button"
             >
               Clear
@@ -223,7 +248,7 @@ const TemplateDesigner = () => {
             handleDragDropChange={handleDragDropChange}
             viewOptions={viewOptions}
             outputHeight={templateOptions.height}
-            outputWidth={templateOptions.width || (templateOptions.height * 16) / 9}
+            outputWidth={templateOptions.width}
           />
 
           {makeViewOptionInputs(viewOptions)}

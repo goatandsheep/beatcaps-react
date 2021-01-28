@@ -18,10 +18,14 @@ export const getViewPxFromUiPx = (uiPx, scale) => {
   return Math.round(uiPx / scale)
 }
 
+export const get720pWidth = (height) => {
+  return Math.round(height * 16 / 9)
+}
+
 // constants
 export const DEFAULT_VIEW_OBJECT = {
   height: 250,
-  width: Math.round(250 * 16 / 9),
+  width: get720pWidth(250),
   x: 0,
   y: 0,
 };
@@ -29,4 +33,5 @@ export const DEFAULT_VIEW_OBJECT = {
 export const DEFAULT_TEMPLATE_OBJECT = {
   name: '',
   height: 720,
+  width: get720pWidth(720),
 };

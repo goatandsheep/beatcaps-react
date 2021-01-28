@@ -17,11 +17,13 @@ const TemplateDragDrop = ({
   outputWidth,
   handleDragDropChange,
 }) => {
+  // calculate scale between template size and screen size
   const dragDropAreaWidth = getUiWidthFromScreenWidth(window.innerWidth);
   const scale = dragDropAreaWidth / outputWidth;
   const dragDropAreaHeight = getUiPxFromViewPx(outputHeight, scale);
 
   const handleDragDrop = (viewNum, uiViewOptions) => {
+    // send correct template dimensions to form (using scale)
     handleDragDropChange(viewNum, {
       x: getViewPxFromUiPx(uiViewOptions.x, scale),
       y: getViewPxFromUiPx(uiViewOptions.y, scale),
@@ -29,6 +31,7 @@ const TemplateDragDrop = ({
       ...( uiViewOptions.width ? { width: getViewPxFromUiPx(uiViewOptions.width, scale)} : {}),
     })
   }
+
   return (
     <div
       style={dragDropContainerStyles(dragDropAreaHeight, dragDropAreaWidth)}
