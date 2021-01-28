@@ -2,6 +2,10 @@
   "id": "OutputResponse",
   "type": "object",
   "properties": {
+    "name": {
+      "type": "string",
+      "faker": "random.words"
+    },
     "creationDate": {
       "type": "string",
       "faker": "date.past"
