@@ -1,5 +1,6 @@
 import React from 'react';
 import DragDropBox from './DragDropBox';
+import {getUiWidthFromScreenWidth, getUiPxFromViewPx, getViewPxFromUiPx} from '../utils/templateUtils'
 
 const dragDropContainerStyles = (height, width) => {
   return {
@@ -9,26 +10,6 @@ const dragDropContainerStyles = (height, width) => {
     background: 'lightgray',
   };
 };
-
-const getUiWidthFromScreenWidth = (windowWidth) => {
-  if (windowWidth > 1408) {
-    return 1248;
-  } else if (windowWidth > 1216) {
-    return 1104;
-  } else if (windowWidth > 1024) {
-    return 912;
-  } else {
-    return windowWidth - (2 * 24)
-  }
-}
-
-const getUiPxFromViewPx = (viewPx, scale) => {
-  return viewPx * scale
-}
-
-const getViewPxFromUiPx = (uiPx, scale) => {
-  return Math.round(uiPx / scale)
-}
 
 const TemplateDragDrop = ({
   viewOptions,

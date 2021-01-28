@@ -2,28 +2,13 @@ import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT} from '../utils/templateUtils'
+import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
-const marginTop = {
-  marginTop: '1.5rem',
-};
 const formStyles = {
   marginBottom: '50px',
   overflowX: 'scroll',
-};
-
-// constants
-const DEFAULT_VIEW_OBJECT = {
-  height: 250,
-  width: Math.round(250 * 16 / 9),
-  x: 0,
-  y: 0,
-};
-
-const
- DEFAULT_TEMPLATE_OBJECT = {
-  name: '',
-  height: 720,
 };
 
 const TemplateDesigner = () => {
@@ -35,7 +20,7 @@ const TemplateDesigner = () => {
   ]);
   const [templateOptions, setTemplateOptions] = useState(DEFAULT_TEMPLATE_OBJECT);
 
-  const uploadTemplate = async (req) => {
+  const uploadTemplate = async () => {
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
@@ -117,65 +102,11 @@ const TemplateDesigner = () => {
       const currentValues = viewOptions[viewNum - 1];
 
       fieldsets.push(
-          <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
-            <div className="card-content">
-              <h3 className="is-size-5">View {viewNum} Options</h3>
-              <div className="columns is-desktop">
-                <div className="column">
-                  <div className="field">
-                    <label htmlFor="viewHeight" className="label">Height</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input 
-                        onChange={(evt) => {
-                          handleViewOptionChange(viewNum, 'height', evt.target.value)
-                        }} 
-                        id={'viewHeight' + viewNum} 
-                        className="input" 
-                        required 
-                        type="number" 
-                        value={currentValues.height}
-                      />
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-ruler-vertical"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="viewWidth" className="label">Width</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => {
-                        handleViewOptionChange(viewNum, 'width', +evt.target.value);
-                      }} id={'viewWidth' + viewNum} className="input" type="number" value={currentValues.width}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-ruler-horizontal"></i>
-                      </span>
-                    </div>
-                    <p className="help">Leave blank to use 16:9 aspect ratio</p>
-                  </div>
-                </div>
-                <div className="column">
-                  <div className="field">
-                    <label htmlFor="viewX" className="label">X Coordinate</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'x', evt.target.value)} id={'viewX' + viewNum} className="input" required type="number" value={currentValues.x}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-arrows-alt-h"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="viewY" className="label">Y Coordinate</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'y', evt.target.value)} id={'viewY' + viewNum} className="input" required type="number" value={currentValues.y}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-arrows-alt-v"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </fieldset>,
+          <TemplateViewInput 
+            fieldValue={currentValues} 
+            viewNum={viewNum} 
+            handleViewOptionChange={handleViewOptionChange}
+          />
       );
     }
 
@@ -280,11 +211,11 @@ const TemplateDesigner = () => {
               </span>
             </div>
           </div>
-          <h2 className="title is-3" style={marginTop}>
+          <h2 className="title is-3 mt-5">
             Define Views
           </h2>
 
-          <h3 className="title is-5" style={marginTop}>
+          <h3 className="title is-5 mt-5">
             Drag and Drop Editor
           </h3>
           
@@ -297,7 +228,7 @@ const TemplateDesigner = () => {
 
           {makeViewOptionInputs(viewOptions)}
 
-          <button type="submit" className="button is-primary" style={marginTop}>
+          <button type="submit" className="button is-primary mt-5">
             Create Template
           </button>
         </div>
