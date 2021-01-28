@@ -50,15 +50,16 @@ const TemplateDesigner = () => {
 
   const handleViewOptionChange = (
       viewNum,
-      field,
-      value,
+      fieldOptions
   ) => {
-    const newOptions = [...viewOptions];
+    const newOptions = [
+      ...viewOptions
+    ];
 
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
       ...viewOptions[viewIndex],
-      [field]: +value,
+      ...fieldOptions
     };
 
     setViewOptions(newOptions);
@@ -133,6 +134,7 @@ const TemplateDesigner = () => {
 
       fieldsets.push(
           <TemplateViewInput 
+            key={`TemplateViewInput-${viewNum}`}
             fieldValue={currentValues} 
             viewNum={viewNum} 
             handleViewOptionChange={handleViewOptionChange}

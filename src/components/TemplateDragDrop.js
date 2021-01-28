@@ -17,6 +17,7 @@ const TemplateDragDrop = ({
   outputWidth,
   handleDragDropChange,
 }) => {
+  console.log('viewOptions', viewOptions)
   // calculate scale between template size and screen size
   const dragDropAreaWidth = getUiWidthFromScreenWidth(window.innerWidth);
   const scale = dragDropAreaWidth / outputWidth;
