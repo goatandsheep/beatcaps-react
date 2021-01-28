@@ -9,7 +9,6 @@ const dragDropBoxStyles = {
   background: '#f0f0f0',
 };
 
-
 const DragDropBox = ({
   box,
   boxIndex,
@@ -22,7 +21,7 @@ const DragDropBox = ({
       style={dragDropBoxStyles}
       bounds="#template-drag-drop-container"
       size={{
-        width: box.width || box.height * 16 / 9,
+        width: box.width,
         height: box.height,
       }}
       position={{x: box.x, y: box.y}}
