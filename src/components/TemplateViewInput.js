@@ -1,6 +1,20 @@
-import React from 'react';
+import React, {useState} from 'react';
+import {get720pWidth} from '../utils/templateUtils'
 
 const TemplateViewInput = ({fieldValue, viewNum, handleViewOptionChange}) => {
+  const [keepAspectRatio, setKeepAspectRatio] = useState(true)
+  
+  const handleToggleAspectRatio = () => {
+    if (keepAspectRatio) {
+      // toggling off
+      setKeepAspectRatio(false)
+    } else {
+      // toggling on, calculate width
+      handleViewOptionChange(viewNum, 'width', get720pWidth(fieldValue.height))
+      setKeepAspectRatio(true)
+    }
+  }
+
   return (
     <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
       <div className="card-content">
@@ -28,14 +42,26 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewOptionChange}) => {
             <div className="field">
               <label htmlFor="viewWidth" className="label">Width</label>
               <div className="control is-expanded has-icons-left">
-                <input onChange={(evt) => {
-                  handleViewOptionChange(viewNum, 'width', +evt.target.value);
-                }} id={'viewWidth' + viewNum} className="input" type="number" value={fieldValue.width}/>
+                <input 
+                  onChange={(evt) => {
+                    handleViewOptionChange(viewNum, 'width', +evt.target.value);
+                  }} 
+                  id={'viewWidth' + viewNum} 
+                  className="input" 
+                  type="number" 
+                  value={fieldValue.width}
+                  disabled={keepAspectRatio}
+                />
                 <span className="icon is-small is-left">
                   <i className="fas fa-ruler-horizontal"></i>
                 </span>
               </div>
-              <p className="help">Leave blank to use 16:9 aspect ratio</p>
+               <div className="block mt-3">
+              <label className="checkbox">
+                <input type="checkbox" onChange={handleToggleAspectRatio} checked={keepAspectRatio}/>
+                <span className="ml-2">Use 16:9 aspect ratio</span>
+              </label>
+            </div>
             </div>
           </div>
           <div className="column">

@@ -25,6 +25,18 @@ const TemplateDesigner = () => {
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
 
+    // don't send the width to the backend if using default 16:9
+    if (templateKeepsAspectRatio) {
+      delete templateReq.width;
+    }
+    
+    // check if 16:9 is used in any views
+    templateReq.views.forEach(view => {
+      if (view.width === get720pWidth(view.height)) {
+        delete view.width
+      }
+    })
+
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
       method: 'POST',
       body: JSON.stringify(templateReq), 
@@ -108,7 +120,7 @@ const TemplateDesigner = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await uploadTemplate(event.target);
+    await uploadTemplate();
 
     window.location.href = '/templates';
   };
@@ -207,7 +219,7 @@ const TemplateDesigner = () => {
             </div>
             <button
               onClick={() => handleTemplateOptionChange('width', 0)}
-              className="button is-text"
+              className="button is-light"
               type="button"
             >
               Clear
