@@ -15,11 +15,13 @@ const formStyles = {
 // constants
 const DEFAULT_VIEW_OBJECT = {
   height: 250,
-  width: 250*16/9,
+  width: Math.round(250 * 16 / 9),
   x: 0,
   y: 0,
 };
-const DEFAULT_TEMPLATE_OBJECT = {
+
+const
+ DEFAULT_TEMPLATE_OBJECT = {
   name: '',
   height: 720,
 };
@@ -113,7 +115,7 @@ const TemplateDesigner = () => {
 
     for (let viewNum = 1; viewNum <= viewOptions.length; viewNum++) {
       const currentValues = viewOptions[viewNum - 1];
-debugger
+
       fieldsets.push(
           <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
             <div className="card-content">
@@ -125,7 +127,6 @@ debugger
                     <div className="control is-expanded has-icons-left">
                       <input 
                         onChange={(evt) => {
-                          console.log('onchange',evt)
                           handleViewOptionChange(viewNum, 'height', evt.target.value)
                         }} 
                         id={'viewHeight' + viewNum} 

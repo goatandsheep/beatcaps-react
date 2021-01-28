@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import DragDropBox from './DragDropBox';
 
 const dragDropContainerStyles = (height, width) => {
@@ -27,7 +27,7 @@ const getUiPxFromViewPx = (viewPx, scale) => {
 }
 
 const getViewPxFromUiPx = (uiPx, scale) => {
-  return uiPx / scale
+  return Math.round(uiPx / scale)
 }
 
 const TemplateDragDrop = ({
@@ -41,19 +41,11 @@ const TemplateDragDrop = ({
   const dragDropAreaHeight = getUiPxFromViewPx(outputHeight, scale);
 
   const handleDragDrop = (viewNum, uiViewOptions) => {
-
-    console.log('before evv', uiViewOptions)
-    console.log('after evv', {
-      height: getViewPxFromUiPx(uiViewOptions.height, scale),
-      width: getViewPxFromUiPx(uiViewOptions.width, scale),
-      x: getViewPxFromUiPx(uiViewOptions.x, scale),
-      y: getViewPxFromUiPx(uiViewOptions.y, scale),
-    })
     handleDragDropChange(viewNum, {
-      height: getViewPxFromUiPx(uiViewOptions.height, scale),
-      width: getViewPxFromUiPx(uiViewOptions.width, scale),
       x: getViewPxFromUiPx(uiViewOptions.x, scale),
       y: getViewPxFromUiPx(uiViewOptions.y, scale),
+      ...( uiViewOptions.height ? { height: getViewPxFromUiPx(uiViewOptions.height, scale)} : {}),
+      ...( uiViewOptions.width ? { width: getViewPxFromUiPx(uiViewOptions.width, scale)} : {}),
     })
   }
   return (
