@@ -6,7 +6,7 @@
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@stripe/react-stripe-js": "^1.1.2",
     "@stripe/stripe-js": "^1.11.0",
-    "@testing-library/jest-dom": "^4.2.4",
+    "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.3",
     "@testing-library/user-event": "^7.2.1",
     "bulma": "^0.8.1",
