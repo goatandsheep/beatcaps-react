@@ -1,10 +1,10 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 
-const InputList = ({ inputs }) => {
-  if (!inputs) return (<option disabled>Loading</option>)
+const InputList = ({inputs}) => {
+  if (!inputs) return (<option disabled>Loading</option>);
 
   return inputs.map((input, index) => (
     <option value={input.elementName} key={`${input.elementName}-${index}`}>{input.elementName}</option>
@@ -27,7 +27,7 @@ const ViewInputs = (props) => {
             <i className="fas fa-photo-video"></i>
           </span>
         </div>
-        <span className="is-italic">View dimensions: {view.height}px height x {view.width}px width</span> 
+        <span className="is-italic">View dimensions: {view.height}px height x {view.width}px width</span>
       </div>
     );
   });
@@ -81,7 +81,7 @@ const TemplateWizard = (props) => {
   return (
     <div>
       <div className="has-text-left">
-        <Link to="/templates" className="button is-text">           
+        <Link to="/templates" className="button is-text">
           <span className="icon is-small mr-1">
             <i className="fas fa-chevron-circle-left"></i>
           </span>
