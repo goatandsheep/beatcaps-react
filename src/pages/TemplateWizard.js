@@ -11,7 +11,7 @@ const InputList = ({ inputs }) => {
   ));
 };
 
-const ViewInput = (props) => {
+const ViewInputs = (props) => {
   return props.views.map((view, index) => {
     const num = index+1;
     return (
@@ -27,7 +27,7 @@ const ViewInput = (props) => {
             <i className="fas fa-photo-video"></i>
           </span>
         </div>
-        View dimensions: {view.height}px height, {view.width}px width
+        <span className="is-italic">View dimensions: {view.height}px height x {view.width}px width</span> 
       </div>
     );
   });
@@ -103,28 +103,29 @@ const TemplateWizard = (props) => {
         <h2 className="subtitle is-4 mt-2">Preview</h2>
         <div>Preview Coming soon...</div>
       </div>
-      <form className="card mt-2" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
-        <fieldset className="card-content content">
-          <p className="subtitle is-4">Choose videos for each view</p>
-          <legend className="subtitle is-3">Enter template inputs</legend>
-            <label htmlFor="outputName" className="label has-text-left">
-              Output Video Name
-            </label>
-            <div className="control is-expanded has-icons-left">
-              <input
-                id="outputName"
-                className="input"
-                name="name"
-                required
-                type="text"
-              />
-              <span className="icon is-small is-left">
-                <i className="fas fa-signature"></i>
-              </span>
-            </div>
-          <ViewInput inputs={inputs.elements} views={media.views || []} />
-        </fieldset>
-        <button className="button is-primary" type="submit">Submit</button>
+      <form className="card mt-2 has-text-left" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
+        <div className="card-content content">
+          <label htmlFor="outputName" className="label">
+            Output Video Name
+          </label>
+          <div className="control is-expanded has-icons-left block">
+            <input
+              id="outputName"
+              className="input"
+              name="name"
+              required
+              type="text"
+            />
+            <span className="icon is-small is-left">
+              <i className="fas fa-signature"></i>
+            </span>
+          </div>
+          <fieldset className="block">
+            <legend className="subtitle is-5">Choose videos for each view:</legend>
+            <ViewInputs inputs={inputs.elements} views={media.views || []} />
+          </fieldset>
+          <button className="button is-primary block" type="submit">Submit</button>
+        </div>
       </form>
     </div>
   );
