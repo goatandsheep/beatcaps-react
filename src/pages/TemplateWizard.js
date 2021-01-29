@@ -85,6 +85,21 @@ const TemplateWizard = (props) => {
       <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
         <fieldset className="card-content content">
           <legend className="subtitle is-3">Enter template inputs</legend>
+            <label htmlFor="outputName" className="label has-text-left">
+              Output Video Name
+            </label>
+            <div className="control is-expanded has-icons-left">
+              <input
+                id="outputName"
+                className="input"
+                name="name"
+                required
+                type="text"
+              />
+              <span className="icon is-small is-left">
+                <i className="fas fa-signature"></i>
+              </span>
+            </div>
           <ViewInput inputs={inputs.elements} views={media.views || []} />
         </fieldset>
         <button className="button is-primary" type="submit">Submit</button>

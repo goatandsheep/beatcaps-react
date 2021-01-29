@@ -6,8 +6,8 @@ const AuthButton = () => {
   return (
     globals.user.auth ?
     (<>
-      <div className="navbar-item">Welcome, <strong>{globals.user.firstName}</strong></div>
-      <div className="navbar-item buttons">
+      <div className="mr-2">Welcome, <strong>{globals.user.firstName}</strong></div>
+      <div className="buttons">
         <button onClick={globals.logout} className="button is-primary">Logout</button>
       </div>
     </>) : null
