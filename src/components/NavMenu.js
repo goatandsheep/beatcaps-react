@@ -10,7 +10,7 @@ const NavMenu = () => {
           <div className="mr-4">
             <NavLink className="title is-6" to="/">BeatCaps Admin Panel</NavLink>
           </div>
-          
+
           <div>
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">

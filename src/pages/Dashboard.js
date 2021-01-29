@@ -1,5 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
-import { Link } from 'react-router-dom';
+import {Link} from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TableRow from '../components/TableRow';
