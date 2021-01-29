@@ -22,6 +22,25 @@ export const get720pWidth = (height) => {
   return Math.round(height * 16 / 9)
 }
 
+// All views should fit within the dimensions of the template
+// Returns error message, or `null` if valid.
+export const viewSizeErrors = ({
+  views,
+  maxHeight,
+  maxWidth
+}) => {
+  const errorMessage = `All views should fit within the dimensions of the template. Please check:`
+  const invalidTemplates =  views.reduce((string, {height, width, x, y}, index) => {
+    if ((height + y <= maxHeight) && (width + x <= maxWidth)) {
+      return string
+    } else {
+      return string + ` View ${index + 1}.`
+    }
+  }, '')
+
+  return invalidTemplates ? (errorMessage + invalidTemplates) : null
+}
+
 // constants
 export const DEFAULT_VIEW_OBJECT = {
   height: 250,
