@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useEffect, useContext, useState} from 'react';
 import './App.scss';
-import {BrowserRouter as Router, Switch} from 'react-router-dom';
-import Amplify, { Auth } from 'aws-amplify';
-import { withAuthenticator, AmplifySignOut, AmplifyContainer, AmplifyAuthenticator } from '@aws-amplify/ui-react';
+import {BrowserRouter as Router, Switch, Route, Redirect} from 'react-router-dom';
+import {withAuthenticator, AmplifyContainer, AmplifyAuthenticator} from '@aws-amplify/ui-react';
+import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
 
-import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
 import TemplatesView from './pages/TemplatesView';
@@ -12,79 +11,65 @@ import TemplateWizard from './pages/TemplateWizard';
 import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
-import {Route} from 'react-router-dom';
 import NavMenu from './components/NavMenu';
-import constants from './constants';
+import {awsAuthInit} from './utils/auth';
 
+// Initialize Amplify
+awsAuthInit();
 
 /**
  * Main App builder
  * @return {Object} reactDOM
  */
 const App = () => {
-  const awsconfig = {
-    Auth: {
-        // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-        identityPoolId: constants.AWS_IDENTITY_POOL_ID,
+  const globalContext = useContext(GlobalContext);
+  const [user, setUser] = useState({});
+  const [authState, setAuthState] = React.useState();
 
-        // REQUIRED - Amazon Cognito Region
-        region: constants.AWS_REGION,
-
-        // OPTIONAL - Amazon Cognito User Pool ID
-        userPoolId: constants.AWS_POOL_ID,
-
-        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-        userPoolWebClientId: constants.AWS_WEB_CLIENT_ID,
-    }
-  }
-
-    console.log('awsconfig', awsconfig)
-
-  const auth = () => {
-    console.log('running auth')
-    Amplify.configure(awsconfig);
-    Auth.configure(awsconfig);
-  }
-
-  auth()
-
-  // const currentConfig = Auth.configure();
-
-  // console.log('currentConfig', currentConfig)
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      console.log('nextAuthState', nextAuthState);
+      console.log('authData', authData);
+      // debugger;
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, [globalContext]);
 
   const PrivateRoute = ({component: Component, ...attrs}) => (
-    <Route {...attrs} render={(props) => (
-      <GlobalContext.Consumer>
-        {(state) => (state.user.auth ? <Component route={props} {...props.match.params} /> : <Login {...props.match.params} /> )}
-      </GlobalContext.Consumer>
-    )} />
+    <Route {...attrs}>
+      {
+        authState === AuthState.SignedIn && user ?
+          <Component /> :
+          'not logged in'
+      }
+    </Route>
   );
   return (
-    <AmplifyContainer>
-      <GlobalProvider>
+    <GlobalProvider>
+      <AmplifyContainer>
+        <AmplifyAuthenticator />
         <Router>
-          <div className="App">
+          <div className="App" style={{width: '100%', height: '100%'}}>
             <NavMenu />
             <main className="container">
               <Switch>
-                <Route exact={true} path="/" component={Dashboard} />
-                <Route exact={true} path="/file/new" component={SubmitFile} />
-                <Route exact={true} path="/templates/:id/apply" component={TemplateWizard} />
-                <Route exact={true} path="/templates/new" component={TemplateDesigner} />
-                <Route exact={true} path="/templates/:id" component={FileView} />
-                <Route exact={true} path="/templates" component={TemplatesView} />
-                <Route path="/file/:id" component={FileView} />
-                <Route render={() => (<h1>Page Not Found</h1>)} />
+                {console.log('compuser', user, authState)}
+                <PrivateRoute exact={true} path="/" component={Dashboard} />
+                <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
+                <PrivateRoute exact={true} path="/templates/:id/apply" component={TemplateWizard} />
+                <PrivateRoute exact={true} path="/templates/new" component={TemplateDesigner} />
+                <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
+                <PrivateRoute exact={true} path="/templates" component={TemplatesView} />
+                <PrivateRoute path="/file/:id" component={FileView} />
+                <PrivateRoute render={() => (<h1>Page Not Found</h1>)} />
               </Switch>
             </main>
           </div>
         </Router>
-                <AmplifyAuthenticator />
-
-      </GlobalProvider>
-    </AmplifyContainer>
+      </AmplifyContainer>
+    </GlobalProvider>
   );
-}
+};
 
-// export default withAuthenticator(App);
-export default App;
+export default withAuthenticator(App);
