@@ -3,34 +3,13 @@ import { Link } from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils'
+import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
-const marginTop = {
-  marginTop: '1.5rem',
-};
 const formStyles = {
   marginBottom: '50px',
   overflowX: 'scroll',
-};
-
-const dragDropContainerStyles = (height, width) => {
-  return {
-    height: height + 'px',
-    width: width + 'px',
-    border: '1px solid darkgray',
-    background: 'lightgray',
-  };
-};
-
-// constants
-const DEFAULT_VIEW_OBJECT = {
-  height: 250,
-  x: 0,
-  y: 0,
-};
-const DEFAULT_TEMPLATE_OBJECT = {
-  name: '',
-  height: 720,
 };
 
 const TemplateDesigner = () => {
@@ -41,13 +20,27 @@ const TemplateDesigner = () => {
     DEFAULT_VIEW_OBJECT,
   ]);
   const [templateOptions, setTemplateOptions] = useState(DEFAULT_TEMPLATE_OBJECT);
+  const [templateKeepsAspectRatio, setTemplateKeepsAspectRatio] = useState(true);
 
-  const uploadTemplate = async (req) => {
+  const uploadTemplate = async () => {
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
+
+    // don't send the width to the backend if using default 16:9
+    if (templateKeepsAspectRatio) {
+      delete templateReq.width;
+    }
+    
+    // check if 16:9 is used in any views
+    templateReq.views.forEach(view => {
+      if (view.width === get720pWidth(view.height)) {
+        delete view.width
+      }
+    })
+
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
       method: 'POST',
-      body: JSON.stringify(templateReq), // TODO: Send correct format
+      body: JSON.stringify(templateReq), 
       headers: {
         Authorization: globalConsumer.user.token,
       },
@@ -72,7 +65,7 @@ const TemplateDesigner = () => {
     setViewOptions(newOptions);
   };
 
-  const handleXYChange = (viewNum, newXYViewOptionObj) => {
+  const handleDragDropChange = (viewNum, newXYViewOptionObj) => {
     const newOptions = [...viewOptions];
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
@@ -83,19 +76,16 @@ const TemplateDesigner = () => {
     setViewOptions(newOptions);
   };
 
-  const handleDragDropResize = (viewNum, newViewOptionObj) => {
-    const newOptions = [...viewOptions];
-    const viewIndex = viewNum - 1;
-    newOptions[viewIndex] = newViewOptionObj;
-
-    setViewOptions(newOptions);
-  };
-
   const handleTemplateOptionChange = (field, value) => {
     const newOptions = {...templateOptions};
 
     newOptions[field] = value;
 
+    // if templateKeepsAspectRatio is selected, recalculate the width every time height changes
+    if (templateKeepsAspectRatio) {
+      newOptions.width = get720pWidth(newOptions.height)
+    }
+    
     setTemplateOptions(newOptions);
   };
 
@@ -118,9 +108,20 @@ const TemplateDesigner = () => {
     setViewOptions(newViewOptions);
   };
 
+  const handleToggleAspectRatio = () => {
+    if (templateKeepsAspectRatio) {
+      // toggling off
+      setTemplateKeepsAspectRatio(false)
+    } else {
+      // toggling on, calculate width
+      handleTemplateOptionChange('width', get720pWidth(templateOptions.height))
+      setTemplateKeepsAspectRatio(true)
+    }
+  }
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    await uploadTemplate(event.target);
+    await uploadTemplate();
 
     window.location.href = '/templates';
   };
@@ -132,56 +133,11 @@ const TemplateDesigner = () => {
       const currentValues = viewOptions[viewNum - 1];
 
       fieldsets.push(
-          <fieldset className="field card" key={`view-fieldset-${viewNum}`}>
-            <div className="card-content">
-              <h3 className="is-size-5">View {viewNum} Options</h3>
-              <div className="columns is-desktop">
-                <div className="column">
-                  <div className="field">
-                    <label htmlFor="viewHeight" className="label">Height</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'height', +evt.target.value)} id={'viewHeight' + viewNum} className="input" required type="number" value={currentValues.height}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-ruler-vertical"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="viewWidth" className="label">Width</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => {
-                        handleViewOptionChange(viewNum, 'width', +evt.target.value);
-                      }} id={'viewWidth' + viewNum} className="input" type="number" value={currentValues.width}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-ruler-horizontal"></i>
-                      </span>
-                    </div>
-                    <p className="help">Leave blank to use 16:9 aspect ratio</p>
-                  </div>
-                </div>
-                <div className="column">
-                  <div className="field">
-                    <label htmlFor="viewX" className="label">X Coordinate</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'x', evt.target.value)} id={'viewX' + viewNum} className="input" required type="number" value={currentValues.x}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-arrows-alt-h"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="field">
-                    <label htmlFor="viewY" className="label">Y Coordinate</label>
-                    <div className="control is-expanded has-icons-left">
-                      <input onChange={(evt) => handleViewOptionChange(viewNum, 'y', evt.target.value)} id={'viewY' + viewNum} className="input" required type="number" value={currentValues.y}/>
-                      <span className="icon is-small is-left">
-                        <i className="fas fa-arrows-alt-v"></i>
-                      </span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </fieldset>,
+          <TemplateViewInput 
+            fieldValue={currentValues} 
+            viewNum={viewNum} 
+            handleViewOptionChange={handleViewOptionChange}
+          />
       );
     }
 
@@ -207,7 +163,7 @@ const TemplateDesigner = () => {
         <div className="card-content card">
           <div className="field">
             <label htmlFor="viewName" className="label">
-              Template Name
+              Template Name *
             </label>
             <div className="control is-expanded has-icons-left">
               <input
@@ -226,7 +182,7 @@ const TemplateDesigner = () => {
           </div>
           <div className="field">
             <label htmlFor="viewOutputHeight" className="label">
-              Template Height
+              Template Height *
             </label>
             <div className="control is-expanded has-icons-left">
               <input
@@ -248,6 +204,7 @@ const TemplateDesigner = () => {
             <label htmlFor="viewOutputWidth" className="label">
               Template Width
             </label>
+
             <div className="control is-expanded has-icons-left">
               <input
                 onChange={(e) =>
@@ -256,16 +213,22 @@ const TemplateDesigner = () => {
                 id="viewOutputWidth"
                 className="input"
                 type="number"
+                disabled={templateKeepsAspectRatio}
                 value={templateOptions.width}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-horizontal"></i>
               </span>
             </div>
-            <p className="help">Leave blank to use 16:9 aspect ratio</p>
+            <div className="block mt-3">
+              <label className="checkbox">
+                <input type="checkbox" onChange={handleToggleAspectRatio} checked={templateKeepsAspectRatio}/>
+                <span className="ml-2">Use 16:9 aspect ratio</span>
+              </label>
+            </div>
             <button
-              onClick={(e) => handleTemplateOptionChange('width', 0)}
-              className="button is-info"
+              onClick={() => handleTemplateOptionChange('width', 0)}
+              className="button is-light"
               type="button"
             >
               Clear
@@ -294,27 +257,24 @@ const TemplateDesigner = () => {
               </span>
             </div>
           </div>
-          <h2 className="title is-3" style={marginTop}>
+          <h2 className="title is-3 mt-5">
             Define Views
           </h2>
 
-          <h3 className="title is-5" style={marginTop}>
+          <h3 className="title is-5 mt-5">
             Drag and Drop Editor
           </h3>
-          <div
-            style={dragDropContainerStyles(templateOptions.height, templateOptions.width || templateOptions.height * 16 / 9)}
-            id="template-drag-drop-container"
-          >
-            <TemplateDragDrop
-              handleDragDropResize={handleDragDropResize}
-              handleXYChange={handleXYChange}
-              viewOptions={viewOptions}
-            />
-          </div>
+          
+          <TemplateDragDrop
+            handleDragDropChange={handleDragDropChange}
+            viewOptions={viewOptions}
+            outputHeight={templateOptions.height}
+            outputWidth={templateOptions.width}
+          />
 
           {makeViewOptionInputs(viewOptions)}
 
-          <button type="submit" className="button is-primary" style={marginTop}>
+          <button type="submit" className="button is-primary mt-5">
             Create Template
           </button>
         </div>

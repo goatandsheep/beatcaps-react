@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.scss';
-import {BrowserRouter as Router, Switch, NavLink, Route} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
 import TemplatesView from './pages/TemplatesView';
 import TemplateWizard from './pages/TemplateWizard';
 import SubmitFile from './pages/SubmitFile';
-import AuthButton from './components/AuthButton';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
+import NavMenu from './components/NavMenu';
 
 
 /**
@@ -28,14 +28,7 @@ function App() {
     <div className="App">
       <GlobalProvider>
         <Router>
-          <nav className="navbar" role="navigation" aria-label="main navigation">
-            <div className="navbar-brand">
-              <NavLink className="navbar-item title is-6" to="/">BeatCaps Admin Panel</NavLink>
-            </div>
-            <div className="navbar-end">
-              <AuthButton />
-            </div>
-          </nav>
+          <NavMenu />
           <main className="container">
             <Switch>
               <PrivateRoute exact={true} path="/" component={Dashboard} />
