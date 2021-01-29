@@ -2,6 +2,8 @@ import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
 import Amplify, { Auth } from 'aws-amplify';
+import { withAuthenticator, AmplifySignOut, AmplifyContainer, AmplifyAuthenticator } from '@aws-amplify/ui-react';
+
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
@@ -19,34 +21,36 @@ import constants from './constants';
  * Main App builder
  * @return {Object} reactDOM
  */
-function App() {
-  // Amplify.configure({
-  //   Auth: {
+const App = () => {
+  const awsconfig = {
+    Auth: {
+        // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+        identityPoolId: constants.AWS_IDENTITY_POOL_ID,
 
-  //       // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
-  //       identityPoolId: constants.AWS_IDENTITY_POOL_ID,
+        // REQUIRED - Amazon Cognito Region
+        region: constants.AWS_REGION,
 
-  //       // REQUIRED - Amazon Cognito Region
-  //       region: constants.AWS_REGION,
+        // OPTIONAL - Amazon Cognito User Pool ID
+        userPoolId: constants.AWS_POOL_ID,
 
-  //       // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
-  //       // Required only if it's different from Amazon Cognito Region
-  //       // identityPoolRegion: 'XX-XXXX-X',
+        // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+        userPoolWebClientId: constants.AWS_WEB_CLIENT_ID,
+    }
+  }
 
-  //       // OPTIONAL - Amazon Cognito User Pool ID
-  //       userPoolId: constants.AWS_POOL_ID,
+    console.log('awsconfig', awsconfig)
 
-  //       // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
-  //       // userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
+  const auth = () => {
+    console.log('running auth')
+    Amplify.configure(awsconfig);
+    Auth.configure(awsconfig);
+  }
 
-  //       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
-  //       // mandatorySignIn: false,
-  //   }
-  // });
+  auth()
 
-  const currentConfig = Auth.configure();
+  // const currentConfig = Auth.configure();
 
-  console.log('currentConfig', currentConfig)
+  // console.log('currentConfig', currentConfig)
 
   const PrivateRoute = ({component: Component, ...attrs}) => (
     <Route {...attrs} render={(props) => (
@@ -56,26 +60,31 @@ function App() {
     )} />
   );
   return (
-    <div className="App">
+    <AmplifyContainer>
       <GlobalProvider>
         <Router>
-          <NavMenu />
-          <main className="container">
-            <Switch>
-              <PrivateRoute exact={true} path="/" component={Dashboard} />
-              <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
-              <PrivateRoute exact={true} path="/templates/:id/apply" component={TemplateWizard} />
-              <PrivateRoute exact={true} path="/templates/new" component={TemplateDesigner} />
-              <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
-              <PrivateRoute exact={true} path="/templates" component={TemplatesView} />
-              <PrivateRoute path="/file/:id" component={FileView} />
-              <Route render={() => (<h1>Page Not Found</h1>)} />
-            </Switch>
-          </main>
+          <div className="App">
+            <NavMenu />
+            <main className="container">
+              <Switch>
+                <Route exact={true} path="/" component={Dashboard} />
+                <Route exact={true} path="/file/new" component={SubmitFile} />
+                <Route exact={true} path="/templates/:id/apply" component={TemplateWizard} />
+                <Route exact={true} path="/templates/new" component={TemplateDesigner} />
+                <Route exact={true} path="/templates/:id" component={FileView} />
+                <Route exact={true} path="/templates" component={TemplatesView} />
+                <Route path="/file/:id" component={FileView} />
+                <Route render={() => (<h1>Page Not Found</h1>)} />
+              </Switch>
+            </main>
+          </div>
         </Router>
+                <AmplifyAuthenticator />
+
       </GlobalProvider>
-    </div>
+    </AmplifyContainer>
   );
 }
 
+// export default withAuthenticator(App);
 export default App;
