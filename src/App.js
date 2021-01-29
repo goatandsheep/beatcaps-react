@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import Amplify, { Auth } from 'aws-amplify';
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
@@ -11,6 +12,7 @@ import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
 import {Route} from 'react-router-dom';
 import NavMenu from './components/NavMenu';
+import constants from './constants';
 
 
 /**
@@ -18,6 +20,34 @@ import NavMenu from './components/NavMenu';
  * @return {Object} reactDOM
  */
 function App() {
+  // Amplify.configure({
+  //   Auth: {
+
+  //       // REQUIRED only for Federated Authentication - Amazon Cognito Identity Pool ID
+  //       identityPoolId: constants.AWS_IDENTITY_POOL_ID,
+
+  //       // REQUIRED - Amazon Cognito Region
+  //       region: constants.AWS_REGION,
+
+  //       // OPTIONAL - Amazon Cognito Federated Identity Pool Region 
+  //       // Required only if it's different from Amazon Cognito Region
+  //       // identityPoolRegion: 'XX-XXXX-X',
+
+  //       // OPTIONAL - Amazon Cognito User Pool ID
+  //       userPoolId: constants.AWS_POOL_ID,
+
+  //       // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
+  //       // userPoolWebClientId: 'a1b2c3d4e5f6g7h8i9j0k1l2m3',
+
+  //       // OPTIONAL - Enforce user authentication prior to accessing AWS resources or not
+  //       // mandatorySignIn: false,
+  //   }
+  // });
+
+  const currentConfig = Auth.configure();
+
+  console.log('currentConfig', currentConfig)
+
   const PrivateRoute = ({component: Component, ...attrs}) => (
     <Route {...attrs} render={(props) => (
       <GlobalContext.Consumer>
