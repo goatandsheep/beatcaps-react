@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils'
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors} from '../utils/templateUtils'
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -121,6 +121,19 @@ const TemplateDesigner = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const viewErrors = viewSizeErrors(
+      {
+        views: viewOptions,
+        maxHeight: templateOptions.height,
+        maxWidth: templateOptions.width,
+      }
+    )
+
+    if (viewErrors) {
+      alert(viewErrors)
+      return;
+    }
+    
     await uploadTemplate();
 
     window.location.href = '/templates';
