@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.scss';
-import {BrowserRouter as Router, Switch} from 'react-router-dom';
+import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import Login from './pages/Login';
 import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
@@ -9,7 +9,6 @@ import TemplateWizard from './pages/TemplateWizard';
 import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
-import {Route} from 'react-router-dom';
 import NavMenu from './components/NavMenu';
 
 
@@ -34,7 +33,7 @@ function App() {
             <Switch>
               <PrivateRoute exact={true} path="/" component={Dashboard} />
               <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
-              <PrivateRoute exact={true} path="/templates/:id/apply" component={TemplateWizard} />
+              <PrivateRoute exact={true} path="/templates/:id/use" component={TemplateWizard} />
               <PrivateRoute exact={true} path="/templates/new" component={TemplateDesigner} />
               <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
               <PrivateRoute exact={true} path="/templates" component={TemplatesView} />

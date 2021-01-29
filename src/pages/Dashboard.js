@@ -1,4 +1,5 @@
 import React, {useContext, useEffect, useState} from 'react';
+import { Link } from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TableRow from '../components/TableRow';
@@ -23,35 +24,38 @@ const Dashboard = () => {
   return (
     <div>
       <h1 className="title is-1">Dashboard</h1>
-      <div className="level">
-        <div className="level-item">
-          <a className="button is-primary is-fullwidth" href="templates" title="Templates page">
-            Design&nbsp;&nbsp;
-            <span className="icon is-small is-left">
+      <div className="level has-background-info-light" >
+        <div className="level-item is-flex-direction-column my-5">
+          <p className="is-size-5 has-text-black is-block mb-3">
+            Create a layout template
+          </p>
+          <Link to="/templates" className="button is-primary is-medium">Templates
+            <span className="icon is-small is-left ml-1">
               <i className="fas fa-crop-alt"></i>
             </span>
-          </a>
+          </Link>
         </div>
-        <div className="level-item">
-          <a className="button is-warning is-fullwidth" href="file/new" title="Upload file page">
-            Upload&nbsp;&nbsp;
-            <span className="icon is-small is-left">
-              <i className="fas fa-upload"></i>
+        <div className="level-item is-flex-direction-column my-5">
+          <p className="is-size-5 has-text-black is-block mb-3">
+            Upload new videos
+          </p>
+          <Link to="file/new" className="button is-warning is-medium">Upload
+            <span className="icon is-small is-left ml-1">
+              <i className="fas fa-crop-alt"></i>
             </span>
-          </a>
+          </Link>
         </div>
       </div>
+
+      <div className="has-text-left">
+        <h2 className="title is-3 mb-5">Output List</h2>
+      </div>
+
       <div className="card">
         <div className="card-header">
-          <h2 className="card-header-title">
+          <h3 className="card-header-title">
             Outputs list ({mediaList ? mediaList.total : '0'})
-          </h2>
-          <a className="button is-info is-rounded" href="file/new" title="Begin Process Wizard">
-            Create&nbsp;&nbsp;
-            <span className="icon is-small is-left">
-              <i className="fas fa-brush"></i>
-            </span>
-          </a>
+          </h3>
         </div>
         <div className="card-content content">
           <table className="table">
@@ -75,9 +79,7 @@ const Dashboard = () => {
                 <th>Status</th>
               </tr>
             </tfoot>
-            <tbody>
-              <TableRow prefix="/file" attrs={attrs} data={mediaList.elements} />
-            </tbody>
+            <tbody><TableRow prefix="/file" attrs={attrs} data={mediaList.elements} /></tbody>
           </table>
         </div>
       </div>
