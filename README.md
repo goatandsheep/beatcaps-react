@@ -21,8 +21,15 @@ Directory.
 2. Rename the copy as `.env`
 3. Customize variables as you please
 
-### Test server
+### First time setup
 
-1. `cd` test folder with CLI
-2. `npm install`
-3. `npm run dev`
+1. `npm install` in root (install frontend)
+2. `cd /test`
+3. `npm install` in /test (install mock backend)
+
+### Running Project
+1. In first terminal: Start React app from root folder (`npm start`)
+2. In second terminal: Start dev server from `/test` folder (`cd test && npm run dev`)
+3. React app is on `localhost:3000`
+4. Create an account through the sign up form, and activate it with the code sent to your email
+
