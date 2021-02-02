@@ -20,7 +20,7 @@ export const GlobalProvider = ({state, children}) => {
     const updateUser = () => {
       setUser(state.user);
 
-      if (!state.user.signInUserSession) return;
+      if (!state.user || !state.user.signInUserSession) return;
       setToken(`Bearer ${state.user.signInUserSession.accessToken.jwtToken}`);
     };
 

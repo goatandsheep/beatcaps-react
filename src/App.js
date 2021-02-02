@@ -14,9 +14,9 @@ import TemplateDesigner from './pages/TemplateDesigner';
 import NavMenu from './components/NavMenu';
 import {awsAuthInit} from './utils/auth';
 
+
 // Initialize Amplify
 awsAuthInit();
-
 /**
  * Main App builder
  * @return {Object} reactDOM
@@ -43,7 +43,7 @@ const App = () => {
               <Switch>
                 <Route exact={true} path="/" component={Dashboard} />
                 <Route exact={true} path="/file/new" component={SubmitFile} />
-                <Route exact={true} path="/templates/:id/apply" component={TemplateWizard} />
+                <Route exact={true} path="/templates/:id/use" component={TemplateWizard} />
                 <Route exact={true} path="/templates/new" component={TemplateDesigner} />
                 <Route exact={true} path="/templates/:id" component={FileView} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
