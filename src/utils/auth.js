@@ -18,7 +18,6 @@ const awsconfig = {
 };
 
 export const awsAuthInit = () => {
-  console.log('running auth');
   Amplify.configure(awsconfig);
   Auth.configure(awsconfig);
 };

@@ -2,7 +2,7 @@ import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils'
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils';
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -29,19 +29,19 @@ const TemplateDesigner = () => {
     if (templateKeepsAspectRatio) {
       delete templateReq.width;
     }
-    
+
     // check if 16:9 is used in any views
-    templateReq.views.forEach(view => {
+    templateReq.views.forEach((view) => {
       if (view.width === get720pWidth(view.height)) {
-        delete view.width
+        delete view.width;
       }
-    })
+    });
 
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
       method: 'POST',
-      body: JSON.stringify(templateReq), 
+      body: JSON.stringify(templateReq),
       headers: {
-        Authorization: globalConsumer.user.token,
+        Authorization: globalConsumer.token,
       },
     });
 
@@ -82,9 +82,9 @@ const TemplateDesigner = () => {
 
     // if templateKeepsAspectRatio is selected, recalculate the width every time height changes
     if (templateKeepsAspectRatio) {
-      newOptions.width = get720pWidth(newOptions.height)
+      newOptions.width = get720pWidth(newOptions.height);
     }
-    
+
     setTemplateOptions(newOptions);
   };
 
@@ -110,13 +110,13 @@ const TemplateDesigner = () => {
   const handleToggleAspectRatio = () => {
     if (templateKeepsAspectRatio) {
       // toggling off
-      setTemplateKeepsAspectRatio(false)
+      setTemplateKeepsAspectRatio(false);
     } else {
       // toggling on, calculate width
-      handleTemplateOptionChange('width', get720pWidth(templateOptions.height))
-      setTemplateKeepsAspectRatio(true)
+      handleTemplateOptionChange('width', get720pWidth(templateOptions.height));
+      setTemplateKeepsAspectRatio(true);
     }
-  }
+  };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -132,11 +132,11 @@ const TemplateDesigner = () => {
       const currentValues = viewOptions[viewNum - 1];
 
       fieldsets.push(
-          <TemplateViewInput 
-            fieldValue={currentValues} 
-            viewNum={viewNum} 
+          <TemplateViewInput
+            fieldValue={currentValues}
+            viewNum={viewNum}
             handleViewOptionChange={handleViewOptionChange}
-          />
+          />,
       );
     }
 
@@ -255,7 +255,7 @@ const TemplateDesigner = () => {
           <h3 className="title is-5 mt-5">
             Drag and Drop Editor
           </h3>
-          
+
           <TemplateDragDrop
             handleDragDropChange={handleDragDropChange}
             viewOptions={viewOptions}

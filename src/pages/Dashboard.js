@@ -11,10 +11,8 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      console.log('fetch before token', globalConsumer);
       if (!globalConsumer.token) return;
 
-      console.log('token', globalConsumer.token);
       const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
         headers: {
           Authorization: globalConsumer.token,
