@@ -23,7 +23,7 @@ const Dashboard = () => {
       setMediaList(fileData);
     };
     fetchData();
-  }, [globalConsumer, globalConsumer.token]);
+  }, [globalConsumer.token]);
 
   return (
     <div>

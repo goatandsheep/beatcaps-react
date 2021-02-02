@@ -21,7 +21,7 @@ const FileView = (props) => {
       setMedia(fileData);
     };
     fetchData();
-  }, [globalConsumer.token, props.id, props.match.params.id]);
+  }, [globalConsumer.token, props.match.params.id]);
 
   return (
     <div>
