@@ -22,31 +22,30 @@ awsAuthInit();
  * @return {Object} reactDOM
  */
 const App = () => {
-  const globalContext = useContext(GlobalContext);
   const [user, setUser] = useState({});
-  const [authState, setAuthState] = React.useState();
+  const [authState, setAuthState] = React.useState(null);
 
   useEffect(() => {
+    // console.log('use effect in app');
     return onAuthUIStateChange((nextAuthState, authData) => {
-      console.log('nextAuthState', nextAuthState);
-      console.log('authData', authData);
-      // debugger;
+      // console.log('auth changed', nextAuthState, authData);
       setAuthState(nextAuthState);
       setUser(authData);
     });
-  }, [globalContext]);
+  }, []);
 
   const PrivateRoute = ({component: Component, ...attrs}) => (
     <Route {...attrs}>
       {
         authState === AuthState.SignedIn && user ?
+        // context.authState === AuthState.SignedIn && context.user ?
           <Component /> :
           'not logged in'
       }
     </Route>
   );
   return (
-    <GlobalProvider>
+    <GlobalProvider state={{user, authState}}>
       <AmplifyContainer>
         <AmplifyAuthenticator />
         <Router>
@@ -54,7 +53,6 @@ const App = () => {
             <NavMenu />
             <main className="container">
               <Switch>
-                {console.log('compuser', user, authState)}
                 <PrivateRoute exact={true} path="/" component={Dashboard} />
                 <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
                 <PrivateRoute exact={true} path="/templates/:id/apply" component={TemplateWizard} />
