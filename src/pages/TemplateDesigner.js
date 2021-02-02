@@ -1,8 +1,9 @@
 import React, {useContext, useState} from 'react';
+import {Link} from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth} from '../utils/templateUtils';
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors} from '../utils/templateUtils';
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -50,15 +51,16 @@ const TemplateDesigner = () => {
 
   const handleViewOptionChange = (
       viewNum,
-      field,
-      value,
+      fieldOptions,
   ) => {
-    const newOptions = [...viewOptions];
+    const newOptions = [
+      ...viewOptions,
+    ];
 
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
       ...viewOptions[viewIndex],
-      [field]: +value,
+      ...fieldOptions,
     };
 
     setViewOptions(newOptions);
@@ -120,6 +122,19 @@ const TemplateDesigner = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    const viewErrors = viewSizeErrors(
+        {
+          views: viewOptions,
+          maxHeight: templateOptions.height,
+          maxWidth: templateOptions.width,
+        },
+    );
+
+    if (viewErrors) {
+      alert(viewErrors);
+      return;
+    }
+
     await uploadTemplate();
 
     window.location.href = '/templates';
@@ -133,6 +148,7 @@ const TemplateDesigner = () => {
 
       fieldsets.push(
           <TemplateViewInput
+            key={`TemplateViewInput-${viewNum}`}
             fieldValue={currentValues}
             viewNum={viewNum}
             handleViewOptionChange={handleViewOptionChange}
@@ -145,6 +161,14 @@ const TemplateDesigner = () => {
 
   return (
     <div>
+      <div className="has-text-left">
+        <Link to="/templates" className="button is-text">
+          <span className="icon is-small mr-1">
+            <i className="fas fa-chevron-circle-left"></i>
+          </span>
+          Return to Template List
+        </Link>
+      </div>
       <h1 className="title is-1">Template Designer</h1>
       <form
         className="card has-text-left"

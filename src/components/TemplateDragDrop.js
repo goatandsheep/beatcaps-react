@@ -1,6 +1,6 @@
 import React from 'react';
 import DragDropBox from './DragDropBox';
-import {getUiWidthFromScreenWidth, getUiPxFromViewPx, getViewPxFromUiPx} from '../utils/templateUtils'
+import {getUiWidthFromScreenWidth, getUiPxFromViewPx, getViewPxFromUiPx} from '../utils/templateUtils';
 
 const dragDropContainerStyles = (height, width) => {
   return {
@@ -27,10 +27,10 @@ const TemplateDragDrop = ({
     handleDragDropChange(viewNum, {
       x: getViewPxFromUiPx(uiViewOptions.x, scale),
       y: getViewPxFromUiPx(uiViewOptions.y, scale),
-      ...( uiViewOptions.height ? { height: getViewPxFromUiPx(uiViewOptions.height, scale)} : {}),
-      ...( uiViewOptions.width ? { width: getViewPxFromUiPx(uiViewOptions.width, scale)} : {}),
-    })
-  }
+      ...( uiViewOptions.height ? {height: getViewPxFromUiPx(uiViewOptions.height, scale)} : {}),
+      ...( uiViewOptions.width ? {width: getViewPxFromUiPx(uiViewOptions.width, scale)} : {}),
+    });
+  };
 
   return (
     <div
@@ -39,18 +39,18 @@ const TemplateDragDrop = ({
     >
       {viewOptions.map((view, i) => {
         return (
-          <DragDropBox 
-            key={`rnd-view-${i}`} 
+          <DragDropBox
+            key={`rnd-view-${i}`}
             box={{
               height: getUiPxFromViewPx(view.height, scale),
               width: getUiPxFromViewPx(view.width, scale),
               x: getUiPxFromViewPx(view.x, scale),
               y: getUiPxFromViewPx(view.y, scale),
-            }} 
-            boxIndex={i} 
+            }}
+            boxIndex={i}
             handleDragDrop={handleDragDrop}
           />
-        )
+        );
       })}
     </div>
   );

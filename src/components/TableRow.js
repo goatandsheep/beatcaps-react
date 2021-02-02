@@ -1,14 +1,15 @@
 import React from 'react';
+import {Link} from 'react-router-dom';
 
 import StatusBadge from './StatusBadge';
 
 const ActionButton = (props) => {
   if (props.action) {
     return (
-      <a href={props.url + props.action} className="button is-primary">{props.text || 'Go'}</a>
+      <Link to={props.url + props.action} className="button is-primary">{props.text || 'Go'}</Link>
     );
   } else {
-    return '';
+    return <></>;
   }
 };
 
@@ -26,7 +27,7 @@ const CondCol = (props) => {
 
 const TableCol = (props) => {
   return props.attrs.map((attr) => (
-    <td>{props.data[attr]}</td>
+    <td key={`table-col-${attr}`}>{props.data[attr]}</td>
   ));
 };
 
@@ -39,7 +40,7 @@ const TableRow = (props) => {
   }
   if (props.data) {
     return props.data.map((item) => (
-      <tr>
+      <tr key={`table-row-${item.uuid}`}>
         <td><a href={`${props.prefix}/${item.uuid}`}>{item.uuid}</a></td>
         <td><span>{item.name}</span></td>
         <TableCol attrs={attrs} data={item} />
@@ -48,7 +49,7 @@ const TableRow = (props) => {
       </tr>
     ));
   } else {
-    return (<tr>Loading</tr>);
+    return (<tr><th>Loading</th></tr>);
   }
 };
 export default TableRow;

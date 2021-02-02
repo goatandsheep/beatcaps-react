@@ -1,19 +1,22 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
+import {Link} from 'react-router-dom';
 
-const InputList = (props) => {
-  return props.inputs.map((input) => (
-    <option value={input.elementName}>{input.elementName}</option>
+const InputList = ({inputs}) => {
+  if (!inputs) return (<option disabled>Loading</option>);
+
+  return inputs.map((input, index) => (
+    <option value={input.elementName} key={`${input.elementName}-${index}`}>{input.elementName}</option>
   ));
 };
 
-const ViewInput = (props) => {
+const ViewInputs = (props) => {
   return props.views.map((view, index) => {
     const num = index+1;
     return (
-      <div className="field">
-        <label className="label" htmlFor={'media-' + num}>View {num}</label>
+      <div className="field" key={`${view.name}-${index}`}>
+        <label className="label" htmlFor={'media-' + num}>Video for View {num}</label>
         <div className="control has-icons-left">
           <span className="select">
             <select id={'media-' + num} className="input" name={'media-' + num} required>
@@ -24,7 +27,7 @@ const ViewInput = (props) => {
             <i className="fas fa-photo-video"></i>
           </span>
         </div>
-        {view.height} will be used for preview later
+        <span className="is-italic">View dimensions: {view.height}px height x {view.width}px width</span>
       </div>
     );
   });
@@ -77,18 +80,35 @@ const TemplateWizard = (props) => {
   };
   return (
     <div>
-      <h1 className="title is-1">Apply template</h1>
-      <div>
-        <h2 className="subtitle is-2">Preview</h2>
-        <div>Coming soon...{media.height}</div>
+      <div className="has-text-left">
+        <Link to="/templates" className="button is-text">
+          <span className="icon is-small mr-1">
+            <i className="fas fa-chevron-circle-left"></i>
+          </span>
+          Return to Template List
+        </Link>
       </div>
-      <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
-        <fieldset className="card-content content">
-          <legend className="subtitle is-3">Enter template inputs</legend>
-          <label htmlFor="outputName" className="label has-text-left">
-              Output Video Name
+      <h1 className="title is-1">Build a new output</h1>
+      {
+        media ? (
+          <>
+            <p>Template name: {media.name}</p>
+            <p>Template height: {media.height}</p>
+            <p>Template width: {media.width}</p>
+            <p>Views in this template: {media.views.length}</p>
+          </>
+        ) : null
+      }
+      <div>
+        <h2 className="subtitle is-4 mt-2">Preview</h2>
+        <div>Preview Coming soon...</div>
+      </div>
+      <form className="card mt-2 has-text-left" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
+        <div className="card-content content">
+          <label htmlFor="outputName" className="label">
+            Output Video Name
           </label>
-          <div className="control is-expanded has-icons-left">
+          <div className="control is-expanded has-icons-left block">
             <input
               id="outputName"
               className="input"
@@ -100,9 +120,12 @@ const TemplateWizard = (props) => {
               <i className="fas fa-signature"></i>
             </span>
           </div>
-          <ViewInput inputs={inputs.elements} views={media.views || []} />
-        </fieldset>
-        <button className="button is-primary" type="submit">Submit</button>
+          <fieldset className="block">
+            <legend className="subtitle is-5">Choose videos for each view:</legend>
+            <ViewInputs inputs={inputs.elements} views={media.views || []} />
+          </fieldset>
+          <button className="button is-primary block" type="submit">Submit</button>
+        </div>
       </form>
     </div>
   );
