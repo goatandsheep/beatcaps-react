@@ -15,7 +15,7 @@ const NavMenu = () => {
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">
                 <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>Overleia</span>
+                  <span>Beatcaps</span>
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
@@ -24,7 +24,7 @@ const NavMenu = () => {
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
                   <Link to="/" className="dropdown-item is-hoverable">
-                    Overleia Outputs
+                    Beatcaps Outputs
                   </Link>
                   <hr className="dropdown-divider"></hr>
                   <Link to="/file/new" className="dropdown-item is-hoverable">
@@ -37,7 +37,7 @@ const NavMenu = () => {
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">
                 <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>BeatCaps</span>
+                  <span>Overleia</span>
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
