@@ -43,7 +43,7 @@ const TemplateWizard = (props) => {
     const fetchData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.id}`, {
         headers: {
-          Authorization: globalConsumer.user.token,
+          Authorization: globalConsumer.token,
         },
       });
       const fileData = await response.json();
@@ -52,7 +52,7 @@ const TemplateWizard = (props) => {
     const fetchInputs = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/file/list`, {
         headers: {
-          Authorization: globalConsumer.user.token,
+          Authorization: globalConsumer.token,
         },
       });
       const fileInputs = await response.json();
@@ -73,7 +73,7 @@ const TemplateWizard = (props) => {
       method: 'POST',
       body: JSON.stringify(req),
       headers: {
-        Authorization: globalConsumer.user.token,
+        Authorization: globalConsumer.token,
       },
     });
     return await response.json();

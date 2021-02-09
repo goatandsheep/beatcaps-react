@@ -16,12 +16,10 @@ const ActionButton = (props) => {
 const CondCol = (props) => {
   if (props.rif) {
     return (
-      <td>
-        {props.children}
-      </td>
+      <td>{props.children}</td>
     );
   } else {
-    return '';
+    return <td></td>;
   }
 };
 

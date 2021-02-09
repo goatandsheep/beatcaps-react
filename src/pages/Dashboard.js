@@ -9,18 +9,22 @@ const Dashboard = () => {
 
   const [mediaList, setMediaList] = useState('');
   const attrs = ['elementName', 'elementType', 'creationDate', 'updatedDate'];
+
   useEffect(() => {
     const fetchData = async () => {
+      if (!globalConsumer.token) return;
+
       const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
         headers: {
-          Authorization: globalConsumer.user.token,
+          Authorization: globalConsumer.token,
         },
       });
       const fileData = await response.json();
       setMediaList(fileData);
     };
     fetchData();
-  }, [globalConsumer]);
+  }, [globalConsumer.token]);
+
   return (
     <div>
       <h1 className="title is-1">Dashboard</h1>

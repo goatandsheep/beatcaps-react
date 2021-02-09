@@ -42,7 +42,7 @@ const TemplateDesigner = () => {
       method: 'POST',
       body: JSON.stringify(templateReq),
       headers: {
-        Authorization: globalConsumer.user.token,
+        Authorization: globalConsumer.token,
       },
     });
 

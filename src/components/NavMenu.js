@@ -2,6 +2,12 @@ import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import AuthButton from './AuthButton';
 
+const navButtonStyles = {
+  width: 'auto',
+  paddingLeft: '0',
+  paddingRight: '0',
+};
+
 const NavMenu = () => {
   return (
     <nav role="navigation" aria-label="main navigation">
@@ -23,11 +29,11 @@ const NavMenu = () => {
               </div>
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
-                  <Link to="/" className="dropdown-item is-hoverable">
-                    Beatcaps Outputs
+                  <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
+                    Overleia Outputs
                   </Link>
                   <hr className="dropdown-divider"></hr>
-                  <Link to="/file/new" className="dropdown-item is-hoverable">
+                  <Link to="/file/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Upload Video
                   </Link>
                 </div>
@@ -45,18 +51,18 @@ const NavMenu = () => {
               </div>
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
-                  <Link to="/" className="dropdown-item is-hoverable">
+                  <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Video Outputs
                   </Link>
                   <hr className="dropdown-divider"></hr>
-                  <Link to="/file/new" className="dropdown-item is-hoverable">
+                  <Link to="/file/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Upload Video
                   </Link>
                   <hr className="dropdown-divider"></hr>
-                  <Link to="/templates" className="dropdown-item is-hoverable">
+                  <Link to="/templates" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Templates List
                   </Link>
-                  <Link to="/templates/new" className="dropdown-item is-hoverable">
+                  <Link to="/templates/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Create Template
                   </Link>
                 </div>

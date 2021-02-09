@@ -17,11 +17,13 @@ const SubmitFile = () => {
     window.location.href = './89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
+    if (!globalConsumer.token) return;
+
     const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',
       body: JSON.stringify(req),
       headers: {
-        Authorization: globalConsumer.user.token,
+        Authorization: globalConsumer.token,
       },
     });
     return await response.json();

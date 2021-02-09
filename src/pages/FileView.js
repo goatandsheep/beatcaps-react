@@ -10,16 +10,18 @@ const FileView = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.id}`, {
+      if (!globalConsumer.token) return;
+
+      const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
         headers: {
-          Authorization: globalConsumer.user.token,
+          Authorization: globalConsumer.token,
         },
       });
       const fileData = await response.json();
       setMedia(fileData);
     };
     fetchData();
-  }, [globalConsumer, props.id]);
+  }, [globalConsumer.token, props.match.params.id]);
 
   return (
     <div>
