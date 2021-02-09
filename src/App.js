@@ -1,8 +1,10 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
-import Login from './pages/Login';
-import {GlobalProvider, GlobalContext} from './contexts/GlobalState';
+import {withAuthenticator, AmplifyContainer, AmplifyAuthenticator} from '@aws-amplify/ui-react';
+import {onAuthUIStateChange} from '@aws-amplify/ui-components';
+
+import {GlobalProvider} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
 import TemplatesView from './pages/TemplatesView';
 import TemplateWizard from './pages/TemplateWizard';
@@ -10,41 +12,50 @@ import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
 import NavMenu from './components/NavMenu';
+import {awsAuthInit} from './utils/auth';
 
 
+// Initialize Amplify
+awsAuthInit();
 /**
  * Main App builder
  * @return {Object} reactDOM
  */
-function App() {
-  const PrivateRoute = ({component: Component, ...attrs}) => (
-    <Route {...attrs} render={(props) => (
-      <GlobalContext.Consumer>
-        {(state) => (state.user.auth ? <Component route={props} {...props.match.params} /> : <Login {...props.match.params} /> )}
-      </GlobalContext.Consumer>
-    )} />
-  );
-  return (
-    <div className="App">
-      <GlobalProvider>
-        <Router>
-          <NavMenu />
-          <main className="container">
-            <Switch>
-              <PrivateRoute exact={true} path="/" component={Dashboard} />
-              <PrivateRoute exact={true} path="/file/new" component={SubmitFile} />
-              <PrivateRoute exact={true} path="/templates/:id/use" component={TemplateWizard} />
-              <PrivateRoute exact={true} path="/templates/new" component={TemplateDesigner} />
-              <PrivateRoute exact={true} path="/templates/:id" component={FileView} />
-              <PrivateRoute exact={true} path="/templates" component={TemplatesView} />
-              <PrivateRoute path="/file/:id" component={FileView} />
-              <Route render={() => (<h1>Page Not Found</h1>)} />
-            </Switch>
-          </main>
-        </Router>
-      </GlobalProvider>
-    </div>
-  );
-}
+const App = () => {
+  const [user, setUser] = useState({});
+  const [authState, setAuthState] = React.useState(null);
 
-export default App;
+  useEffect(() => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    });
+  }, []);
+
+  return (
+    <GlobalProvider state={{user, authState}}>
+      <AmplifyContainer>
+        <AmplifyAuthenticator />
+        <Router>
+          <div className="App" style={{width: '100%', height: '100%'}}>
+            <NavMenu />
+            <main className="container">
+              <Switch>
+                <Route exact={true} path="/" component={Dashboard} />
+                <Route exact={true} path="/file/new" component={SubmitFile} />
+                <Route exact={true} path="/templates/:id/use" component={TemplateWizard} />
+                <Route exact={true} path="/templates/new" component={TemplateDesigner} />
+                <Route exact={true} path="/templates/:id" component={FileView} />
+                <Route exact={true} path="/templates" component={TemplatesView} />
+                <Route path="/file/:id" component={FileView} />
+                <Route render={() => (<h1>Page Not Found</h1>)} />
+              </Switch>
+            </main>
+          </div>
+        </Router>
+      </AmplifyContainer>
+    </GlobalProvider>
+  );
+};
+
+export default withAuthenticator(App);

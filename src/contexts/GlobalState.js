@@ -1,60 +1,41 @@
-import React, {createContext, useState} from 'react';
-import constants from '../constants';
+import React, {useEffect, createContext, useState} from 'react';
 
 /**
- * App constants
+ * User Context
  */
 export const GlobalContext = createContext();
 
-export const GlobalProvider = (props) => {
-  const {SERVER_DOMAIN} = constants;
-  const defaultUser = {
-    username: '',
-    token: '',
-    auth: false,
-  };
-  const sessionUserKey = 'userObj';
-  const session = JSON.parse(sessionStorage.getItem(sessionUserKey));
-  console.log(sessionUserKey, JSON.stringify(session));
-  const [user, setUser] = useState(session || defaultUser);
+export const GlobalProvider = ({state, children}) => {
+  const [user, setUser] = useState(state.user);
+  const [authState, setAuthState] = React.useState(state.authState);
+  const [token, setToken] = React.useState(state.authState);
 
-  const login = async (username, password) => {
-    const req = {
-      username,
-      password,
+  useEffect(() => {
+    const updateAuthState = () => setAuthState(state.authState);
+
+    updateAuthState();
+  }, [state.authState]);
+
+  useEffect(() => {
+    const updateUser = () => {
+      setUser(state.user);
+
+      if (!state.user || !state.user.signInUserSession) return;
+      setToken(`Bearer ${state.user.signInUserSession.accessToken.jwtToken}`);
     };
-    const response = await fetch(`${SERVER_DOMAIN}/login`, {
-      method: 'POST',
-      body: JSON.stringify(req),
-    });
-    const data = await response.json();
-    console.log('user', data);
-    const newState = {...data, auth: true};
-    newState.token = `Bearer ${newState.token}`;
-    sessionStorage.setItem(sessionUserKey, JSON.stringify(newState));
-    setUser(newState);
-  };
-  const logout = async () => {
-    const req = {
-      token: user.token,
-    };
-    await fetch(`${SERVER_DOMAIN}/logout`, {
-      method: 'POST',
-      headers: {
-        Authorization: user.token,
-      },
-      body: JSON.stringify(req),
-    });
-    sessionStorage.removeItem(sessionUserKey);
-    setUser(defaultUser);
-  };
+
+    updateUser();
+  }, [state.user]);
+
   return (
     <GlobalContext.Provider value={{
-      login,
-      logout,
       user,
+      authState,
+      token,
+      setUser,
+      setAuthState,
     }}>
-      {props.children}
+      {children}
     </GlobalContext.Provider>
   );
 };
