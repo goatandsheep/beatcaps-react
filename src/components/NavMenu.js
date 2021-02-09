@@ -21,7 +21,7 @@ const NavMenu = () => {
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">
                 <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>Overleia</span>
+                  <span>Beatcaps</span>
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
@@ -43,7 +43,7 @@ const NavMenu = () => {
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">
                 <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>BeatCaps</span>
+                  <span>Overleia</span>
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span>
