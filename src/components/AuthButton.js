@@ -12,7 +12,11 @@ const AuthButton = () => {
       <div className="buttons">
         <AmplifySignOut />
       </div>
-    </>) : null
+    </>) : (
+      <div className="buttons">
+        <AmplifySignOut />
+      </div>
+      )
   );
 };
 export default AuthButton;

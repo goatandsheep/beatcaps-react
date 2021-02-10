@@ -8,6 +8,7 @@ const awsconfig = {
 
     // REQUIRED - Amazon Cognito Region
     region: constants.AWS_REGION,
+    // storage: sessionStorage,
 
     // OPTIONAL - Amazon Cognito User Pool ID
     userPoolId: constants.AWS_POOL_ID,

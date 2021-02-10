@@ -26,7 +26,7 @@ const App = () => {
   const [authState, setAuthState] = React.useState(null);
 
   useEffect(() => {
-    return onAuthUIStateChange((nextAuthState, authData) => {
+    onAuthUIStateChange((nextAuthState, authData) => {
       setAuthState(nextAuthState);
       setUser(authData);
     });

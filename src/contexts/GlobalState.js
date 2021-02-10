@@ -11,20 +11,21 @@ export const GlobalProvider = ({state, children}) => {
   const [token, setToken] = React.useState(state.authState);
 
   useEffect(() => {
-    const updateAuthState = () => setAuthState(state.authState);
+    const updateAuthState = (authState) => setAuthState(authState);
 
-    updateAuthState();
+    updateAuthState(state.authState);
   }, [state.authState]);
 
   useEffect(() => {
-    const updateUser = () => {
+    const updateUser = (user) => {
       setUser(state.user);
 
-      if (!state.user || !state.user.signInUserSession) return;
-      setToken(`Bearer ${state.user.signInUserSession.accessToken.jwtToken}`);
+      if (user && user.signInUserSession) {
+        setToken(`Bearer ${user.signInUserSession.sessionToken.jwtToken}`);
+      }
     };
 
-    updateUser();
+    updateUser(state.user);
   }, [state.user]);
 
   return (
