@@ -7,7 +7,7 @@
     "@aws-amplify/ui-react": "0.2.34",
     "@fortawesome/fontawesome-free": "^5.15.2",
     "@stripe/react-stripe-js": "^1.2.2",
-    "@stripe/stripe-js": "^1.12.1",
+    "@stripe/stripe-js": "^1.13.0",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^12.6.2",
