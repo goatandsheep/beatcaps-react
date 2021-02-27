@@ -1,4 +1,4 @@
-import Amplify, {Auth} from 'aws-amplify';
+import Amplify from 'aws-amplify';
 import constants from '../constants';
 
 const awsconfig = {
@@ -16,9 +16,11 @@ const awsconfig = {
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
     userPoolWebClientId: constants.AWS_WEB_CLIENT_ID,
   },
+  API: {},
+  Storage: {},
+
 };
 
 export const awsAuthInit = () => {
   Amplify.configure(awsconfig);
-  Auth.configure(awsconfig);
 };

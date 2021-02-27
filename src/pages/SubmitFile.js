@@ -17,7 +17,9 @@ const SubmitFile = () => {
     window.location.href = './89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
-    if (!globalConsumer.token) return;
+    if (!globalConsumer.token) {
+      throw new Error('Auth token missing');
+    }
 
     const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',

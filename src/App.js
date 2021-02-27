@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {withAuthenticator, AmplifyContainer, AmplifyAuthenticator} from '@aws-amplify/ui-react';
-import {onAuthUIStateChange} from '@aws-amplify/ui-components';
+import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
 
 import {GlobalProvider} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
@@ -26,16 +26,25 @@ const App = () => {
   const [authState, setAuthState] = React.useState(null);
 
   useEffect(() => {
-    onAuthUIStateChange((nextAuthState, authData) => {
+    return onAuthUIStateChange((nextAuthState, authData) => {
       setAuthState(nextAuthState);
       setUser(authData);
     });
   }, []);
 
+  const handleAuthStateChange = (nextAuthState, authData) => {
+    if (nextAuthState === AuthState.SignedIn) {
+      setAuthState(nextAuthState);
+      setUser(authData);
+    } else if (authData) {
+      setUser(authData);
+    }
+  };
+
   return (
     <GlobalProvider state={{user, authState}}>
       <AmplifyContainer>
-        <AmplifyAuthenticator />
+        <AmplifyAuthenticator handleAuthStateChange={handleAuthStateChange}/>
         <Router>
           <div className="App" style={{width: '100%', height: '100%'}}>
             <NavMenu />

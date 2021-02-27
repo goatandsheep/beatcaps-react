@@ -41,7 +41,10 @@ const TemplateWizard = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.id}`, {
+      if (!globalConsumer.token) {
+        throw new Error('Auth token missing');
+      }
+      const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.match.params.id}`, {
         headers: {
           Authorization: globalConsumer.token,
         },
@@ -50,6 +53,9 @@ const TemplateWizard = (props) => {
       setMedia(fileData);
     };
     const fetchInputs = async () => {
+      if (!globalConsumer.token) {
+        throw new Error('Auth token missing');
+      }
       const response = await fetch(`${constants.SERVER_DOMAIN}/file/list`, {
         headers: {
           Authorization: globalConsumer.token,
@@ -69,6 +75,9 @@ const TemplateWizard = (props) => {
     window.location.href = '/file/89awefjsdfaksd';
   };
   const uploadFile = async (req) => {
+    if (!globalConsumer.token) {
+      throw new Error('Auth token missing');
+    }
     const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
       method: 'POST',
       body: JSON.stringify(req),

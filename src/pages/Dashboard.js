@@ -12,7 +12,9 @@ const Dashboard = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!globalConsumer.token) return;
+      if (!globalConsumer.token) {
+        throw new Error('Auth token missing');
+      }
 
       const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
         headers: {
