@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
+// import {Storage} from 'aws-amplify';
 
 const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
@@ -12,9 +13,15 @@ const SubmitFile = () => {
   };
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
+    // TODO: append file to blob
     event.preventDefault();
-    await uploadFile(new FormData(event.target));
-    window.location.href = './89awefjsdfaksd';
+    const resp = await uploadFile(new FormData(event.target));
+    // const awsResp = await Storage.put();
+    if (resp.id) {
+      window.location.href = `./${resp.id}`;
+    } else {
+      window.location.href = './89awefjsdfaksd';
+    }
   };
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {

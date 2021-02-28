@@ -16,8 +16,12 @@ const awsconfig = {
     // OPTIONAL - Amazon Cognito Web Client ID (26-char alphanumeric string)
     userPoolWebClientId: constants.AWS_WEB_CLIENT_ID,
   },
-  API: {},
-  Storage: {},
+  API: {
+    endpoints: [],
+  },
+  Storage: {
+    AWSS3: {},
+  },
 
 };
 
