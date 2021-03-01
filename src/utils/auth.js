@@ -20,6 +20,7 @@ const awsconfig = {
     endpoints: [{
       name: 'OverleiaApi',
       endpoint: constants.SERVER_DOMAIN,
+      region: constants.AWS_REGION,
       custom_header: async () => {
         return {
           Authorization: `Bearer ${(await Amplify.Auth.currentSession()).getAccessToken().getJwtToken()}`,
@@ -28,7 +29,9 @@ const awsconfig = {
     }],
   },
   Storage: {
-    AWSS3: {},
+    AWSS3: {
+      bucket: constants.S3_BUCKET,
+    },
   },
 
 };
