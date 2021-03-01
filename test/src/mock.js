@@ -57,6 +57,17 @@ app.options('/*', (req, res) => {
   res.status(200).jsonp({})
 })
 
+app.use(/^(?!\/login).*$/, (req, res, next) => {
+  if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
+    const status = 401
+    const message = 'Bad authorization header'
+    console.log(req.headers.authorization)
+    res.status(status).json({ status, message })
+    return
+  }
+  next()
+})
+
 /**
  * get info about a single job
  */

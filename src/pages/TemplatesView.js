@@ -11,16 +11,21 @@ const TemplatesView = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/templates`, {
-        headers: {
-          Authorization: globalConsumer.token,
-        },
-      });
-      const fileData = await response.json();
-      setMediaList(fileData);
+      // if (!globalConsumer.token) {
+      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+      // }
+      if (globalConsumer.token) {
+        const response = await fetch(`${constants.SERVER_DOMAIN}/templates`, {
+          headers: {
+            Authorization: globalConsumer.token,
+          },
+        });
+        const fileData = await response.json();
+        setMediaList(fileData);
+      }
     };
     fetchData();
-  }, [globalConsumer]);
+  }, [globalConsumer.token]);
   return (
     <div>
       <h1 className="title is-1">Templates</h1>

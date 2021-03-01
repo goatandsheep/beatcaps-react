@@ -1,6 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
+// import {Storage} from 'aws-amplify';
 
 const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
@@ -12,12 +13,26 @@ const SubmitFile = () => {
   };
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
+    // TODO: append file to blob
     event.preventDefault();
-    await uploadFile(new FormData(event.target));
-    window.location.href = './89awefjsdfaksd';
+    const file = event.target.files[0];
+    const metadata = new FormData(event.target);
+    delete metadata.files;
+    const resp = await uploadFile(metadata);
+    const awsResp = await Storage.put(file.name, file, {
+      level: 'private',
+      metadata,
+    });
+    if (resp.id) {
+      window.location.href = `./${awsResp.id}`;
+    } else {
+      window.location.href = './89awefjsdfaksd';
+    }
   };
   const uploadFile = async (req) => {
-    if (!globalConsumer.token) return;
+    if (!globalConsumer.token) {
+      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+    }
 
     const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
       method: 'POST',

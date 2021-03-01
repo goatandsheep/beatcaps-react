@@ -23,6 +23,9 @@ const TemplateDesigner = () => {
   const [templateKeepsAspectRatio, setTemplateKeepsAspectRatio] = useState(true);
 
   const uploadTemplate = async () => {
+    if (!globalConsumer.token) {
+      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+    }
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
 

@@ -8,23 +8,27 @@ export const GlobalContext = createContext();
 export const GlobalProvider = ({state, children}) => {
   const [user, setUser] = useState(state.user);
   const [authState, setAuthState] = React.useState(state.authState);
-  const [token, setToken] = React.useState(state.authState);
+  const [token, setToken] = React.useState(state.token);
+
+  // useEffect(() => {
+  //   const updateAuthState = (authState) => setAuthState(authState);
+  //   updateAuthState(state.authState);
+  //   window.alert('authorstate');
+  // }, [state.authState, state.user]);
 
   useEffect(() => {
-    const updateAuthState = () => setAuthState(state.authState);
+    const updateUser = (user) => {
+      setUser(user);
 
-    updateAuthState();
-  }, [state.authState]);
-
-  useEffect(() => {
-    const updateUser = () => {
-      setUser(state.user);
-
-      if (!state.user || !state.user.signInUserSession) return;
-      setToken(`Bearer ${state.user.signInUserSession.accessToken.jwtToken}`);
+      if (user && user.signInUserSession) {
+        setToken(`Bearer ${user.signInUserSession.accessToken.jwtToken}`);
+      } else if (user) {
+        // window.alert(JSON.stringify(user));
+      }
+      // window.alert('userstatet');
     };
 
-    updateUser();
+    updateUser(state.user);
   }, [state.user]);
 
   return (
