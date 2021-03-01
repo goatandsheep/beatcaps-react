@@ -154,7 +154,7 @@ const TemplateDesigner = () => {
             key={`TemplateViewInput-${viewNum}`}
             fieldValue={currentValues}
             viewNum={viewNum}
-            handleViewOptionChange={handleViewOptionChange}
+            handleViewChange={handleViewOptionChange}
           />,
       );
     }
