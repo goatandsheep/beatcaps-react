@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
-// import {Storage} from 'aws-amplify';
+import {Storage} from '@aws-amplify/storage';
 
 const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);

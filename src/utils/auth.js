@@ -1,4 +1,5 @@
-import Amplify from 'aws-amplify';
+import Amplify from '@aws-amplify/core';
+import Auth from '@aws-amplify/auth';
 import constants from '../constants';
 
 const awsconfig = {
@@ -22,7 +23,7 @@ const awsconfig = {
       endpoint: constants.SERVER_DOMAIN,
       custom_header: async () => {
         return {
-          Authorization: `Bearer ${(await Amplify.Auth.currentSession()).getAccessToken().getJwtToken()}`,
+          Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
         };
       },
     }],
