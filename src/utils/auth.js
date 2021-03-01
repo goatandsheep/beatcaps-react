@@ -19,7 +19,7 @@ const awsconfig = {
   API: {
     endpoints: [{
       name: 'OverleiaApi',
-      endpoint: 'http://localhost:5000',
+      endpoint: constants.SERVER_DOMAIN,
       custom_header: async () => {
         return {
           Authorization: `Bearer ${(await Amplify.Auth.currentSession()).getAccessToken().getJwtToken()}`,
