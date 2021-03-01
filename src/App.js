@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import './App.scss';
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import {awsAuthInit} from './utils/auth';
 import {withAuthenticator, AmplifyContainer, AmplifyAuthenticator} from '@aws-amplify/ui-react';
 import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
 
@@ -12,7 +13,6 @@ import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
 import NavMenu from './components/NavMenu';
-import {awsAuthInit} from './utils/auth';
 
 
 // Initialize Amplify

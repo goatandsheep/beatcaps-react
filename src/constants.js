@@ -9,6 +9,7 @@ export const constants = {
   AWS_POOL_ARN: process.env.REACT_APP_AWS_POOL_ARN,
   AWS_WEB_CLIENT_ID: process.env.REACT_APP_AWS_WEB_CLIENT_ID,
   COGNITO_DOMAIN: process.env.REACT_APP_COGNITO_DOMAIN,
+  S3_BUCKET: process.env.REACT_APP_S3_BUCKET,
 };
 
 export default constants;

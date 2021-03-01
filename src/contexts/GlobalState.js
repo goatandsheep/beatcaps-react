@@ -10,11 +10,10 @@ export const GlobalProvider = ({state, children}) => {
   const [authState, setAuthState] = React.useState(state.authState);
   const [token, setToken] = React.useState(state.token);
 
-  // useEffect(() => {
-  //   const updateAuthState = (authState) => setAuthState(authState);
-  //   updateAuthState(state.authState);
-  //   window.alert('authorstate');
-  // }, [state.authState, state.user]);
+  useEffect(() => {
+    const updateAuthState = (authState) => setAuthState(authState);
+    updateAuthState(state.authState);
+  }, [state.authState, state.user]);
 
   useEffect(() => {
     const updateUser = (user) => {
@@ -22,8 +21,6 @@ export const GlobalProvider = ({state, children}) => {
 
       if (user && user.signInUserSession) {
         setToken(`Bearer ${user.signInUserSession.accessToken.jwtToken}`);
-      } else if (user) {
-        // window.alert(JSON.stringify(user));
       }
       // window.alert('userstatet');
     };
