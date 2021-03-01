@@ -41,9 +41,9 @@ const TemplateWizard = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!globalConsumer.token) {
-        throw new Error('Auth token missing');
-      }
+      // if (!globalConsumer.token) {
+      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+      // }
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.match.params.id}`, {
         headers: {
           Authorization: globalConsumer.token,
@@ -53,9 +53,9 @@ const TemplateWizard = (props) => {
       setMedia(fileData);
     };
     const fetchInputs = async () => {
-      if (!globalConsumer.token) {
-        throw new Error('Auth token missing');
-      }
+      // if (!globalConsumer.token) {
+      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+      // }
       const response = await fetch(`${constants.SERVER_DOMAIN}/file/list`, {
         headers: {
           Authorization: globalConsumer.token,
@@ -64,9 +64,11 @@ const TemplateWizard = (props) => {
       const fileInputs = await response.json();
       setInputs(fileInputs);
     };
-    fetchInputs();
-    fetchData();
-  }, [globalConsumer, props.id]);
+    if (globalConsumer.token) {
+      fetchInputs();
+      fetchData();
+    }
+  }, [globalConsumer, props.id, props.match]);
 
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
@@ -76,7 +78,7 @@ const TemplateWizard = (props) => {
   };
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {
-      throw new Error('Auth token missing');
+      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
     const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
       method: 'POST',

@@ -23,7 +23,7 @@ awsAuthInit();
  */
 const App = () => {
   const [user, setUser] = useState({});
-  const [authState, setAuthState] = React.useState(null);
+  const [authState, setAuthState] = useState(null);
 
   useEffect(() => {
     return onAuthUIStateChange((nextAuthState, authData) => {
@@ -36,8 +36,10 @@ const App = () => {
     if (nextAuthState === AuthState.SignedIn) {
       setAuthState(nextAuthState);
       setUser(authData);
+      // window.alert('authy');
     } else if (authData) {
       setUser(authData);
+      // window.alert('useee');
     }
   };
 

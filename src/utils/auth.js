@@ -17,7 +17,15 @@ const awsconfig = {
     userPoolWebClientId: constants.AWS_WEB_CLIENT_ID,
   },
   API: {
-    endpoints: [],
+    endpoints: [{
+      name: 'OverleiaApi',
+      endpoint: 'http://localhost:5000',
+      custom_header: async () => {
+        return {
+          Authorization: `Bearer ${(await Amplify.Auth.currentSession()).getAccessToken().getJwtToken()}`,
+        };
+      },
+    }],
   },
   Storage: {
     AWSS3: {},

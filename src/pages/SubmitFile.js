@@ -15,17 +15,23 @@ const SubmitFile = () => {
     // TODO: create FormData
     // TODO: append file to blob
     event.preventDefault();
-    const resp = await uploadFile(new FormData(event.target));
-    // const awsResp = await Storage.put();
+    const file = event.target.files[0];
+    const metadata = new FormData(event.target);
+    delete metadata.files;
+    const resp = await uploadFile(metadata);
+    const awsResp = await Storage.put(file.name, file, {
+      level: 'private',
+      metadata,
+    });
     if (resp.id) {
-      window.location.href = `./${resp.id}`;
+      window.location.href = `./${awsResp.id}`;
     } else {
       window.location.href = './89awefjsdfaksd';
     }
   };
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {
-      throw new Error('Auth token missing');
+      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
 
     const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {

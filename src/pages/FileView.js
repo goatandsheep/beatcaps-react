@@ -10,17 +10,19 @@ const FileView = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (!globalConsumer.token) {
-        throw new Error('Auth token missing');
-      }
+      // if (!globalConsumer.token) {
+      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+      // }
 
-      const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
-        headers: {
-          Authorization: globalConsumer.token,
-        },
-      });
-      const fileData = await response.json();
-      setMedia(fileData);
+      if (globalConsumer.token) {
+        const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
+          headers: {
+            Authorization: globalConsumer.token,
+          },
+        });
+        const fileData = await response.json();
+        setMedia(fileData);
+      }
     };
     fetchData();
   }, [globalConsumer.token, props.match.params.id]);

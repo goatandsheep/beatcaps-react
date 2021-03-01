@@ -24,7 +24,7 @@ const TemplateDesigner = () => {
 
   const uploadTemplate = async () => {
     if (!globalConsumer.token) {
-      throw new Error('Auth token missing');
+      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
     const templateReq = templateOptions;
     templateReq.views = viewOptions;
