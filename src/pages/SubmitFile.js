@@ -46,7 +46,7 @@ const SubmitFile = () => {
   return (
     <div>
       <h1 className="title is-1">Submit New File</h1>
-      <form className="card" onSubmit={handleFileSubmit} method="post" typ>
+      <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
           <div className="field">
