@@ -8,15 +8,15 @@ const SubmitFile = () => {
 
   const [misc, setMisc] = useState('');
   const chooseFile = async () => {
-    const filename = document.querySelector('#inputFile').files[0].name;
-    setMisc({name: filename});
+    const fileEl = document.querySelector('#inputFile').files[0];
+    setMisc({name: fileEl.name, file: fileEl});
   };
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
     // TODO: append file to blob
     event.preventDefault();
-    const file = event.target.files[0];
-    const metadata = new FormData(event.target);
+    const file = misc.file;
+    const metadata = Object.fromEntries((new FormData(event.target)).entries());
     delete metadata.files;
     const resp = await uploadFile(metadata);
     const awsResp = await Storage.put(file.name, file, {
@@ -34,7 +34,7 @@ const SubmitFile = () => {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
 
-    const response = await fetch(`${constants.SERVER_DOMAIN}/file/new`, {
+    const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
       method: 'POST',
       body: JSON.stringify(req),
       headers: {
@@ -46,7 +46,7 @@ const SubmitFile = () => {
   return (
     <div>
       <h1 className="title is-1">Submit New File</h1>
-      <form className="card" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
+      <form className="card" onSubmit={handleFileSubmit} method="post" typ>
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
           <div className="field">
@@ -79,7 +79,7 @@ const SubmitFile = () => {
           </div>
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
-              <input className="file-input" id="inputFile" type="file" name="file" onChange={chooseFile} required/>
+              <input className="file-input" id="inputFile" type="file" onChange={chooseFile} required/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
