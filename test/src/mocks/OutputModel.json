@@ -2,6 +2,10 @@
   "id": "OutputResponse",
   "type": "object",
   "properties": {
+    "name": {
+      "type": "string",
+      "faker": "random.words"
+    },
     "inputs": {
       "type": "array",
       "minItems": 1,
