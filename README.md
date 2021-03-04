@@ -33,3 +33,8 @@ Directory.
 3. React app is on `localhost:3000`
 4. Create an account through the sign up form, and activate it with the code sent to your email
 
+### Production
+
+* [S3 IAM](https://docs.amplify.aws/lib/storage/getting-started/q/platform/js#using-amazon-s3)
+* [S3 CORS](https://aws.amazon.com/blogs/mobile/use-an-existing-s3-bucket-for-your-amplify-project/)
+

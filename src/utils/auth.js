@@ -31,6 +31,7 @@ const awsconfig = {
   Storage: {
     AWSS3: {
       bucket: constants.S3_BUCKET,
+      region: constants.AWS_REGION,
     },
   },
 
