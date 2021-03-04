@@ -1,4 +1,5 @@
 import React, {useEffect, createContext, useState} from 'react';
+import Auth from '@aws-amplify/auth';
 
 /**
  * User Context
@@ -16,13 +17,13 @@ export const GlobalProvider = ({state, children}) => {
   }, [state.authState, state.user]);
 
   useEffect(() => {
-    const updateUser = (user) => {
-      setUser(user);
-
+    const updateUser = async (user) => {
       if (user && user.signInUserSession) {
         setToken(`Bearer ${user.signInUserSession.accessToken.jwtToken}`);
+        const creds = await Auth.currentUserCredentials();
+        user.identityId = creds.identityId;
       }
-      // window.alert('userstatet');
+      setUser(user);
     };
 
     updateUser(state.user);
