@@ -139,7 +139,7 @@ app.get('/file/list', (req, res) => {
  * upload file
  */
 app.post('/file', (req, res) => {
-  const rand = jsf.generate(ElementListResponse, mockRefs)
+  const rand = jsf.generate(Element, mockRefs)
   res.status(200).jsonp(rand)
 })
 

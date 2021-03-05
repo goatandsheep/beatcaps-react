@@ -12,21 +12,20 @@ const SubmitFile = () => {
     setMisc({name: fileEl.name, file: fileEl});
   };
   const handleFileSubmit = async (event) => {
-    // TODO: create FormData
-    // TODO: append file to blob
     event.preventDefault();
     const file = misc.file;
     const metadata = Object.fromEntries((new FormData(event.target)).entries());
     delete metadata.files;
+    metadata.userId = globalConsumer.user.identityId;
     const resp = await uploadFile(metadata);
     const awsResp = await Storage.put(file.name, file, {
       level: 'private',
       metadata,
     });
-    if (resp.id) {
-      window.location.href = `./${awsResp.id}`;
+    if (resp && awsResp && awsResp.key) {
+      window.location.href = `/`;
     } else {
-      window.location.href = './89awefjsdfaksd';
+      throw new Error('file upload error');
     }
   };
   const uploadFile = async (req) => {
