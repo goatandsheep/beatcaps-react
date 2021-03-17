@@ -1,0 +1,13 @@
+{
+  "id": "InputModel",
+  "type": "object",
+  "properties": {
+    "file": {
+      "type": "string",
+      "faker": "system.fileName"
+    }
+  },
+  "required": [
+    "file"
+  ]
+}

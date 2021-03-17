@@ -3,21 +3,42 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-scripts": "3.4.1"
+    "@aws-amplify/api": "^3.2.24",
+    "@aws-amplify/auth": "^3.4.24",
+    "@aws-amplify/core": "^3.8.16",
+    "@aws-amplify/interactions": "^3.3.23",
+    "@aws-amplify/storage": "^3.3.24",
+    "@aws-amplify/ui-components": "^1.0.3",
+    "@aws-amplify/ui-react": "1.0.3",
+    "@fortawesome/fontawesome-free": "^5.15.2",
+    "@stripe/react-stripe-js": "^1.2.2",
+    "@stripe/stripe-js": "^1.12.1",
+    "@testing-library/jest-dom": "^5.11.9",
+    "@testing-library/react": "^11.2.5",
+    "@testing-library/user-event": "^12.6.2",
+    "bulma": "^0.9.2",
+    "eslint-config-google": "^0.14.0",
+    "prop-types": "^15.7.2",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
+    "react-rnd": "^10.2.4",
+    "react-router-dom": "^5.2.0",
+    "react-scripts": "4.0.2",
+    "sass": "^1.32.6"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
-    "extends": "react-app"
+    "extends": [
+      "eslint:recommended",
+      "react-app"
+    ]
   },
   "browserslist": {
     "production": [
@@ -30,5 +51,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "devDependencies": {}
 }
