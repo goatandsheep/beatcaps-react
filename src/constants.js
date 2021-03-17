@@ -10,6 +10,7 @@ export const constants = {
   AWS_WEB_CLIENT_ID: process.env.REACT_APP_AWS_WEB_CLIENT_ID,
   COGNITO_DOMAIN: process.env.REACT_APP_COGNITO_DOMAIN,
   S3_BUCKET: process.env.REACT_APP_S3_BUCKET,
+  SHOW_BEATCAPS: process.env.REACT_APP_SHOW_BEATCAPS !== 'false',
 };
 
 export default constants;

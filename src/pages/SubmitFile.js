@@ -3,6 +3,39 @@ import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import {Storage} from '@aws-amplify/storage';
 
+const BeatCapsInputs = () => (
+  <>
+    <div className="field">
+      <label className="label" htmlFor="typeInput">Media Type</label>
+      <div className="control has-icons-left">
+        <span className="select">
+          <select id="typeInput" className="input" name="typeInput" required>
+            <option value="video" defaultValue>Video</option>
+            <option value="audio">Audio</option>
+          </select>
+        </span>
+        <span className="icon is-small is-left">
+          <i className="fas fa-film"></i>
+        </span>
+      </div>
+    </div>
+    <div className="field">
+      <label className="label" htmlFor="typeOutput">Caption Format</label>
+      <div className="control has-icons-left">
+        <span className="select">
+          <select id="typeOutput" className="input" name="typeOutput" required>
+            <option value="webvtt" defaultValue>WebVTT</option>
+            <option value="srt">SRT</option>
+          </select>
+        </span>
+        <span className="icon is-small is-left">
+          <i className="fas fa-closed-captioning"></i>
+        </span>
+      </div>
+    </div>
+  </>
+);
+
 const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
 
@@ -50,34 +83,7 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
-          <div className="field">
-            <label className="label" htmlFor="typeInput">Media Type</label>
-            <div className="control has-icons-left">
-              <span className="select">
-                <select id="typeInput" className="input" name="typeInput" required>
-                  <option value="video" defaultValue>Video</option>
-                  <option value="audio">Audio</option>
-                </select>
-              </span>
-              <span className="icon is-small is-left">
-                <i className="fas fa-film"></i>
-              </span>
-            </div>
-          </div>
-          <div className="field">
-            <label className="label" htmlFor="typeOutput">Caption Format</label>
-            <div className="control has-icons-left">
-              <span className="select">
-                <select id="typeOutput" className="input" name="typeOutput" required>
-                  <option value="webvtt" defaultValue>WebVTT</option>
-                  <option value="srt">SRT</option>
-                </select>
-              </span>
-              <span className="icon is-small is-left">
-                <i className="fas fa-closed-captioning"></i>
-              </span>
-            </div>
-          </div>
+          {constants.SHOW_BEATCAPS && <BeatCapsInputs/>}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
               <input className="file-input" id="inputFile" type="file" onChange={chooseFile} required/>
