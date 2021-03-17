@@ -61,7 +61,7 @@ app.use(/^(?!\/login).*$/, (req, res, next) => {
   if (req.headers.authorization === undefined || req.headers.authorization.split(' ')[0] !== 'Bearer') {
     const status = 401
     const message = 'Bad authorization header'
-    console.log(req.headers.authorization)
+    console.log(JSON.stringify(req.body))
     res.status(status).json({ status, message })
     return
   }
@@ -139,8 +139,12 @@ app.get('/file/list', (req, res) => {
  * upload file
  */
 app.post('/file', (req, res) => {
-  const rand = jsf.generate(Element, mockRefs)
-  res.status(200).jsonp(rand)
+  if (req.body.file) {
+    const rand = jsf.generate(Element, mockRefs)
+    res.status(200).jsonp(rand)
+  } else {
+    res.status(500).send('Bad Request');
+  }
 })
 
 /**
