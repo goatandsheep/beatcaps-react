@@ -38,7 +38,8 @@ const SubmitFile = () => {
       method: 'POST',
       body: JSON.stringify(req),
       headers: {
-        Authorization: globalConsumer.token,
+        'Authorization': globalConsumer.token,
+        'Content-Type': 'application/json',
       },
     });
     return await response.json();
