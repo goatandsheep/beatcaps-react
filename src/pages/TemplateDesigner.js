@@ -45,7 +45,8 @@ const TemplateDesigner = () => {
       method: 'POST',
       body: JSON.stringify(templateReq),
       headers: {
-        Authorization: globalConsumer.token,
+        'Authorization': globalConsumer.token,
+        'Content-Type': 'application/json',
       },
     });
 
