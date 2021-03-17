@@ -1,12 +1,24 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import AuthButton from './AuthButton';
+import constants from '../constants';
 
 const navButtonStyles = {
   width: 'auto',
   paddingLeft: '0',
   paddingRight: '0',
 };
+
+const BeatCapsNav = () => (
+  <div className="dropdown-trigger">
+    <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
+      <span>Beatcaps</span>
+      <span className="icon is-small">
+        <i className="fas fa-angle-down" aria-hidden="true"></i>
+      </span>
+    </button>
+  </div>
+);
 
 const NavMenu = () => {
   return (
@@ -19,14 +31,7 @@ const NavMenu = () => {
 
           <div>
             <div className="dropdown is-hoverable">
-              <div className="dropdown-trigger">
-                <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  <span>Beatcaps</span>
-                  <span className="icon is-small">
-                    <i className="fas fa-angle-down" aria-hidden="true"></i>
-                  </span>
-                </button>
-              </div>
+              {constants.SHOW_BEATCAPS && <BeatCapsNav/>}
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
                   <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
