@@ -28,7 +28,7 @@
         3840
       ]
     },
-    "uuid": {
+    "id": {
       "type": "string",
       "faker": "random.uuid"
     }
@@ -37,6 +37,6 @@
     "height",
     "views",
     "name",
-    "uuid"
+    "id"
   ]
 }

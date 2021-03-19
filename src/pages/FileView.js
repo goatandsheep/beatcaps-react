@@ -33,7 +33,7 @@ const FileView = (props) => {
       <div className="card card-content content">
         <div>
           <p className="subtitle is-5 has-text-left">
-            <label>ID</label>: <strong>{media ? media.uuid : <span className="is-loading">Loading</span>}</strong>
+            <label>ID</label>: <strong>{media ? media.id : <span className="is-loading">Loading</span>}</strong>
           </p>
         </div>
         <div>

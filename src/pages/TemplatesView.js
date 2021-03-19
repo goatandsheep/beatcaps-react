@@ -32,7 +32,7 @@ const TemplatesView = () => {
       <div className="card">
         <div className="card-header">
           <h2 className="card-header-title">
-            Templates list ({mediaList ? mediaList.total : '0'})
+            Templates list ({mediaList ? mediaList.length : '0'})
           </h2>
           <a className="button is-info is-rounded" href="templates/new" title="Begin Process Wizard">
             New&nbsp;&nbsp;
@@ -60,7 +60,7 @@ const TemplatesView = () => {
               </tr>
             </tfoot>
             <tbody>
-              <TableRow prefix="/templates" action="/use" actionLabel="Use" attrs={attrs} data={mediaList.elements} />
+              <TableRow prefix="/templates" action="/use" actionLabel="Use" attrs={attrs} data={mediaList} />
             </tbody>
           </table>
         </div>
