@@ -61,7 +61,7 @@ const Dashboard = () => {
       <div className="card">
         <div className="card-header">
           <h3 className="card-header-title">
-            Outputs list ({mediaList ? mediaList.total : '0'})
+            Outputs list ({mediaList ? mediaList.length : '0'})
           </h3>
         </div>
         <div className="card-content content">

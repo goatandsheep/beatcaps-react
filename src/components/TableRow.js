@@ -38,12 +38,12 @@ const TableRow = (props) => {
   }
   if (props.data) {
     return props.data.map((item) => (
-      <tr key={`table-row-${item.uuid}`}>
-        <td><a href={`${props.prefix}/${item.uuid}`}>{item.uuid}</a></td>
+      <tr key={`table-row-${item.id}`}>
+        <td><a href={`${props.prefix}/${item.id}`}>{item.id}</a></td>
         <td><span>{item.name}</span></td>
         <TableCol attrs={attrs} data={item} />
         <CondCol rif={item.status}><StatusBadge status={item.status} /></CondCol>
-        <CondCol rif={props.action}><ActionButton action={props.action} text={props.actionLabel} url={`${props.prefix}/${item.uuid}`} /></CondCol>
+        <CondCol rif={props.action}><ActionButton action={props.action} text={props.actionLabel} url={`${props.prefix}/${item.id}`} /></CondCol>
       </tr>
     ));
   } else {

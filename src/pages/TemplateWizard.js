@@ -5,9 +5,8 @@ import {Link} from 'react-router-dom';
 
 const InputList = ({inputs}) => {
   if (!inputs) return (<option disabled>Loading</option>);
-
   return inputs.map((input, index) => (
-    <option value={input.elementName} key={`${input.elementName}-${index}`}>{input.elementName}</option>
+    <option value={input.id} key={`${input.file}-${index}`}>{input.file}</option>
   ));
 };
 
@@ -73,8 +72,8 @@ const TemplateWizard = (props) => {
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
     event.preventDefault();
-    await uploadFile(new FormData(event.target));
-    window.location.href = '/file/89awefjsdfaksd';
+    const fileResp = await uploadFile(new FormData(event.target));
+    window.location.href = `/file/${fileResp.id}`;
   };
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {
@@ -134,7 +133,7 @@ const TemplateWizard = (props) => {
           </div>
           <fieldset className="block">
             <legend className="subtitle is-5">Choose videos for each view:</legend>
-            <ViewInputs inputs={inputs.elements} views={media.views || []} />
+            <ViewInputs inputs={inputs} views={media.views || []} />
           </fieldset>
           <button className="button is-primary block" type="submit">Submit</button>
         </div>
