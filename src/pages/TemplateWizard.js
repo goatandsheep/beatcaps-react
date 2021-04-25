@@ -72,7 +72,8 @@ const TemplateWizard = (props) => {
   const handleFileSubmit = async (event) => {
     // TODO: create FormData
     event.preventDefault();
-    const fileResp = await uploadFile(new FormData(event.target));
+    const metadata = Object.fromEntries((new FormData(event.target)).entries());
+    const fileResp = await uploadFile(metadata);
     window.location.href = `/file/${fileResp.id}`;
   };
   const uploadFile = async (req) => {
