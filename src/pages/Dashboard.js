@@ -8,7 +8,7 @@ const Dashboard = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [mediaList, setMediaList] = useState('');
-  const attrs = ['elementName', 'elementType', 'creationDate', 'updatedDate'];
+  const attrs = ['name', 'creationDate', 'updatedDate'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -61,7 +61,7 @@ const Dashboard = () => {
       <div className="card">
         <div className="card-header">
           <h3 className="card-header-title">
-            Outputs list ({mediaList ? mediaList.total : '0'})
+            Outputs list ({mediaList ? mediaList.length : '0'})
           </h3>
         </div>
         <div className="card-content content">
@@ -86,7 +86,7 @@ const Dashboard = () => {
                 <th>Status</th>
               </tr>
             </tfoot>
-            <tbody><TableRow prefix="/file" attrs={attrs} data={mediaList.elements} /></tbody>
+            <tbody><TableRow prefix="/file" attrs={attrs} data={mediaList} /></tbody>
           </table>
         </div>
       </div>

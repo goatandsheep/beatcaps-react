@@ -13,7 +13,7 @@
       "type": "string",
       "faker": "system.fileName"
     },
-    "uuid": {
+    "id": {
       "type": "string",
       "faker": "random.uuid"
     },
@@ -37,7 +37,7 @@
   "required": [
     "elementType",
     "elementName",
-    "uuid",
+    "id",
     "creationDate",
     "updatedDate",
     "status"
