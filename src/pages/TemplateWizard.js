@@ -2,6 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import {Link} from 'react-router-dom';
+import API from '@aws-amplify/api';
 
 const InputList = ({inputs}) => {
   if (!inputs) return (<option disabled>Loading</option>);
@@ -88,15 +89,21 @@ const TemplateWizard = (props) => {
     }
     req.type = 'Overleia';
 
-    const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
-      method: 'POST',
-      body: JSON.stringify(req),
+    const fetchBody = {
+      // method: 'POST',
+      // body: JSON.stringify(req),
+      body: req,
       headers: {
         'Authorization': globalConsumer.token,
-        'Content-Type': 'application/json',
+        'X-Auth-Token': globalConsumer.user.identityId,
+        // 'Content-Type': 'application/json',
       },
-    });
-    return await response.json();
+    };
+
+    // const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, fetchBody);
+    // return await response.json();
+
+    return await API.post('OverleiaApi', '/jobs', fetchBody);
   };
   return (
     <div>

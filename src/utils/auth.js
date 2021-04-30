@@ -1,5 +1,5 @@
 import Amplify from '@aws-amplify/core';
-import Auth from '@aws-amplify/auth';
+// import Auth from '@aws-amplify/auth';
 import constants from '../constants';
 
 const awsconfig = {
@@ -21,11 +21,11 @@ const awsconfig = {
     endpoints: [{
       name: 'OverleiaApi',
       endpoint: constants.SERVER_DOMAIN,
-      custom_header: async () => {
-        return {
-          Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
-        };
-      },
+      // custom_header: async () => {
+      //   return {
+      //     Authorization: `Bearer ${(await Auth.currentSession()).getAccessToken().getJwtToken()}`,
+      //   };
+      // },
     }],
   },
   Storage: {
