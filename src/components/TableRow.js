@@ -36,8 +36,9 @@ const TableRow = (props) => {
   } else {
     attrs = ['elementName', 'elementType', 'creationDate', 'updatedDate'];
   }
+
   if (props.data) {
-    return props.data.map((item) => (
+    return props.data.elements.map((item) => (
       <tr key={`table-row-${item.id}`}>
         <td><a href={`${props.prefix}/${item.id}`}>{item.id}</a></td>
         <TableCol attrs={attrs} data={item} />
