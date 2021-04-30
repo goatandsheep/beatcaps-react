@@ -26,7 +26,7 @@ const NavMenu = () => {
       <div className="is-flex is-justify-content-space-between is-align-items-center is-flex-wrap-wrap mx-6 my-4">
         <div className="is-flex is-justify-content-flex-start is-align-items-center is-flex-wrap-wrap">
           <div className="mr-4">
-            <NavLink className="title is-6" to="/">BeatCaps Admin Panel</NavLink>
+            <NavLink className="title is-6" to="/">Video Admin Panel</NavLink>
           </div>
 
           <div>

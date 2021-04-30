@@ -67,15 +67,21 @@ const SubmitFile = () => {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
 
-    const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
-      method: 'POST',
-      body: JSON.stringify(req),
-      headers: {
-        'Authorization': globalConsumer.token,
-        'Content-Type': 'application/json',
-      },
-    });
-    return await response.json();
+    try {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
+        method: 'POST',
+        body: JSON.stringify(req),
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+        },
+      });
+      console.log('test');
+      return await response.json();
+    } catch (err) {
+      console.error('request failure', err);
+      throw err;
+    }
   };
   return (
     <div>

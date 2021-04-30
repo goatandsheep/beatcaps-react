@@ -17,6 +17,7 @@ const Dashboard = () => {
       // }
       if (globalConsumer.token) {
         const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
+          mode: 'cors',
           headers: {
             Authorization: globalConsumer.token,
           },

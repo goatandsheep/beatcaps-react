@@ -38,7 +38,7 @@ const FileView = (props) => {
         </div>
         <div>
           <p className="subtitle is-5 has-text-left">
-            <label>File name</label>: <strong>{media ? media.elementName : <span className="is-loading">Loading</span>}</strong>
+            <label>File name</label>: <strong>{media ? media.name : <span className="is-loading">Loading</span>}</strong>
           </p>
         </div>
         <div>

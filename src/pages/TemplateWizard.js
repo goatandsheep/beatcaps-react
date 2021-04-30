@@ -73,6 +73,12 @@ const TemplateWizard = (props) => {
     // TODO: create FormData
     event.preventDefault();
     const metadata = Object.fromEntries((new FormData(event.target)).entries());
+    metadata.inputs = [];
+    for (let i = 0; i < media.views.length; i++) {
+      metadata.inputs.push(metadata['media-' + (i+1)]);
+      metadata['media-' + (i+1)] = undefined;
+    }
+    metadata.templateId = props.match.params.id;
     const fileResp = await uploadFile(metadata);
     window.location.href = `/file/${fileResp.id}`;
   };
@@ -80,6 +86,8 @@ const TemplateWizard = (props) => {
     if (!globalConsumer.token) {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
+    req.type = 'Overleia';
+
     const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
       method: 'POST',
       body: JSON.stringify(req),
