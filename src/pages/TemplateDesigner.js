@@ -60,11 +60,11 @@ const TemplateDesigner = () => {
   ) => {
     const newOptions = [...viewOptions];
 
-    // each view's width and height shouldn't be bigger than the template's width and height.
-    // This is to account for rounding to accomodate different screen widths.
+    // each view's width and height shouldn't exceed the template's width and height.
+    // This code is to account for rounding to accomodate different screen widths.
     const cappedFieldOptions = {
-      width: fieldOptions.width <= templateOptions.width ? fieldOptions.width : templateOptions.width,
-      height: fieldOptions.width <= templateOptions.height ? fieldOptions.height : templateOptions.height,
+      width: fieldOptions.width < templateOptions.width ? fieldOptions.width : templateOptions.width,
+      height: fieldOptions.width < templateOptions.height ? fieldOptions.height : templateOptions.height,
     };
 
     const viewIndex = viewNum - 1;
