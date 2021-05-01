@@ -53,34 +53,30 @@ const TemplateDesigner = () => {
     return await response.json();
   };
 
+  // Update View options for the correct view
   const handleViewOptionChange = (
       viewNum,
       fieldOptions,
   ) => {
-    const newOptions = [
-      ...viewOptions,
-    ];
-
-    const viewIndex = viewNum - 1;
-    newOptions[viewIndex] = {
-      ...viewOptions[viewIndex],
-      ...fieldOptions,
-    };
-
-    setViewOptions(newOptions);
-  };
-
-  const handleDragDropChange = (viewNum, newXYViewOptionObj) => {
     const newOptions = [...viewOptions];
+
+    // each view's width and height shouldn't exceed the template's width and height.
+    // This code is to account for rounding to accomodate different screen widths.
+    const cappedFieldOptions = {
+      width: fieldOptions.width < templateOptions.width ? fieldOptions.width : templateOptions.width,
+      height: fieldOptions.height < templateOptions.height ? fieldOptions.height : templateOptions.height,
+    };
+
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
       ...viewOptions[viewIndex],
-      ...newXYViewOptionObj,
+      ...cappedFieldOptions,
     };
 
     setViewOptions(newOptions);
   };
 
+  // Update Template Options
   const handleTemplateOptionChange = (field, value) => {
     const newOptions = {...templateOptions};
 
@@ -94,6 +90,7 @@ const TemplateDesigner = () => {
     setTemplateOptions(newOptions);
   };
 
+  // When user changes the number of views, create or remove view option forms to match.
   const handleNumberOfViewsChange = (newNumOfViews) => {
     const newViewOptions = [...viewOptions];
 
@@ -285,12 +282,13 @@ const TemplateDesigner = () => {
           </h3>
 
           <TemplateDragDrop
-            handleDragDropChange={handleDragDropChange}
+            handleDragDropChange={handleViewOptionChange}
             viewOptions={viewOptions}
             outputHeight={templateOptions.height}
             outputWidth={templateOptions.width}
           />
 
+          {/* Render a template option form for each video */}
           {makeViewOptionInputs(viewOptions)}
 
           <button type="submit" className="button is-primary mt-5">

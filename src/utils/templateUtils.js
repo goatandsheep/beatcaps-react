@@ -1,3 +1,4 @@
+// Return the width (in px) that the entire drag and drop area should be, based on the window width.
 export const getUiWidthFromScreenWidth = (windowWidth) => {
   if (windowWidth > 1408) {
     return 1248;
@@ -15,11 +16,11 @@ export const getUiPxFromViewPx = (viewPx, scale) => {
 };
 
 export const getViewPxFromUiPx = (uiPx, scale) => {
-  return Math.round(uiPx / scale);
+  return uiPx / scale;
 };
 
 export const get720pWidth = (height) => {
-  return Math.round(height * 16 / 9);
+  return height * 16 / 9;
 };
 
 // All views should fit within the dimensions of the template

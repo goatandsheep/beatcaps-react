@@ -36,8 +36,9 @@ const TableRow = (props) => {
   } else {
     attrs = ['elementName', 'elementType', 'creationDate', 'updatedDate'];
   }
-  if (props.data) {
-    return props.data.map((item) => (
+
+  if (props.data && props.data.elements) {
+    return props.data.elements.map((item) => (
       <tr key={`table-row-${item.id}`}>
         <td><a href={`${props.prefix}/${item.id}`}>{item.id}</a></td>
         <TableCol attrs={attrs} data={item} />
@@ -45,6 +46,8 @@ const TableRow = (props) => {
         <CondCol rif={props.action}><ActionButton action={props.action} text={props.actionLabel} url={`${props.prefix}/${item.id}`} /></CondCol>
       </tr>
     ));
+  } else if (props.data) {
+    return (<tr><th>No data</th></tr>);
   } else {
     return (<tr><th>Loading</th></tr>);
   }

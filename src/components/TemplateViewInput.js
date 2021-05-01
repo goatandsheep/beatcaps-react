@@ -46,7 +46,7 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                   className="input"
                   required
                   type="number"
-                  value={fieldValue.height}
+                  value={Math.ceil(fieldValue.height)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-ruler-vertical"></i>
@@ -63,7 +63,7 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                   id={'viewWidth' + viewNum}
                   className="input"
                   type="number"
-                  value={fieldValue.width}
+                  value={Math.ceil(fieldValue.width)}
                   disabled={keepAspectRatio}
                 />
                 <span className="icon is-small is-left">
@@ -93,7 +93,7 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                   className="input"
                   required
                   type="number"
-                  value={fieldValue.x}
+                  value={Math.ceil(fieldValue.x)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-arrows-alt-h"></i>
@@ -111,7 +111,7 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                   className="input"
                   required
                   type="number"
-                  value={fieldValue.y}
+                  value={Math.ceil(fieldValue.y)}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-arrows-alt-v"></i>

@@ -6,8 +6,9 @@ const dragDropContainerStyles = (height, width) => {
   return {
     height: height + 'px',
     width: width + 'px',
-    border: '1px solid darkgray',
+    boxSizing: 'border-box',
     background: 'lightgray',
+    position: 'relative',
   };
 };
 
