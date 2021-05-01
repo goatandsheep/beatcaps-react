@@ -64,7 +64,7 @@ const TemplateDesigner = () => {
     // This code is to account for rounding to accomodate different screen widths.
     const cappedFieldOptions = {
       width: fieldOptions.width < templateOptions.width ? fieldOptions.width : templateOptions.width,
-      height: fieldOptions.width < templateOptions.height ? fieldOptions.height : templateOptions.height,
+      height: fieldOptions.height < templateOptions.height ? fieldOptions.height : templateOptions.height,
     };
 
     const viewIndex = viewNum - 1;
