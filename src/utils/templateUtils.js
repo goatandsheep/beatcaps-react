@@ -42,6 +42,22 @@ export const viewSizeErrors = ({
   return invalidTemplates ? (errorMessage + invalidTemplates) : null;
 };
 
+// Check if view height/width exceeds the template dimensions.
+// If so, change the height/width to the template's dimensions.
+export const getConfinedViewOptions = (fieldOptions, {width: templateWidth, height: templateHeight}) => {
+  // Do not need to modify drag event
+  if (!fieldOptions.width || !fieldOptions.height) {
+    return fieldOptions;
+  }
+
+  // modify resize event
+  return {
+    ...fieldOptions,
+    width: fieldOptions.width < templateWidth ? fieldOptions.width : templateWidth,
+    height: fieldOptions.height < templateHeight ? fieldOptions.height : templateHeight,
+  };
+};
+
 // constants
 export const DEFAULT_VIEW_OBJECT = {
   height: 250,
@@ -54,18 +70,4 @@ export const DEFAULT_TEMPLATE_OBJECT = {
   name: '',
   height: 720,
   width: get720pWidth(720),
-};
-
-// Check if view height/width exceeds the template dimensions.
-// If so, change the height/width to the template's dimensions.
-export const getConfinedViewOptions = (fieldOptions, {width: templateWidth, height: templateHeight}) => {
-  if (!fieldOptions.width || !fieldOptions.height) {
-    return fieldOptions;
-  }
-
-  return {
-    ...fieldOptions,
-    width: fieldOptions.width < templateWidth ? fieldOptions.width : templateWidth,
-    height: fieldOptions.height < templateHeight ? fieldOptions.height : templateHeight,
-  };
 };
