@@ -64,10 +64,12 @@ export const DEFAULT_VIEW_OBJECT = {
   width: get720pWidth(250),
   x: 0,
   y: 0,
+  lockAspectRatio: true,
 };
 
 export const DEFAULT_TEMPLATE_OBJECT = {
   name: '',
   height: 720,
   width: get720pWidth(720),
+  lockAspectRatio: true,
 };

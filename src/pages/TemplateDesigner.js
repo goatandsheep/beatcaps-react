@@ -20,7 +20,6 @@ const TemplateDesigner = () => {
     DEFAULT_VIEW_OBJECT,
   ]);
   const [templateOptions, setTemplateOptions] = useState(DEFAULT_TEMPLATE_OBJECT);
-  const [templateKeepsAspectRatio, setTemplateKeepsAspectRatio] = useState(true);
 
   const uploadTemplate = async () => {
     if (!globalConsumer.token) {
@@ -30,7 +29,7 @@ const TemplateDesigner = () => {
     templateReq.views = viewOptions;
 
     // don't send the width to the backend if using default 16:9
-    if (templateKeepsAspectRatio) {
+    if (templateReq.lockAspectRatio) {
       delete templateReq.width;
     }
 
@@ -80,7 +79,7 @@ const TemplateDesigner = () => {
     newOptions[field] = value;
 
     // if templateKeepsAspectRatio is selected, recalculate the width every time height changes
-    if (templateKeepsAspectRatio) {
+    if (newOptions.lockAspectRatio) {
       newOptions.width = get720pWidth(newOptions.height);
     }
 
@@ -107,17 +106,6 @@ const TemplateDesigner = () => {
     setViewOptions(newViewOptions);
   };
 
-  const handleToggleAspectRatio = () => {
-    if (templateKeepsAspectRatio) {
-      // toggling off
-      setTemplateKeepsAspectRatio(false);
-    } else {
-      // toggling on, calculate width
-      handleTemplateOptionChange('width', get720pWidth(templateOptions.height));
-      setTemplateKeepsAspectRatio(true);
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
     const viewErrors = viewSizeErrors(
@@ -138,11 +126,11 @@ const TemplateDesigner = () => {
     window.location.href = '/templates';
   };
 
-  const makeViewOptionInputs = () => {
+  const makeViewOptionInputs = (inputs) => {
     const fieldsets = [];
 
-    for (let viewNum = 1; viewNum <= viewOptions.length; viewNum++) {
-      const currentValues = viewOptions[viewNum - 1];
+    for (let viewNum = 1; viewNum <= inputs.length; viewNum++) {
+      const currentValues = inputs[viewNum - 1];
 
       fieldsets.push(
           <TemplateViewInput
@@ -206,7 +194,7 @@ const TemplateDesigner = () => {
                 className="input"
                 required
                 type="number"
-                value={templateOptions.height}
+                value={Math.ceil(templateOptions.height)}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-vertical"></i>
@@ -226,8 +214,8 @@ const TemplateDesigner = () => {
                 id="viewOutputWidth"
                 className="input"
                 type="number"
-                disabled={templateKeepsAspectRatio}
-                value={templateOptions.width}
+                disabled={templateOptions.lockAspectRatio}
+                value={Math.ceil(templateOptions.width)}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-horizontal"></i>
@@ -235,7 +223,9 @@ const TemplateDesigner = () => {
             </div>
             <div className="block mt-3">
               <label className="checkbox">
-                <input type="checkbox" onChange={handleToggleAspectRatio} checked={templateKeepsAspectRatio}/>
+                <input type="checkbox" onChange={(e) =>
+                  handleTemplateOptionChange('lockAspectRatio', !templateOptions.lockAspectRatio)
+                } checked={templateOptions.lockAspectRatio}/>
                 <span className="ml-2">Use 16:9 aspect ratio</span>
               </label>
             </div>

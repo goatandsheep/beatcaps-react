@@ -30,6 +30,7 @@ const DragDropBox = ({
     <Rnd
       style={dragDropBoxStyles}
       bounds="#template-drag-drop-container"
+      lockAspectRatio={box.lockAspectRatio ? 16/9 : false}
       size={{
         width: box.width,
         height: box.height,
