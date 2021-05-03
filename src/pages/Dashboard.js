@@ -8,7 +8,7 @@ const Dashboard = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [mediaList, setMediaList] = useState('');
-  const attrs = ['name', 'creationDate', 'updatedDate'];
+  const attrs = ['name', 'type', 'creationDate', 'updatedDate'];
 
   useEffect(() => {
     const fetchData = async () => {
@@ -62,7 +62,7 @@ const Dashboard = () => {
       <div className="card">
         <div className="card-header">
           <h3 className="card-header-title">
-            Outputs list ({mediaList ? mediaList.length : '0'})
+            Outputs list ({mediaList ? mediaList.total || mediaList.length : '0'})
           </h3>
         </div>
         <div className="card-content content">

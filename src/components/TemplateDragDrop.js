@@ -47,6 +47,7 @@ const TemplateDragDrop = ({
               width: getUiPxFromViewPx(view.width, scale),
               x: getUiPxFromViewPx(view.x, scale),
               y: getUiPxFromViewPx(view.y, scale),
+              lockAspectRatio: view.lockAspectRatio,
             }}
             boxIndex={i}
             handleDragDrop={handleDragDrop}

@@ -1,30 +1,13 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {get720pWidth} from '../utils/templateUtils';
 
 const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
-  const [keepAspectRatio, setKeepAspectRatio] = useState(true);
-
-  const handleToggleAspectRatio = () => {
-    if (keepAspectRatio) {
-      // toggling off
-      setKeepAspectRatio(false);
-    } else {
-      // toggling on, calculate width
-      handleViewChange(
-          viewNum,
-          {width: get720pWidth(fieldValue.height)},
-      );
-
-      setKeepAspectRatio(true);
-    }
-  };
-
   const handleHeightChange = (newHeight) => {
     handleViewChange(
         viewNum,
         {
           height: newHeight,
-          ...(keepAspectRatio ? {width: get720pWidth(newHeight)} : {}),
+          ...(fieldValue.lockAspectRatio ? {width: get720pWidth(newHeight)} : {}),
         },
     );
   };
@@ -64,7 +47,7 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                   className="input"
                   type="number"
                   value={Math.ceil(fieldValue.width)}
-                  disabled={keepAspectRatio}
+                  disabled={fieldValue.lockAspectRatio}
                 />
                 <span className="icon is-small is-left">
                   <i className="fas fa-ruler-horizontal"></i>
@@ -74,7 +57,9 @@ const TemplateViewInput = ({fieldValue, viewNum, handleViewChange}) => {
                 <label className="checkbox">
                   <input
                     type="checkbox"
-                    onChange={handleToggleAspectRatio} checked={keepAspectRatio}
+                    onChange={() => {
+                      handleViewChange(viewNum, {lockAspectRatio: !fieldValue.lockAspectRatio});
+                    }} checked={fieldValue.lockAspectRatio}
                   />
                   <span className="ml-2">Use 16:9 aspect ratio</span>
                 </label>
