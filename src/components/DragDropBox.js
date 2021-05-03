@@ -16,6 +16,16 @@ const DragDropBox = ({
 }) => {
   const boxNum = boxIndex + 1;
 
+  // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
+  const handleResize = (boxNum, ref, position) => {
+    handleDragDrop(boxNum, {
+      width: +ref.style.width.replace('px', ''),
+      height: +ref.style.height.replace('px', ''),
+      x: position.x,
+      y: position.y,
+    });
+  };
+
   return (
     <Rnd
       style={dragDropBoxStyles}
@@ -26,15 +36,7 @@ const DragDropBox = ({
       }}
       position={{x: box.x, y: box.y}}
       onDragStop={(e, d) => handleDragDrop(boxNum, {x: d.x, y: d.y})}
-      onResizeStop={(e, direction, ref, delta, position) => {
-        // Note: have to set a new X and Y after resize, otherwise the box "jumps" if user drags from top or left corners
-        handleDragDrop(boxNum, {
-          width: +ref.style.width.replace('px', ''),
-          height: +ref.style.height.replace('px', ''),
-          x: position.x,
-          y: position.y,
-        });
-      }}
+      onResizeStop={(e, direction, ref, delta, position) => handleResize(boxNum, ref, position)}
     >
       View {boxNum}
     </Rnd>
