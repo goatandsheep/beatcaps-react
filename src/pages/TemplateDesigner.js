@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors} from '../utils/templateUtils';
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors, getConfinedViewOptions} from '../utils/templateUtils';
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -62,10 +62,7 @@ const TemplateDesigner = () => {
 
     // each view's width and height shouldn't exceed the template's width and height.
     // This code is to account for rounding to accomodate different screen widths.
-    const cappedFieldOptions = {
-      width: fieldOptions.width < templateOptions.width ? fieldOptions.width : templateOptions.width,
-      height: fieldOptions.height < templateOptions.height ? fieldOptions.height : templateOptions.height,
-    };
+    const cappedFieldOptions = getConfinedViewOptions(fieldOptions, templateOptions);
 
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
