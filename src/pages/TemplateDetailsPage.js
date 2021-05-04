@@ -18,6 +18,11 @@ const TemplateDetailsPage = (props) => {
       });
       const fileData = await response.json();
       setTemplate(fileData);
+
+      // Error handling if error
+      if (!fileData.message) {
+        setTemplate(fileData);
+      }
     };
 
     fetchTemplateData();

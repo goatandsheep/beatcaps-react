@@ -17,13 +17,21 @@ const TemplateEditor = ({match}) => {
         },
       });
       const fileData = await response.json();
-      setTemplate(fileData);
+
+      // Error handling if error
+      if (!fileData.message) {
+        setTemplate(fileData);
+      }
     };
 
     fetchTemplateData();
   }, [globalConsumer.token, match.params.id]);
 
-  return <TemplateDesignerForm initialTemplateData={template} />;
+  const handlePatchTemplate = () => {
+
+  };
+  console.log('temp', template);
+  return template ? <TemplateDesignerForm initialTemplateData={template} handleSubmit={handlePatchTemplate} /> : null;
 };
 
 export default TemplateEditor;

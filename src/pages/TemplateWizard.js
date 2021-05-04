@@ -50,7 +50,11 @@ const TemplateWizard = (props) => {
         },
       });
       const fileData = await response.json();
-      setMedia(fileData);
+
+      // Error handling if error
+      if (!fileData.message) {
+        setMedia(fileData);
+      }
     };
     const fetchInputs = async () => {
       // if (!globalConsumer.token) {

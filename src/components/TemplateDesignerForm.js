@@ -1,8 +1,6 @@
 /* eslint-disable no-unused-vars */
-import React, {useContext, useState} from 'react';
-import {Link, useHistory} from 'react-router-dom';
-import {GlobalContext} from '../contexts/GlobalState';
-import constants from '../constants';
+import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import TemplateDragDrop from '../components/TemplateDragDrop';
 import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors, getConfinedViewOptions} from '../utils/templateUtils';
 import TemplateViewInput from '../components/TemplateViewInput';
@@ -13,41 +11,10 @@ const formStyles = {
   overflowX: 'scroll',
 };
 
-const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT}) => {
-  const globalConsumer = useContext(GlobalContext);
-  const history = useHistory();
+const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT, handleSubmit}) => {
+  console.log('initialTemplateData', initialTemplateData);
 
   const [formData, setFormData] = useState(initialTemplateData);
-
-  const uploadTemplate = async () => {
-    if (!globalConsumer.token) {
-      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-    }
-    const templateReq = {...formData};
-
-    // don't send the width to the backend if using default 16:9
-    if (templateReq.lockAspectRatio) {
-      delete templateReq.width;
-    }
-
-    // check if 16:9 is used in any views
-    templateReq.views.forEach((view) => {
-      if (view.width === get720pWidth(view.height)) {
-        delete view.width;
-      }
-    });
-
-    const response = await fetch(`${constants.SERVER_DOMAIN}/templates/new`, {
-      method: 'POST',
-      body: JSON.stringify(templateReq),
-      headers: {
-        'Authorization': globalConsumer.token,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    return await response.json();
-  };
 
   // Update View options for the correct view
   const handleViewOptionChange = (
@@ -103,8 +70,9 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT}) =
     setFormData({...formData, views: newViewOptions});
   };
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleFormSubmit = (e) => {
+    e.preventDefault();
+
     const viewErrors = viewSizeErrors(
         {
           views: formData.views,
@@ -118,9 +86,7 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT}) =
       return;
     }
 
-    await uploadTemplate();
-
-    history.push('/templates');
+    handleSubmit(formData);
   };
 
   const makeViewOptionInputs = (inputs) => {
@@ -155,7 +121,7 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT}) =
       <h1 className="title is-1">Template Designer</h1>
       <form
         className="card has-text-left"
-        onSubmit={handleSubmit}
+        onSubmit={handleFormSubmit}
         style={formStyles}
       >
         <div className="card-content card">
