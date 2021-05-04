@@ -79,7 +79,7 @@ const TemplateDetailsPage = (props) => {
                       <span className="has-text-weight-bold">X</span>: <span>{view.x}</span>
                     </p>
                     <p className="mb-0">
-                      <span className="has-text-weight-bold">Y</span>: <span>{view.x}</span>
+                      <span className="has-text-weight-bold">Y</span>: <span>{view.y}</span>
                     </p>
                   </div>
                 );
