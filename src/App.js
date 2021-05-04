@@ -11,9 +11,10 @@ import TemplatesView from './pages/TemplatesView';
 import TemplateWizard from './pages/TemplateWizard';
 import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
-import TemplateDesigner from './pages/TemplateDesigner';
 import NavMenu from './components/NavMenu';
 import TemplateDetailsPage from './pages/TemplateDetailsPage';
+import TemplateEditor from './pages/TemplateEditor';
+import TemplateCreator from './pages/TemplateCreator';
 
 
 // Initialize Amplify
@@ -56,7 +57,8 @@ const App = () => {
                 <Route exact={true} path="/" component={Dashboard} />
                 <Route exact={true} path="/file/new" component={SubmitFile} />
                 <Route exact={true} path="/templates/:id/use" component={TemplateWizard} />
-                <Route exact={true} path="/templates/new" component={TemplateDesigner} />
+                <Route exact={true} path="/templates/new" component={TemplateCreator} />
+                <Route exact={true} path="/templates/:id/edit" component={TemplateEditor} />
                 <Route exact={true} path="/templates/:id" component={TemplateDetailsPage} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
                 <Route path="/file/:id" component={FileView} />

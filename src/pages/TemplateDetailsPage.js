@@ -27,12 +27,12 @@ const TemplateDetailsPage = (props) => {
     <div>
       <h1 className="title is-2">Template Details</h1>
       <div className="container">
-        <Link to="file/new" className="button">Edit
+        <Link to={`/templates/${template.id}/edit`} className="button">Edit
           <span className="icon is-small is-left ml-1">
             <i className="fas fa-edit"></i>
           </span>
         </Link>
-        <Link to="file/new" className="button ml-5 is-primary">Create output from template
+        <Link to={`/templates/${template.id}/use`} className="button ml-5 is-primary">Create output from template
           <span className="icon is-small is-left ml-1">
             <i className="fas fa-plus"></i>
           </span>
@@ -44,19 +44,19 @@ const TemplateDetailsPage = (props) => {
           (
             <>
               <p className="subtitle is-5 has-text-left mb-0">
-                <span class="has-text-weight-bold">ID</span>: <span>{template.id}</span>
+                <span className="has-text-weight-bold">ID</span>: <span>{template.id}</span>
               </p>
               <p className="subtitle is-5 has-text-left mb-0">
-                <span class="has-text-weight-bold">Name</span>: <span>{template.name}</span>
+                <span className="has-text-weight-bold">Name</span>: <span>{template.name}</span>
               </p>
               <p className="subtitle is-5 has-text-left mb-0">
-                <span class="has-text-weight-bold">Height in px</span>: <span>{template.height}</span>
+                <span className="has-text-weight-bold">Height in px</span>: <span>{template.height}</span>
               </p>
               <p className="subtitle is-5 has-text-left mb-0">
-                <span class="has-text-weight-bold">Width in px</span>: <span>{template.width}</span>
+                <span className="has-text-weight-bold">Width in px</span>: <span>{template.width}</span>
               </p>
               <p className="subtitle is-5 has-text-left mb-0">
-                <span class="has-text-weight-bold">Views in this template</span>: <span>{template.views.length}</span>
+                <span className="has-text-weight-bold">Views in this template</span>: <span>{template.views.length}</span>
               </p>
 
               <h2 className="title is-4 mt-5">Views:</h2>
@@ -64,17 +64,17 @@ const TemplateDetailsPage = (props) => {
                 return (
                   <div className="card card-content content mt-5 has-text-left">
                     <h3 className="title is-5 my-2">View {i + 1}</h3>
-                    <p class="mb-0">
-                      <span class="has-text-weight-bold">Height</span>: <span>{view.height}</span>
+                    <p className="mb-0">
+                      <span className="has-text-weight-bold">Height</span>: <span>{view.height}</span>
                     </p>
-                    <p class="mb-0">
-                      <span class="has-text-weight-bold">Width</span>: <span>{view.width}</span>
+                    <p className="mb-0">
+                      <span className="has-text-weight-bold">Width</span>: <span>{view.width}</span>
                     </p>
-                    <p class="mb-0">
-                      <span class="has-text-weight-bold">X</span>: <span>{view.x}</span>
+                    <p className="mb-0">
+                      <span className="has-text-weight-bold">X</span>: <span>{view.x}</span>
                     </p>
-                    <p class="mb-0">
-                      <span class="has-text-weight-bold">Y</span>: <span>{view.x}</span>
+                    <p className="mb-0">
+                      <span className="has-text-weight-bold">Y</span>: <span>{view.x}</span>
                     </p>
                   </div>
                 );

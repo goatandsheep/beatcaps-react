@@ -72,4 +72,5 @@ export const DEFAULT_TEMPLATE_OBJECT = {
   height: 720,
   width: get720pWidth(720),
   lockAspectRatio: true,
+  views: [DEFAULT_VIEW_OBJECT, DEFAULT_VIEW_OBJECT],
 };

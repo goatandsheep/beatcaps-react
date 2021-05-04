@@ -1,5 +1,6 @@
+/* eslint-disable no-unused-vars */
 import React, {useContext, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {Link, useHistory} from 'react-router-dom';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import TemplateDragDrop from '../components/TemplateDragDrop';
@@ -12,21 +13,17 @@ const formStyles = {
   overflowX: 'scroll',
 };
 
-const TemplateDesigner = () => {
+const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT}) => {
   const globalConsumer = useContext(GlobalContext);
+  const history = useHistory();
 
-  const [viewOptions, setViewOptions] = useState([
-    DEFAULT_VIEW_OBJECT,
-    DEFAULT_VIEW_OBJECT,
-  ]);
-  const [templateOptions, setTemplateOptions] = useState(DEFAULT_TEMPLATE_OBJECT);
+  const [formData, setFormData] = useState(initialTemplateData);
 
   const uploadTemplate = async () => {
     if (!globalConsumer.token) {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
-    const templateReq = templateOptions;
-    templateReq.views = viewOptions;
+    const templateReq = {...formData};
 
     // don't send the width to the backend if using default 16:9
     if (templateReq.lockAspectRatio) {
@@ -57,24 +54,24 @@ const TemplateDesigner = () => {
       viewNum,
       fieldOptions,
   ) => {
-    const newOptions = [...viewOptions];
+    const newOptions = [...formData.views];
 
     // each view's width and height shouldn't exceed the template's width and height.
     // This code is to account for rounding to accomodate different screen widths.
-    const cappedFieldOptions = getConfinedViewOptions(fieldOptions, templateOptions);
+    const cappedFieldOptions = getConfinedViewOptions(fieldOptions, formData);
 
     const viewIndex = viewNum - 1;
     newOptions[viewIndex] = {
-      ...viewOptions[viewIndex],
+      ...formData.views[viewIndex],
       ...cappedFieldOptions,
     };
 
-    setViewOptions(newOptions);
+    setFormData({...formData, views: newOptions});
   };
 
   // Update Template Options
   const handleTemplateOptionChange = (field, value) => {
-    const newOptions = {...templateOptions};
+    const newOptions = {...formData};
 
     newOptions[field] = value;
 
@@ -83,12 +80,12 @@ const TemplateDesigner = () => {
       newOptions.width = get720pWidth(newOptions.height);
     }
 
-    setTemplateOptions(newOptions);
+    setFormData(newOptions);
   };
 
   // When user changes the number of views, create or remove view option forms to match.
   const handleNumberOfViewsChange = (newNumOfViews) => {
-    const newViewOptions = [...viewOptions];
+    const newViewOptions = [...formData.views];
 
     // recursive function to remove/add objects to have the right number of objects
     const makeNewOptionsArray = () => {
@@ -103,16 +100,16 @@ const TemplateDesigner = () => {
     };
 
     makeNewOptionsArray();
-    setViewOptions(newViewOptions);
+    setFormData({...formData, views: newViewOptions});
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     const viewErrors = viewSizeErrors(
         {
-          views: viewOptions,
-          maxHeight: templateOptions.height,
-          maxWidth: templateOptions.width,
+          views: formData.views,
+          maxHeight: formData.height,
+          maxWidth: formData.width,
         },
     );
 
@@ -123,7 +120,7 @@ const TemplateDesigner = () => {
 
     await uploadTemplate();
 
-    window.location.href = '/templates';
+    history.push('/templates');
   };
 
   const makeViewOptionInputs = (inputs) => {
@@ -174,7 +171,7 @@ const TemplateDesigner = () => {
                 className="input"
                 required
                 type="text"
-                value={templateOptions.name}
+                value={formData.name}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-signature"></i>
@@ -194,7 +191,7 @@ const TemplateDesigner = () => {
                 className="input"
                 required
                 type="number"
-                value={Math.ceil(templateOptions.height)}
+                value={Math.ceil(formData.height)}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-vertical"></i>
@@ -214,8 +211,8 @@ const TemplateDesigner = () => {
                 id="viewOutputWidth"
                 className="input"
                 type="number"
-                disabled={templateOptions.lockAspectRatio}
-                value={Math.ceil(templateOptions.width)}
+                disabled={formData.lockAspectRatio}
+                value={Math.ceil(formData.width)}
               />
               <span className="icon is-small is-left">
                 <i className="fas fa-ruler-horizontal"></i>
@@ -224,8 +221,8 @@ const TemplateDesigner = () => {
             <div className="block mt-3">
               <label className="checkbox">
                 <input type="checkbox" onChange={(e) =>
-                  handleTemplateOptionChange('lockAspectRatio', !templateOptions.lockAspectRatio)
-                } checked={templateOptions.lockAspectRatio}/>
+                  handleTemplateOptionChange('lockAspectRatio', !formData.lockAspectRatio)
+                } checked={formData.lockAspectRatio}/>
                 <span className="ml-2">Use 16:9 aspect ratio</span>
               </label>
             </div>
@@ -247,7 +244,7 @@ const TemplateDesigner = () => {
                   onChange={(e) => handleNumberOfViewsChange(e.target.value)}
                   id="templateName"
                   required
-                  value={viewOptions.length}
+                  value={formData.views.length}
                 >
                   <option value={2}>2</option>
                   <option value={3}>3</option>
@@ -270,13 +267,13 @@ const TemplateDesigner = () => {
 
           <TemplateDragDrop
             handleDragDropChange={handleViewOptionChange}
-            viewOptions={viewOptions}
-            outputHeight={templateOptions.height}
-            outputWidth={templateOptions.width}
+            viewOptions={formData.views}
+            outputHeight={formData.height}
+            outputWidth={formData.width}
           />
 
           {/* Render a template option form for each video */}
-          {makeViewOptionInputs(viewOptions)}
+          {makeViewOptionInputs(formData.views)}
 
           <button type="submit" className="button is-primary mt-5">
             Create Template
@@ -287,4 +284,4 @@ const TemplateDesigner = () => {
   );
 };
 
-export default TemplateDesigner;
+export default TemplateDesignerForm;
