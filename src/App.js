@@ -13,6 +13,7 @@ import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import TemplateDesigner from './pages/TemplateDesigner';
 import NavMenu from './components/NavMenu';
+import TemplateDetailsPage from './pages/TemplateDetailsPage';
 
 
 // Initialize Amplify
@@ -56,7 +57,7 @@ const App = () => {
                 <Route exact={true} path="/file/new" component={SubmitFile} />
                 <Route exact={true} path="/templates/:id/use" component={TemplateWizard} />
                 <Route exact={true} path="/templates/new" component={TemplateDesigner} />
-                <Route exact={true} path="/templates/:id" component={FileView} />
+                <Route exact={true} path="/templates/:id" component={TemplateDetailsPage} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
                 <Route path="/file/:id" component={FileView} />
                 <Route render={() => (<h1>Page Not Found</h1>)} />

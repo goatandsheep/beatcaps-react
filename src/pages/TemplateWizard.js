@@ -20,7 +20,7 @@ const ViewInputs = (props) => {
         <div className="control has-icons-left">
           <span className="select">
             <select id={'media-' + num} className="input" name={'media-' + num} required>
-              <InputList inputs={props.inputs} />
+              <InputList inputs={props.inputs.elements} />
             </select>
           </span>
           <span className="icon is-small is-left">
