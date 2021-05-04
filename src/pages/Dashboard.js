@@ -49,7 +49,7 @@ const Dashboard = () => {
           </p>
           <Link to="file/new" className="button is-warning is-medium">Upload
             <span className="icon is-small is-left ml-1">
-              <i className="fas fa-crop-alt"></i>
+              <i className="fas fa-upload"></i>
             </span>
           </Link>
         </div>
