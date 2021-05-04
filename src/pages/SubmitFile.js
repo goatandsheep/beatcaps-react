@@ -76,7 +76,6 @@ const SubmitFile = () => {
           'Content-Type': 'application/json',
         },
       });
-      console.log('test');
       return await response.json();
     } catch (err) {
       console.error('request failure', err);

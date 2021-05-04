@@ -23,6 +23,20 @@ export const get720pWidth = (height) => {
   return height * 16 / 9;
 };
 
+// add default template width if missing. Add default view widths if missing.
+export const addDefaultWidth = (formData) => {
+  return {
+    ...formData,
+    width: formData.width || get720pWidth(formData.height),
+    views: formData.views.map((view) => {
+      return {
+        ...view,
+        width: view.width || get720pWidth(view.height),
+      };
+    }),
+  };
+};
+
 // All views should fit within the dimensions of the template
 // Returns error message, or `null` if valid.
 export const viewSizeErrors = ({
@@ -56,6 +70,32 @@ export const getConfinedViewOptions = (fieldOptions, {width: templateWidth, heig
     width: fieldOptions.width < templateWidth ? fieldOptions.width : templateWidth,
     height: fieldOptions.height < templateHeight ? fieldOptions.height : templateHeight,
   };
+};
+
+export const formatTemplateFormRequestObject = (formData) => {
+  const roundedViewOptions = formData.views.map((view) => {
+    return {
+      x: Math.ceil(view.x),
+      y: Math.ceil(view.y),
+      height: Math.ceil(view.height),
+      // don't send the width to the backend if using default 16:9
+      ...(view.lockAspectRatio ? {} : {width: Math.ceil(view.width)}),
+    };
+  });
+
+  const templateReq = {
+    ...formData,
+    height: Math.ceil(formData.height),
+    width: Math.ceil(formData.width),
+    views: roundedViewOptions,
+  };
+
+  // don't send the width to the backend if using default 16:9
+  if (templateReq.lockAspectRatio) {
+    delete templateReq.width;
+  }
+
+  return templateReq;
 };
 
 // constants

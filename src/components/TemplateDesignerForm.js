@@ -1,8 +1,8 @@
-/* eslint-disable no-unused-vars */
 import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import TemplateDragDrop from '../components/TemplateDragDrop';
-import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors, getConfinedViewOptions} from '../utils/templateUtils';
+import {DEFAULT_VIEW_OBJECT, DEFAULT_TEMPLATE_OBJECT, get720pWidth, viewSizeErrors, getConfinedViewOptions,
+  formatTemplateFormRequestObject} from '../utils/templateUtils';
 import TemplateViewInput from '../components/TemplateViewInput';
 
 // styles
@@ -12,8 +12,6 @@ const formStyles = {
 };
 
 const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT, handleSubmit}) => {
-  console.log('initialTemplateData', initialTemplateData);
-
   const [formData, setFormData] = useState(initialTemplateData);
 
   // Update View options for the correct view
@@ -86,7 +84,8 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT, ha
       return;
     }
 
-    handleSubmit(formData);
+    const formattedFormData = formatTemplateFormRequestObject(formData);
+    handleSubmit(formattedFormData);
   };
 
   const makeViewOptionInputs = (inputs) => {
