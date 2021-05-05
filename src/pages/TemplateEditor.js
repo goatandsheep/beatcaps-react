@@ -23,7 +23,7 @@ const TemplateEditor = ({match}) => {
       const fileData = await response.json();
 
       // Error handling if error
-      if (!fileData.message) {
+      if (!fileData.message && fileData.views) {
         // add width if missing from data
         setTemplate(addDefaultWidth(fileData));
       }
@@ -37,10 +37,6 @@ const TemplateEditor = ({match}) => {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
     }
 
-    // !! I'm getting an error for patch.
-    // Access to fetch at 'http://localhost:5000/templates/26a58de2-8fb3-4dd2-94db-4410e2593218'
-    // from origin 'http://localhost:3000' has been blocked by CORS policy:
-    // Method PATCH is not allowed by Access-Control-Allow-Methods in preflight response.
     const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${templateId}`, {
       method: 'PATCH',
       body: JSON.stringify(formattedFormData),

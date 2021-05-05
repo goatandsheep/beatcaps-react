@@ -24,14 +24,17 @@ export const get720pWidth = (height) => {
 };
 
 // add default template width if missing. Add default view widths if missing.
+// If the width is missing, assume that it has 16:9 aspect ratio
 export const addDefaultWidth = (formData) => {
   return {
     ...formData,
     width: formData.width || get720pWidth(formData.height),
+    lockAspectRatio: !formData.width,
     views: formData.views.map((view) => {
       return {
         ...view,
         width: view.width || get720pWidth(view.height),
+        lockAspectRatio: !view.width,
       };
     }),
   };
