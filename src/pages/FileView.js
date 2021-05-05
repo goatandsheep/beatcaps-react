@@ -31,25 +31,26 @@ const FileView = (props) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // if (!globalConsumer.token) {
-      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-      // }
-
-      if (globalConsumer.token) {
+      try {
         const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
           headers: {
             Authorization: globalConsumer.token,
           },
         });
+
         const fileData = await response.json();
         setMedia(fileData);
         if (fileData.status === 'Complete') {
           const signedUrl = await downloadFile(fileData.name + '.mp4');
           setDownloading(signedUrl);
         }
+      } catch (e) {
+        console.log(e);
       }
     };
-    fetchData();
+    if (globalConsumer.token) {
+      fetchData();
+    }
   }, [globalConsumer.token, props.match.params.id]);
 
   return (

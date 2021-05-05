@@ -25,7 +25,9 @@ const TemplateDetailsPage = (props) => {
       }
     };
 
-    fetchTemplateData();
+    if (globalConsumer.token) {
+      fetchTemplateData();
+    }
   }, [globalConsumer.token, props.match.params.id]);
 
   return (

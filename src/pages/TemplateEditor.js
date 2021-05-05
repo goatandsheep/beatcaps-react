@@ -29,26 +29,26 @@ const TemplateEditor = ({match}) => {
       }
     };
 
-    fetchTemplateData();
+    if (globalConsumer.token) {
+      fetchTemplateData();
+    }
   }, [globalConsumer.token, templateId]);
 
   const handlePatchTemplate = async (formattedFormData) => {
-    if (!globalConsumer.token) {
-      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
+    if (globalConsumer.token) {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${templateId}`, {
+        method: 'PATCH',
+        body: JSON.stringify(formattedFormData),
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+        },
+      });
+
+      await response.json();
+
+      history.push(`/templates/${templateId}`);
     }
-
-    const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${templateId}`, {
-      method: 'PATCH',
-      body: JSON.stringify(formattedFormData),
-      headers: {
-        'Authorization': globalConsumer.token,
-        'Content-Type': 'application/json',
-      },
-    });
-
-    await response.json();
-
-    history.push(`/templates/${templateId}`);
   };
 
   return template ? <TemplateDesignerForm initialTemplateData={template} handleSubmit={handlePatchTemplate} /> : null;
