@@ -47,13 +47,18 @@ export const viewSizeErrors = ({
   maxHeight,
   maxWidth,
 }) => {
-  const errorMessage = `All views should fit within the dimensions of the template. Please check:`;
+  const errorMessage = `All views should fit within the dimensions of the template. Please check view dimensions.`;
+  console.log(views, maxHeight, maxWidth);
   const invalidTemplates = views.reduce((string, {height, width, x, y}, index) => {
-    if ((height + y <= maxHeight) && (width + x <= maxWidth)) {
-      return string;
-    } else {
-      return string + ` View ${index + 1}.`;
+    const validateX = width + x > maxWidth ? `Width and X value exceeds ${maxWidth}. ` : '';
+    const validateY = height + y > maxWidth ? `Height and Y value exceeds ${maxHeight}. ` : '';
+    console.log(string, validateX, validateY);
+
+    if (validateX || validateY) {
+      return string + ` View ${index + 1} - ${validateX}${validateY}`;
     }
+
+    return string;
   }, '');
 
   return invalidTemplates ? (errorMessage + invalidTemplates) : null;
