@@ -2,65 +2,94 @@ import React, {useContext, useEffect, useState} from 'react';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import StatusBadge from '../components/StatusBadge';
+import {Storage} from '@aws-amplify/storage';
+
+const DownloadButton = (props) => {
+  return (
+    <div className="column">
+      <a className="button is-success is-rounded" href={props.href} target="_blank" rel="noreferrer" >
+        <span className="icon">
+          <i className="fas fa-download"></i>
+        </span>
+        <span>Download</span>
+      </a>
+    </div>
+  );
+};
 
 const FileView = (props) => {
   const globalConsumer = useContext(GlobalContext);
 
   const [media, setMedia] = useState('');
+  const [downloading, setDownloading] = useState('');
+
+  const downloadFile = async (input) => {
+    return Storage.get(input, {
+      level: 'private',
+    });
+  };
 
   useEffect(() => {
     const fetchData = async () => {
-      // if (!globalConsumer.token) {
-      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-      // }
-
-      if (globalConsumer.token) {
+      try {
         const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
           headers: {
             Authorization: globalConsumer.token,
           },
         });
+
         const fileData = await response.json();
         setMedia(fileData);
+        if (fileData.status === 'Complete') {
+          const signedUrl = await downloadFile(fileData.name + '.mp4');
+          setDownloading(signedUrl);
+        }
+      } catch (e) {
+        console.log(e);
       }
     };
-    fetchData();
+    if (globalConsumer.token) {
+      fetchData();
+    }
   }, [globalConsumer.token, props.match.params.id]);
 
   return (
     <div>
       <h1 className="title is-2">Output File Details</h1>
-      <div className="card card-content content">
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>ID</label>: <strong>{media ? media.id : <span className="is-loading">Loading</span>}</strong>
-          </p>
+      <div className="card card-content content columns is-vcentered">
+        <div className="column">
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>ID</label>: <strong>{media ? media.id : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>File name</label>: <strong>{media ? media.name : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>Type</label>: <strong>{media ? media.type : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>Created</label>: <strong>{media ? media.creationDate : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>Updated</label>: <strong>{media ? media.updatedDate : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>Status</label>: {media ? <StatusBadge status={media.status} /> : <StatusBadge status="Loading" />}
+            </p>
+          </div>
         </div>
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>File name</label>: <strong>{media ? media.name : <span className="is-loading">Loading</span>}</strong>
-          </p>
-        </div>
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>Type</label>: <strong>{media ? media.elementType : <span className="is-loading">Loading</span>}</strong>
-          </p>
-        </div>
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>Created</label>: <strong>{media ? media.creationDate : <span className="is-loading">Loading</span>}</strong>
-          </p>
-        </div>
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>Updated</label>: <strong>{media ? media.updatedDate : <span className="is-loading">Loading</span>}</strong>
-          </p>
-        </div>
-        <div>
-          <p className="subtitle is-5 has-text-left">
-            <label>Status</label>: {media ? <StatusBadge status={media.status} /> : <StatusBadge status="Loading" />}
-          </p>
-        </div>
+        {media.status === 'Complete' ? <DownloadButton href={downloading} /> : null}
       </div>
     </div>
   );

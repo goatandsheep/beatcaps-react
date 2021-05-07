@@ -24,14 +24,17 @@ export const get720pWidth = (height) => {
 };
 
 // add default template width if missing. Add default view widths if missing.
+// If the width is missing, assume that it has 16:9 aspect ratio
 export const addDefaultWidth = (formData) => {
   return {
     ...formData,
     width: formData.width || get720pWidth(formData.height),
+    lockAspectRatio: !formData.width,
     views: formData.views.map((view) => {
       return {
         ...view,
         width: view.width || get720pWidth(view.height),
+        lockAspectRatio: !view.width,
       };
     }),
   };
@@ -44,13 +47,18 @@ export const viewSizeErrors = ({
   maxHeight,
   maxWidth,
 }) => {
-  const errorMessage = `All views should fit within the dimensions of the template. Please check:`;
+  const errorMessage = `All views should fit within the dimensions of the template. Please check view dimensions.`;
+  console.log(views, maxHeight, maxWidth);
   const invalidTemplates = views.reduce((string, {height, width, x, y}, index) => {
-    if ((height + y <= maxHeight) && (width + x <= maxWidth)) {
-      return string;
-    } else {
-      return string + ` View ${index + 1}.`;
+    const validateX = width + x > maxWidth ? `Width and X value exceeds ${maxWidth}. ` : '';
+    const validateY = height + y > maxWidth ? `Height and Y value exceeds ${maxHeight}. ` : '';
+    console.log(string, validateX, validateY);
+
+    if (validateX || validateY) {
+      return string + ` View ${index + 1} - ${validateX}${validateY}`;
     }
+
+    return string;
   }, '');
 
   return invalidTemplates ? (errorMessage + invalidTemplates) : null;

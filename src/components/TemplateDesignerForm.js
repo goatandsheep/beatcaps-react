@@ -70,12 +70,13 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT, ha
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
+    const formattedFormData = formatTemplateFormRequestObject(formData);
 
     const viewErrors = viewSizeErrors(
         {
-          views: formData.views,
-          maxHeight: formData.height,
-          maxWidth: formData.width,
+          views: formattedFormData.views,
+          maxHeight: Math.ceil(formData.height),
+          maxWidth: Math.ceil(formData.width),
         },
     );
 
@@ -84,7 +85,6 @@ const TemplateDesignerForm = ({initialTemplateData = DEFAULT_TEMPLATE_OBJECT, ha
       return;
     }
 
-    const formattedFormData = formatTemplateFormRequestObject(formData);
     handleSubmit(formattedFormData);
   };
 

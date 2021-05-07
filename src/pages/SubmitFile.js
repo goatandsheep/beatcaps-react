@@ -37,6 +37,7 @@ const BeatCapsInputs = () => (
 );
 
 const SubmitFile = () => {
+  const [loading, setLoading] = useState(false);
   const globalConsumer = useContext(GlobalContext);
 
   const [misc, setMisc] = useState('');
@@ -46,6 +47,7 @@ const SubmitFile = () => {
   };
   const handleFileSubmit = async (event) => {
     event.preventDefault();
+    setLoading(true);
     const file = misc.file;
     const metadata = Object.fromEntries((new FormData(event.target)).entries());
     delete metadata.files;
@@ -59,24 +61,23 @@ const SubmitFile = () => {
     if (resp && awsResp && awsResp.key) {
       window.location.href = `/`;
     } else {
+      setLoading(false);
       throw new Error('file upload error');
     }
   };
   const uploadFile = async (req) => {
-    if (!globalConsumer.token) {
-      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-    }
-
     try {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
-        method: 'POST',
-        body: JSON.stringify(req),
-        headers: {
-          'Authorization': globalConsumer.token,
-          'Content-Type': 'application/json',
-        },
-      });
-      return await response.json();
+      if (globalConsumer.token) {
+        const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
+          method: 'POST',
+          body: JSON.stringify(req),
+          headers: {
+            'Authorization': globalConsumer.token,
+            'Content-Type': 'application/json',
+          },
+        });
+        return await response.json();
+      }
     } catch (err) {
       console.error('request failure', err);
       throw err;
@@ -91,7 +92,7 @@ const SubmitFile = () => {
           {constants.SHOW_BEATCAPS && <BeatCapsInputs/>}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
-              <input className="file-input" id="inputFile" type="file" onChange={chooseFile} required/>
+              <input className="file-input" accept=".mp3,.mp4" id="inputFile" type="file" onChange={chooseFile} required/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
@@ -102,7 +103,7 @@ const SubmitFile = () => {
             </label>
           </div>
         </fieldset>
-        <button className="button is-primary" type="submit">Submit</button>
+        <button disabled={loading} className="button is-primary" type="submit">{loading ? 'Loading...' : 'Submit'}</button>
       </form>
     </div>
   );

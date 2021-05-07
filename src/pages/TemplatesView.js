@@ -11,9 +11,6 @@ const TemplatesView = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      // if (!globalConsumer.token) {
-      //   throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-      // }
       if (globalConsumer.token) {
         const response = await fetch(`${constants.SERVER_DOMAIN}/templates`, {
           headers: {

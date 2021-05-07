@@ -25,7 +25,9 @@ const TemplateDetailsPage = (props) => {
       }
     };
 
-    fetchTemplateData();
+    if (globalConsumer.token) {
+      fetchTemplateData();
+    }
   }, [globalConsumer.token, props.match.params.id]);
 
   return (
@@ -43,7 +45,7 @@ const TemplateDetailsPage = (props) => {
           </span>
         </Link>
       </div>
-      <div className="card card-content content">
+      <div className="card card-content content my-5">
         {
           template?.views ?
           (
