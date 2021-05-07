@@ -34,10 +34,6 @@ const NavMenu = () => {
               {constants.SHOW_BEATCAPS && <BeatCapsNav/>}
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
-                  <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
-                    Overleia Outputs
-                  </Link>
-                  <hr className="dropdown-divider"></hr>
                   <Link to="/file/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Upload Video
                   </Link>

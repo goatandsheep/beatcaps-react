@@ -19,7 +19,7 @@ const CondCol = (props) => {
       <td>{props.children}</td>
     );
   } else {
-    return <td></td>;
+    return null;
   }
 };
 

@@ -23,6 +23,23 @@ export const get720pWidth = (height) => {
   return height * 16 / 9;
 };
 
+// add default template width if missing. Add default view widths if missing.
+// If the width is missing, assume that it has 16:9 aspect ratio
+export const addDefaultWidth = (formData) => {
+  return {
+    ...formData,
+    width: formData.width || get720pWidth(formData.height),
+    lockAspectRatio: !formData.width,
+    views: formData.views.map((view) => {
+      return {
+        ...view,
+        width: view.width || get720pWidth(view.height),
+        lockAspectRatio: !view.width,
+      };
+    }),
+  };
+};
+
 // All views should fit within the dimensions of the template
 // Returns error message, or `null` if valid.
 export const viewSizeErrors = ({
@@ -30,13 +47,18 @@ export const viewSizeErrors = ({
   maxHeight,
   maxWidth,
 }) => {
-  const errorMessage = `All views should fit within the dimensions of the template. Please check:`;
+  const errorMessage = `All views should fit within the dimensions of the template. Please check view dimensions.`;
+  console.log(views, maxHeight, maxWidth);
   const invalidTemplates = views.reduce((string, {height, width, x, y}, index) => {
-    if ((height + y <= maxHeight) && (width + x <= maxWidth)) {
-      return string;
-    } else {
-      return string + ` View ${index + 1}.`;
+    const validateX = width + x > maxWidth ? `Width and X value exceeds ${maxWidth}. ` : '';
+    const validateY = height + y > maxWidth ? `Height and Y value exceeds ${maxHeight}. ` : '';
+    console.log(string, validateX, validateY);
+
+    if (validateX || validateY) {
+      return string + ` View ${index + 1} - ${validateX}${validateY}`;
     }
+
+    return string;
   }, '');
 
   return invalidTemplates ? (errorMessage + invalidTemplates) : null;
@@ -58,6 +80,32 @@ export const getConfinedViewOptions = (fieldOptions, {width: templateWidth, heig
   };
 };
 
+export const formatTemplateFormRequestObject = (formData) => {
+  const roundedViewOptions = formData.views.map((view) => {
+    return {
+      x: Math.ceil(view.x),
+      y: Math.ceil(view.y),
+      height: Math.ceil(view.height),
+      // don't send the width to the backend if using default 16:9
+      ...(view.lockAspectRatio ? {} : {width: Math.ceil(view.width)}),
+    };
+  });
+
+  const templateReq = {
+    ...formData,
+    height: Math.ceil(formData.height),
+    width: Math.ceil(formData.width),
+    views: roundedViewOptions,
+  };
+
+  // don't send the width to the backend if using default 16:9
+  if (templateReq.lockAspectRatio) {
+    delete templateReq.width;
+  }
+
+  return templateReq;
+};
+
 // constants
 export const DEFAULT_VIEW_OBJECT = {
   height: 250,
@@ -72,4 +120,5 @@ export const DEFAULT_TEMPLATE_OBJECT = {
   height: 720,
   width: get720pWidth(720),
   lockAspectRatio: true,
+  views: [DEFAULT_VIEW_OBJECT, DEFAULT_VIEW_OBJECT],
 };

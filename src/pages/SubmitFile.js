@@ -66,21 +66,18 @@ const SubmitFile = () => {
     }
   };
   const uploadFile = async (req) => {
-    if (!globalConsumer.token) {
-      throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
-    }
-
     try {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
-        method: 'POST',
-        body: JSON.stringify(req),
-        headers: {
-          'Authorization': globalConsumer.token,
-          'Content-Type': 'application/json',
-        },
-      });
-      console.log('test');
-      return await response.json();
+      if (globalConsumer.token) {
+        const response = await fetch(`${constants.SERVER_DOMAIN}/file`, {
+          method: 'POST',
+          body: JSON.stringify(req),
+          headers: {
+            'Authorization': globalConsumer.token,
+            'Content-Type': 'application/json',
+          },
+        });
+        return await response.json();
+      }
     } catch (err) {
       console.error('request failure', err);
       throw err;
