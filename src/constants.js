@@ -1,6 +1,6 @@
 
 export const constants = {
-  SERVER_DOMAIN: 'https://api.beatcaps.io',
+  SERVER_DOMAIN: process.env.REACT_APP_SERVER_DOMAIN,
   SERVER_KEY: process.env.REACT_APP_SERVER_KEY,
   STRIPE_KEY: process.env.REACT_APP_STRIPE_KEY,
   AWS_REGION: process.env.REACT_APP_AWS_REGION || process.env.AWS_REGION || 'us-east-1',
