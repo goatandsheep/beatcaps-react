@@ -14,7 +14,8 @@ const TemplatesView = () => {
       if (globalConsumer.token) {
         const response = await fetch(`${constants.SERVER_DOMAIN}/templates`, {
           headers: {
-            Authorization: globalConsumer.token,
+            'Authorization': globalConsumer.token,
+            'X-Auth-Token': globalConsumer.user.identityId,
           },
         });
         const fileData = await response.json();

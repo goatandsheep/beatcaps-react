@@ -34,7 +34,8 @@ const FileView = (props) => {
       try {
         const response = await fetch(`${constants.SERVER_DOMAIN}/jobs/${props.match.params.id}`, {
           headers: {
-            Authorization: globalConsumer.token,
+            'Authorization': globalConsumer.token,
+            'X-Auth-Token': globalConsumer.user.identityId,
           },
         });
 
