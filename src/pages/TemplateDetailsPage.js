@@ -13,7 +13,8 @@ const TemplateDetailsPage = (props) => {
     const fetchTemplateData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.match.params.id}`, {
         headers: {
-          Authorization: globalConsumer.token,
+          'Authorization': globalConsumer.token,
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
       const fileData = await response.json();
