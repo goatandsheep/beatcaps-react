@@ -90,7 +90,6 @@ const Dashboard = () => {
             </tfoot>
             <tbody><TableRow prefix="/file" attrs={attrs} data={mediaList} /></tbody>
           </table>
-          {globalConsumer.user.identityId || 'no'}
         </div>
       </div>
     </div>
