@@ -1,6 +1,6 @@
 {
   "name": "my-app",
-  "version": "0.1.6",
+  "version": "1.0.0",
   "private": true,
   "dependencies": {
     "@aws-amplify/api": "^3.2.24",
