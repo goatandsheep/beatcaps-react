@@ -29,7 +29,7 @@ const TemplateDetailsPage = (props) => {
     if (globalConsumer.token) {
       fetchTemplateData();
     }
-  }, [globalConsumer.token, props.match.params.id]);
+  }, [globalConsumer.user, globalConsumer.token, props.match.params.id]);
 
   return (
     <div>
