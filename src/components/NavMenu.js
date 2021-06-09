@@ -2,6 +2,7 @@ import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import AuthButton from './AuthButton';
 import constants from '../constants';
+const {version} = require('../../package.json');
 
 const navButtonStyles = {
   width: 'auto',
@@ -71,8 +72,8 @@ const NavMenu = () => {
             </div>
           </div>
         </div>
-
         <div className="is-flex is-align-items-center">
+          <span>v{version}&nbsp;</span>
           <AuthButton />
         </div>
       </div>
