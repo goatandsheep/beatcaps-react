@@ -33,7 +33,7 @@ const TemplateEditor = ({match}) => {
     if (globalConsumer.token) {
       fetchTemplateData();
     }
-  }, [globalConsumer.token, templateId]);
+  }, [globalConsumer.user, globalConsumer.token, templateId]);
 
   const handlePatchTemplate = async (formattedFormData) => {
     if (globalConsumer.token) {

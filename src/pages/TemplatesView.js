@@ -23,7 +23,7 @@ const TemplatesView = () => {
       }
     };
     fetchData();
-  }, [globalConsumer.token]);
+  }, [globalConsumer.user, globalConsumer.token]);
   return (
     <div>
       <h1 className="title is-1">Templates</h1>

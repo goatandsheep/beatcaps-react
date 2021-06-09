@@ -52,7 +52,7 @@ const FileView = (props) => {
     if (globalConsumer.token) {
       fetchData();
     }
-  }, [globalConsumer.token, props.match.params.id]);
+  }, [globalConsumer.user, globalConsumer.token, props.match.params.id]);
 
   return (
     <div>
