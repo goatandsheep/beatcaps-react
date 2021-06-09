@@ -74,6 +74,7 @@ const SubmitFile = () => {
           headers: {
             'Authorization': globalConsumer.token,
             'Content-Type': 'application/json',
+            'X-Auth-Token': globalConsumer.user.identityId,
           },
         });
         return await response.json();
