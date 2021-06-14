@@ -93,7 +93,7 @@ const SubmitFile = () => {
           {constants.SHOW_BEATCAPS && <BeatCapsInputs/>}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
-              <input className="file-input" accept=".mp3,.mp4" id="inputFile" type="file" onChange={chooseFile} required/>
+              <input className="file-input" accept=".mp3,.mp4,.png,.jpeg" id="inputFile" type="file" onChange={chooseFile} required/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>
