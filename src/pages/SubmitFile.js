@@ -53,11 +53,11 @@ const SubmitFile = () => {
     delete metadata.files;
     metadata.userId = globalConsumer.user.identityId;
     metadata.file = misc.name;
-    const resp = await uploadFile(metadata);
     const awsResp = await Storage.put(file.name, file, {
       level: 'private',
       metadata,
     });
+    const resp = await uploadFile(metadata);
     if (resp && awsResp && awsResp.key) {
       window.location.href = `/`;
     } else {
