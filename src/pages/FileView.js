@@ -22,6 +22,7 @@ const FileView = (props) => {
 
   const [media, setMedia] = useState('');
   const [downloading, setDownloading] = useState('');
+  const [jobProgress, setJobProgress] = useState(0);
 
   const downloadFile = async (input) => {
     return Storage.get(input, {
@@ -41,6 +42,8 @@ const FileView = (props) => {
 
         const fileData = await response.json();
         setMedia(fileData);
+        setJobProgress(fileData.progress);
+
         // console.log(fileData.progress)
         if (fileData.status === 'Complete') {
           const signedUrl = await downloadFile(fileData.name + '.mp4');
@@ -77,7 +80,7 @@ const FileView = (props) => {
           </div>
           <div>
             <p className="subtitle is-5 has-text-left">
-              <label>Progress</label>: <strong>{media ? media.progress : <span className="is-loading">Loading</span>}</strong>
+              <label>Progress</label>: <strong>{jobProgress ? jobProgress : <span className="is-loading">Loading</span>}</strong>
             </p>
           </div>
           <div>
