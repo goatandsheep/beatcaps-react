@@ -41,6 +41,7 @@ const FileView = (props) => {
 
         const fileData = await response.json();
         setMedia(fileData);
+        // console.log(fileData.progress)
         if (fileData.status === 'Complete') {
           const signedUrl = await downloadFile(fileData.name + '.mp4');
           setDownloading(signedUrl);
@@ -72,6 +73,11 @@ const FileView = (props) => {
           <div>
             <p className="subtitle is-5 has-text-left">
               <label>Type</label>: <strong>{media ? media.type : <span className="is-loading">Loading</span>}</strong>
+            </p>
+          </div>
+          <div>
+            <p className="subtitle is-5 has-text-left">
+              <label>Progress</label>: <strong>{media ? media.progress : <span className="is-loading">Loading</span>}</strong>
             </p>
           </div>
           <div>
