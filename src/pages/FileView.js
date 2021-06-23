@@ -4,6 +4,18 @@ import constants from '../constants';
 import StatusBadge from '../components/StatusBadge';
 import {Storage} from '@aws-amplify/storage';
 
+const ProgressBar = (props) => {
+  if (props.status && props.status === 'In Progress' && props.progress) {
+    return (<span>{props.progress}<progress class="progress is-primary" value={props.progress} max="100">{props.progress}%</progress></span>);
+  } else if (props.status && props.status === 'In Progress') {
+    return (<progress class="progress" max="100">Loading</progress>);
+  } else if (props.status && props.status === 'Complete') {
+    return (<span>Complete</span>);
+  } else {
+    return (<span>N/A</span>);
+  }
+};
+
 const DownloadButton = (props) => {
   return (
     <div className="column">
@@ -80,7 +92,7 @@ const FileView = (props) => {
           </div>
           <div>
             <p className="subtitle is-5 has-text-left">
-              <label>Progress</label>: <strong>{media ? media.progress : <span className="is-loading">Loading</span>}</strong>
+              <label>Progress</label>: <ProgressBar progress={media.progress} status={media.status} />
             </p>
           </div>
           <div>
