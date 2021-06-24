@@ -6,7 +6,7 @@ import {Storage} from '@aws-amplify/storage';
 
 const ProgressBar = (props) => {
   if (props.status && props.status === 'In Progress' && props.progress) {
-    return (<span>{props.progress}<progress class="progress is-primary" value={props.progress} max="100">{props.progress}%</progress></span>);
+    return (<span>{props.progress}%<progress class="progress is-primary" value={props.progress} max="100">{props.progress}%</progress></span>);
   } else if (props.status && props.status === 'In Progress') {
     return (<progress class="progress" max="100">Loading</progress>);
   } else if (props.status && props.status === 'Complete') {
