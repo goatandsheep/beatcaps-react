@@ -9,7 +9,7 @@
     "@aws-amplify/interactions": "^3.3.23",
     "@aws-amplify/storage": "^3.3.24",
     "@aws-amplify/ui-components": "^1.0.3",
-    "@aws-amplify/ui-react": "1.0.7",
+    "@aws-amplify/ui-react": "1.2.4",
     "@fortawesome/fontawesome-free": "^5.15.3",
     "@testing-library/jest-dom": "^5.11.9",
     "@testing-library/react": "^11.2.5",
