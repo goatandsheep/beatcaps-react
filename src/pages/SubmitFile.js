@@ -3,6 +3,7 @@ import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import {Storage} from '@aws-amplify/storage';
 
+/*
 const BeatCapsInputs = () => (
   <>
     <div className="field">
@@ -35,6 +36,7 @@ const BeatCapsInputs = () => (
     </div>
   </>
 );
+*/
 
 const SubmitFile = () => {
   const [loading, setLoading] = useState(false);
@@ -90,7 +92,7 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
-          {constants.SHOW_BEATCAPS && <BeatCapsInputs/>}
+          {/* {constants.SHOW_BEATCAPS && <BeatCapsInputs/>} */}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
               <input className="file-input" accept=".mp3,.mp4,.png,.jpeg,.jpg" id="inputFile" type="file" onChange={chooseFile} required/>

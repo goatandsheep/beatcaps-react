@@ -4,11 +4,13 @@ import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import {awsAuthInit} from './utils/auth';
 import {withAuthenticator, AmplifyContainer, AmplifyAuthenticator} from '@aws-amplify/ui-react';
 import {AuthState, onAuthUIStateChange} from '@aws-amplify/ui-components';
+import constants from './constants';
 
 import {GlobalProvider} from './contexts/GlobalState';
 import Dashboard from './pages/Dashboard';
 import TemplatesView from './pages/TemplatesView';
 import TemplateWizard from './pages/TemplateWizard';
+import BeatcapsWizard from './pages/BeatcapsWizard';
 import SubmitFile from './pages/SubmitFile';
 import FileView from './pages/FileView';
 import NavMenu from './components/NavMenu';
@@ -56,6 +58,7 @@ const App = () => {
               <Switch>
                 <Route exact={true} path="/" component={Dashboard} />
                 <Route exact={true} path="/file/new" component={SubmitFile} />
+                <Route exact={true} path="/file/use" component={constants.SHOW_BEATCAPS ? BeatcapsWizard : SubmitFile} />
                 <Route exact={true} path="/templates/:id/use" component={TemplateWizard} />
                 <Route exact={true} path="/templates/new" component={TemplateCreator} />
                 <Route exact={true} path="/templates/:id/edit" component={TemplateEditor} />
