@@ -35,6 +35,9 @@ const NavMenu = () => {
               {constants.SHOW_BEATCAPS && <BeatCapsNav/>}
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
+                  <Link to="/file/use" className="dropdown-item is-hoverable" style={navButtonStyles}>
+                    Create cues
+                  </Link>
                   <Link to="/file/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Upload Video
                   </Link>
