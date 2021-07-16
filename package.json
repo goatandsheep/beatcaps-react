@@ -5,7 +5,7 @@
   "dependencies": {
     "@aws-amplify/api": "^3.2.24",
     "@aws-amplify/auth": "^3.4.24",
-    "@aws-amplify/core": "^3.8.16",
+    "@aws-amplify/core": "^4.2.0",
     "@aws-amplify/interactions": "^3.3.23",
     "@aws-amplify/storage": "^3.3.24",
     "@aws-amplify/ui-components": "^1.0.3",
