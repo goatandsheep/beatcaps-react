@@ -77,6 +77,9 @@ const BeatcapsWizard = (props) => {
     event.preventDefault();
     const metadata = Object.fromEntries((new FormData(event.target)).entries());
     console.log('metadata', metadata);
+    const inputNameSegs = metadata.media.split('.');
+    inputNameSegs.pop();
+    metadata.name = inputNameSegs.join('.');
     metadata.inputs = [];
     // for (let i = 0; i < template.views.length; i++) {
     metadata.inputs.push(metadata['media']);
@@ -113,21 +116,6 @@ const BeatcapsWizard = (props) => {
 
       <form className="card mt-2 has-text-left" onSubmit={handleFileSubmit} encType="multipart/form-data" method="post">
         <div className="card-content content">
-          <label htmlFor="outputName" className="label">
-            Output Video Name
-          </label>
-          <div className="control is-expanded has-icons-left block">
-            <input
-              id="outputName"
-              className="input"
-              name="name"
-              required
-              type="text"
-            />
-            <span className="icon is-small is-left">
-              <i className="fas fa-signature"></i>
-            </span>
-          </div>
           <fieldset className="block">
             <legend className="subtitle is-5">Choose videos for each view:</legend>
             <ViewInputs inputs={inputs} />
