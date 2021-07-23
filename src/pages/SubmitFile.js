@@ -3,6 +3,7 @@ import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
 import {Storage} from '@aws-amplify/storage';
 
+/*
 const BeatCapsInputs = () => (
   <>
     <div className="field">
@@ -35,6 +36,7 @@ const BeatCapsInputs = () => (
     </div>
   </>
 );
+*/
 
 const SubmitFile = () => {
   const [loading, setLoading] = useState(false);
@@ -53,11 +55,11 @@ const SubmitFile = () => {
     delete metadata.files;
     metadata.userId = globalConsumer.user.identityId;
     metadata.file = misc.name;
-    const resp = await uploadFile(metadata);
     const awsResp = await Storage.put(file.name, file, {
       level: 'private',
       metadata,
     });
+    const resp = await uploadFile(metadata);
     if (resp && awsResp && awsResp.key) {
       window.location.href = `/`;
     } else {
@@ -74,6 +76,7 @@ const SubmitFile = () => {
           headers: {
             'Authorization': globalConsumer.token,
             'Content-Type': 'application/json',
+            'X-Auth-Token': globalConsumer.user.identityId,
           },
         });
         return await response.json();
@@ -89,10 +92,10 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
-          {constants.SHOW_BEATCAPS && <BeatCapsInputs/>}
+          {/* {constants.SHOW_BEATCAPS && <BeatCapsInputs/>} */}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">
-              <input className="file-input" accept=".mp3,.mp4" id="inputFile" type="file" onChange={chooseFile} required/>
+              <input className="file-input" accept=".mp3,.mp4,.png,.jpeg,.jpg" id="inputFile" type="file" onChange={chooseFile} required/>
               <span className="file-cta">
                 <span className="file-icon">
                   <i className="fas fa-upload"></i>

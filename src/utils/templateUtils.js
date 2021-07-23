@@ -51,7 +51,7 @@ export const viewSizeErrors = ({
   console.log(views, maxHeight, maxWidth);
   const invalidTemplates = views.reduce((string, {height, width, x, y}, index) => {
     const validateX = width + x > maxWidth ? `Width and X value exceeds ${maxWidth}. ` : '';
-    const validateY = height + y > maxWidth ? `Height and Y value exceeds ${maxHeight}. ` : '';
+    const validateY = height + y > maxHeight ? `Height and Y value exceeds ${maxHeight}. ` : '';
     console.log(string, validateX, validateY);
 
     if (validateX || validateY) {

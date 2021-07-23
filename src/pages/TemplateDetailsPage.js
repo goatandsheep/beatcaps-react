@@ -13,7 +13,8 @@ const TemplateDetailsPage = (props) => {
     const fetchTemplateData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.match.params.id}`, {
         headers: {
-          Authorization: globalConsumer.token,
+          'Authorization': globalConsumer.token,
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
       const fileData = await response.json();
@@ -28,7 +29,7 @@ const TemplateDetailsPage = (props) => {
     if (globalConsumer.token) {
       fetchTemplateData();
     }
-  }, [globalConsumer.token, props.match.params.id]);
+  }, [globalConsumer.user, globalConsumer.token, props.match.params.id]);
 
   return (
     <div>

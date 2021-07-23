@@ -46,7 +46,8 @@ const TemplateWizard = (props) => {
     const fetchData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${props.match.params.id}`, {
         headers: {
-          Authorization: globalConsumer.token,
+          'Authorization': globalConsumer.token,
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
       const fileData = await response.json();
@@ -66,7 +67,8 @@ const TemplateWizard = (props) => {
     const fetchInputs = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/file/list`, {
         headers: {
-          Authorization: globalConsumer.token,
+          'Authorization': globalConsumer.token,
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
       const fileInputs = await response.json();

@@ -17,7 +17,8 @@ const TemplateEditor = ({match}) => {
     const fetchTemplateData = async () => {
       const response = await fetch(`${constants.SERVER_DOMAIN}/templates/${templateId}`, {
         headers: {
-          Authorization: globalConsumer.token,
+          'Authorization': globalConsumer.token,
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
       const fileData = await response.json();
@@ -32,7 +33,7 @@ const TemplateEditor = ({match}) => {
     if (globalConsumer.token) {
       fetchTemplateData();
     }
-  }, [globalConsumer.token, templateId]);
+  }, [globalConsumer.user, globalConsumer.token, templateId]);
 
   const handlePatchTemplate = async (formattedFormData) => {
     if (globalConsumer.token) {
@@ -42,6 +43,7 @@ const TemplateEditor = ({match}) => {
         headers: {
           'Authorization': globalConsumer.token,
           'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
         },
       });
 

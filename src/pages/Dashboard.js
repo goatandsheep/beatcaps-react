@@ -19,7 +19,8 @@ const Dashboard = () => {
         const response = await fetch(`${constants.SERVER_DOMAIN}/jobs`, {
           mode: 'cors',
           headers: {
-            Authorization: globalConsumer.token,
+            'Authorization': globalConsumer.token,
+            'X-Auth-Token': globalConsumer.user.identityId,
           },
         });
         const fileData = await response.json();
@@ -27,7 +28,7 @@ const Dashboard = () => {
       }
     };
     fetchData();
-  }, [globalConsumer.token]);
+  }, [globalConsumer.user, globalConsumer.token]);
 
   return (
     <div>
