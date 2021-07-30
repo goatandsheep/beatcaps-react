@@ -65,7 +65,6 @@ const FileView = (props) => {
         console.log(e);
       }
     };
-    // Jessa's insert
     let intervalId = 0;
     const interval = 1000;
     const polling = () => {
