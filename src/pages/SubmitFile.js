@@ -106,7 +106,7 @@ const SubmitFile = () => {
             </label>
           </div>
         </fieldset>
-        <button disabled={loading} className="button is-primary" type="submit">{loading ? 'Loading...' : 'Submit'}</button>
+        <button style={{marginBottom: 30}} disabled={loading} className="button is-primary" type="submit">{loading ? 'Loading...' : 'Submit'}</button>
       </form>
     </div>
   );
