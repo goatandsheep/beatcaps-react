@@ -6,9 +6,9 @@ import {Storage} from '@aws-amplify/storage';
 
 const ProgressBar = (props) => {
   if (props.status && props.status === 'In Progress' && props.progress) {
-    return (<span>{props.progress}%<progress class="progress is-primary" value={props.progress} max="100">{props.progress}%</progress></span>);
+    return (<span>{props.progress}%<progress className="progress is-primary" value={props.progress} max="100">{props.progress}%</progress></span>);
   } else if (props.status && props.status === 'In Progress') {
-    return (<progress class="progress" max="100">Loading</progress>);
+    return (<progress className="progress" max="100">Loading</progress>);
   } else if (props.status && props.status === 'Complete') {
     return (<span>Complete</span>);
   } else {
@@ -65,10 +65,21 @@ const FileView = (props) => {
         console.log(e);
       }
     };
+    let intervalId = 0;
+    const interval = 1000;
+    const polling = () => {
+      if (media.status === 'In Progress' && !downloading) {
+        fetchData();
+      } else {
+        clearInterval(intervalId);
+      }
+    };
+
     if (globalConsumer.token) {
       fetchData();
+      intervalId = setInterval(polling, interval);
     }
-  }, [globalConsumer.user, globalConsumer.token, props.match.params.id]);
+  }, [globalConsumer.user, globalConsumer.token, props.match.params.id, media.status, downloading]);
 
   return (
     <div>
