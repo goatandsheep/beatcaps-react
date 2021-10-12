@@ -65,7 +65,7 @@ const App = () => {
                 <Route exact={true} path="/templates/:id/edit" component={TemplateEditor} />
                 <Route exact={true} path="/templates/:id" component={TemplateDetailsPage} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
-                <Route exact={true} path="/processpicker" component={ProcessPicker} />
+                <Route exact={true} path="/processes" component={ProcessPicker} />
                 <Route path="/file/:id" component={FileView} />
                 <Route render={() => (<h1>Page Not Found</h1>)} />
               </Switch>
