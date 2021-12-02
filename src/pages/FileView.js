@@ -79,7 +79,7 @@ const FileView = (props) => {
             setDownloading([signedUrl1, signedUrl2]);
           } else {
             const signedUrl = await downloadFile(fileData.name + '.mp4');
-            setDownloading(signedUrl);
+            setDownloading([signedUrl]);
           }
         }
       } catch (e) {
@@ -146,7 +146,7 @@ const FileView = (props) => {
         {media.status === 'Complete' ?
           media.type === 'BeatCaps' ?
             <div><DownloadButton href={downloading[0]} label="source" /><DownloadButton href={downloading[1]} label="cues" /></div> :
-            <DownloadButton href={downloading} /> : null
+            <DownloadButton href={downloading[0]} /> : null
         }
       </div>
       {media.status === 'Complete' ?
@@ -155,7 +155,7 @@ const FileView = (props) => {
             <video src={vidBlobs[0]} controls>
               <track kind="captions" srcLang="en" src={vidBlobs[1]} />
             </video> :
-            <video src={vidBlobs}></video> :
+            <video src={vidBlobs[0]}></video> :
           <button onClick={getVidBlobs}>Play</button> : null}
     </div>
   );
