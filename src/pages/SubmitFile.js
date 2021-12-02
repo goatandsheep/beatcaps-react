@@ -61,7 +61,7 @@ const SubmitFile = () => {
     });
     const resp = await uploadFile(metadata);
     if (resp && awsResp && awsResp.key) {
-      window.location.href = `/ProcessPicker`;
+      window.location.href = `/processes`;
     } else {
       setLoading(false);
       throw new Error('file upload error');

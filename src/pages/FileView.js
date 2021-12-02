@@ -24,6 +24,7 @@ const DownloadButton = (props) => {
           <i className="fas fa-download"></i>
         </span>
         <span>Download</span>
+        <span>&nbsp;{props.label}</span>
       </a>
     </div>
   );
@@ -34,12 +35,26 @@ const FileView = (props) => {
 
   const [media, setMedia] = useState('');
   const [downloading, setDownloading] = useState('');
+  const [vidBlobs, setVidBlobs] = useState([]);
   // const [jobProgress, setJobProgress] = useState(0);
 
-  const downloadFile = async (input) => {
+  const downloadFile = async (input, download=false) => {
     return Storage.get(input, {
       level: 'private',
+      download,
     });
+  };
+
+  const getVidBlobs = async () => {
+    const blobUrl = await downloadFile(media.name + '.mp4', true);
+    const url = URL.createObjectURL(blobUrl.Body);
+    const blobList = [url];
+    if (media.type === 'BeatCaps') {
+      const blobUrl2 = await downloadFile(media.name + '.vtt', true);
+      const url2 = URL.createObjectURL(blobUrl2.Body);
+      blobList.push(url2);
+    }
+    setVidBlobs(blobList);
   };
 
   useEffect(() => {
@@ -57,9 +72,15 @@ const FileView = (props) => {
         // setJobProgress(fileData.progress);
 
         // console.log(fileData.progress)
-        if (fileData.status === 'Complete') {
-          const signedUrl = await downloadFile(fileData.name + '.mp4');
-          setDownloading(signedUrl);
+        if (fileData.status === 'Complete' && !downloading) {
+          if (fileData.type === 'BeatCaps') {
+            const signedUrl1 = await downloadFile(fileData.name + '.mp4');
+            const signedUrl2 = await downloadFile(fileData.name + '.vtt');
+            setDownloading([signedUrl1, signedUrl2]);
+          } else {
+            const signedUrl = await downloadFile(fileData.name + '.mp4');
+            setDownloading([signedUrl]);
+          }
         }
       } catch (e) {
         console.log(e);
@@ -122,8 +143,20 @@ const FileView = (props) => {
             </p>
           </div>
         </div>
-        {media.status === 'Complete' ? <DownloadButton href={downloading} /> : null}
+        {media.status === 'Complete' ?
+          media.type === 'BeatCaps' ?
+            <div><DownloadButton href={downloading[0]} label="source" /><DownloadButton href={downloading[1]} label="cues" /></div> :
+            <DownloadButton href={downloading[0]} /> : null
+        }
       </div>
+      {media.status === 'Complete' ?
+        vidBlobs.length > 0 ?
+          media.type === 'BeatCaps' ?
+            <video src={vidBlobs[0]} controls>
+              <track kind="captions" srcLang="en" src={vidBlobs[1]} />
+            </video> :
+            <video src={vidBlobs[0]}></video> :
+          <button onClick={getVidBlobs}>Play</button> : null}
     </div>
   );
 };
