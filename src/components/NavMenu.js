@@ -74,6 +74,11 @@ const NavMenu = () => {
               </div>
             </div>
           </div>
+          <div className="is-flex is-align-items-center">
+            <span className="storage-span">Free Storage</span>
+            <progress class="ml-3 mt-5 progress is-small" value="10" max="100">100%</progress>
+            <span className="ml-3" >0.1GB</span>
+          </div>
         </div>
         <div className="is-flex is-align-items-center">
           <span>v{version}&nbsp;</span>
