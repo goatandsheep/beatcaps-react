@@ -73,9 +73,26 @@ const NavMenu = () => {
                 </div>
               </div>
             </div>
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <span>Storage</span>
+                  <span className="icon is-small">
+                    <i className="fas fa-angle-down" aria-hidden="true"></i>
+                  </span>
+                </button>
+              </div>
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
+                    Storage Remaining
+                  </Link>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="is-flex is-align-items-center">
-            <span className="storage-span">Free Storage</span>
+          <div className="is-flex is-align-items-center ml-5">
+            <span className="storage-span">Free Storage:</span>
             <progress class="ml-3 mt-5 progress is-small" value="10" max="100">100%</progress>
             <span className="ml-3" >0.1GB</span>
           </div>
