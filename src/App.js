@@ -18,6 +18,7 @@ import TemplateDetailsPage from './pages/TemplateDetailsPage';
 import TemplateEditor from './pages/TemplateEditor';
 import TemplateCreator from './pages/TemplateCreator';
 import ProcessPicker from './pages/ProcessPicker';
+import StorageView from './pages/StorageView';
 
 
 // Initialize Amplify
@@ -66,6 +67,7 @@ const App = () => {
                 <Route exact={true} path="/templates/:id" component={TemplateDetailsPage} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
                 <Route exact={true} path="/processes" component={ProcessPicker} />
+                <Route exact={true} path="/storage" component={StorageView} />
                 <Route path="/file/:id" component={FileView} />
                 <Route render={() => (<h1>Page Not Found</h1>)} />
               </Switch>

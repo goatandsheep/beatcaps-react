@@ -84,7 +84,7 @@ const NavMenu = () => {
               </div>
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
                 <div className="dropdown-content">
-                  <Link to="/" className="dropdown-item is-hoverable" style={navButtonStyles}>
+                  <Link to="/storage" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Storage Remaining
                   </Link>
                 </div>
@@ -93,7 +93,7 @@ const NavMenu = () => {
           </div>
           <div className="is-flex is-align-items-center ml-5">
             <span className="storage-span">Free Storage:</span>
-            <progress class="ml-3 mt-5 progress is-small" value="10" max="100">100%</progress>
+            <progress class="ml-3 mt-5 progress is-small nav-prog" value="10" max="100">100%</progress>
             <span className="ml-3" >0.1GB</span>
           </div>
         </div>
