@@ -157,6 +157,16 @@ const TemplateWizard = (props) => {
             <legend className="subtitle is-5">Choose videos for each view:</legend>
             { template?.views && inputs ? <ViewInputs inputs={inputs} views={template.views} /> : null}
           </fieldset>
+          <div className="mb-5 has-text-left">
+            <p className="mb-1">
+              <span className="has-text-weight-semibold is-size-5">
+                Cannot build this video!
+              </span>
+              <br/>
+                You will be going over your 1 GB of input/processed storage.</p>
+            <p className="mb-1">To process a video this large please setup your payment details to purchase Storage.</p>
+            <p>Note that beyond your free 1GB, it is $8.00 per GB of input/processed storage.</p>
+          </div>
           <button className="button is-primary block" type="submit">Submit</button>
         </div>
       </form>
