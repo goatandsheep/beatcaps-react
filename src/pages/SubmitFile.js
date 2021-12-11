@@ -92,6 +92,16 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
+          <div className="mb-5 has-text-left">
+            <p className="mb-1">
+              <span className="has-text-weight-semibold is-size-5">
+                Cannot upload this video!
+              </span>
+              <br/>
+                You will be going over your 1 GB of input/processed storage.</p>
+            <p className="mb-1">To process a video this large please setup your payment details to purchase Storage.</p>
+            <p>Note that beyond your free 1GB, it is $8.00 per GB of input/processed storage.</p>
+          </div>
           {/* {constants.SHOW_BEATCAPS && <BeatCapsInputs/>} */}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">

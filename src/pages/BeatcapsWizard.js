@@ -120,6 +120,16 @@ const BeatcapsWizard = (props) => {
             <legend className="subtitle is-5">Choose videos for each view:</legend>
             <ViewInputs inputs={inputs} />
           </fieldset>
+          <div className="mb-5">
+            <p className="mb-1">
+              <span className="has-text-weight-semibold is-size-5">
+                Cannot proccess this video!
+              </span>
+              <br/>
+                You will be going over your 10 Free Beatcaps Processing Minutes.</p>
+            <p className="mb-1">To process a video this large please setup your payment details to purchase process time.</p>
+            <p>Note that beyond your free 10 minutes, it is $0.08 per second of processing.</p>
+          </div>
           <button className="button is-primary block" type="submit">Submit</button>
         </div>
       </form>
