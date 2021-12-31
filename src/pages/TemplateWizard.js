@@ -80,7 +80,24 @@ const TemplateWizard = (props) => {
     }
   }, [globalConsumer]);
 
+  const handleFileEstimation = async () => {
+    try {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+      await response.json();
+    } catch (err) {
+      //
+    }
+  };
+
   const handleFileSubmit = async (event) => {
+    handleFileEstimation();
     event.preventDefault();
     const metadata = Object.fromEntries((new FormData(event.target)).entries());
     metadata.inputs = [];

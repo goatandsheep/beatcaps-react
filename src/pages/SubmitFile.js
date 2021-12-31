@@ -43,9 +43,32 @@ const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [misc, setMisc] = useState('');
+
+  const getStorageSize = async () => {
+    try {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
+        method: 'GET',
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+      return response.json();
+    } catch (err) {
+      //
+    }
+  };
   const chooseFile = async () => {
     const fileEl = document.querySelector('#inputFile').files[0];
     setMisc({name: fileEl.name, file: fileEl});
+    const filesize = fileEl.size;
+    // GET Current Storage Size
+    const currentStorage = getStorageSize;
+    if ((currentStorage + filesize) > 1000000000) {
+      // Make div visible and disable submit button
+    }
+    console.log(filesize);
   };
   const handleFileSubmit = async (event) => {
     event.preventDefault();
