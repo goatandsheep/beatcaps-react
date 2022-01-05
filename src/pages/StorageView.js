@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useLocation} from 'react-router-dom';
 import queryString from 'query-string';
 import {GlobalContext} from '../contexts/GlobalState';
@@ -9,22 +9,27 @@ const StorageView = (props) => {
   const globalConsumer = useContext(GlobalContext);
   const [storageDataAmount, setStorageDataAmount] = useState(0);
   const [minDataAmount, setMinDataAmount] = useState(0);
-  const [upgraded, setUpgraded] = useState(true);
+  const [upgraded, setUpgraded] = useState(false);
 
   const {search} = useLocation();
-  const query = queryString.parse(search);
-  if (query.session_id) {
-    console.log('query', query);
-    fetch(`${constants.SERVER_DOMAIN}/usage`, {
-      method: 'PATCH',
-      body: JSON.stringify(query),
-      headers: {
-        'Authorization': globalConsumer.token,
-        'Content-Type': 'application/json',
-        'X-Auth-Token': globalConsumer.user.identityId,
-      },
-    });
-  }
+
+  console.log('u', globalConsumer.user);
+
+  useEffect(() => {
+    const query = queryString.parse(search);
+    if (query.session_id) {
+      console.log('query', query);
+      fetch(`${constants.SERVER_DOMAIN}/usage`, {
+        method: 'PATCH',
+        body: JSON.stringify(query),
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+    }
+  });
 
   const handleUpgrade = async () => {
     // https://stripe.com/docs/api/checkout/sessions/create
@@ -49,9 +54,18 @@ const StorageView = (props) => {
     try {
       // Fetch data for storage data amount, and minute data amount
       // if there is a subID and CustomerID then
-      setUpgraded(true);
-      setStorageDataAmount(900);
-      setMinDataAmount(900);
+      let response = await fetch(`${constants.SERVER_DOMAIN}/usage`, {
+        method: 'GET',
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+      response = await response.json();
+      setUpgraded(response.verified);
+      setStorageDataAmount(response.storageUsage);
+      setMinDataAmount(response.beatcapsUsage);
       // const response = await fetch(`${constants.SERVER_DOMAIN}/usage`)
     } catch (err) {
       //

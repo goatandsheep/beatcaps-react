@@ -68,7 +68,6 @@ const SubmitFile = () => {
     if ((currentStorage + filesize) > 1000000000) {
       // Make div visible and disable submit button
     }
-    console.log(filesize);
   };
   const handleFileSubmit = async (event) => {
     event.preventDefault();
