@@ -30,6 +30,11 @@ awsAuthInit();
 const App = () => {
   const [user, setUser] = useState({});
   const [authState, setAuthState] = useState(null);
+  const [usage] = useState({
+    beatcaps: 0,
+    storage: 0,
+    verified: false,
+  });
 
   useEffect(() => {
     return onAuthUIStateChange((nextAuthState, authData) => {
@@ -50,7 +55,7 @@ const App = () => {
   };
 
   return (
-    <GlobalProvider state={{user, authState}}>
+    <GlobalProvider state={{user, authState, usage}}>
       <AmplifyContainer>
         <AmplifyAuthenticator handleAuthStateChange={handleAuthStateChange}/>
         <Router>

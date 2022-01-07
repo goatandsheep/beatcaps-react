@@ -79,8 +79,8 @@ const StorageView = (props) => {
       <div >
         <p className="is-size-3">Thank you for Upgrading!</p>
         <br/>
-        <p>Storage Usage: {storageDataAmount}</p>
-        <p>Beatcaps Min Usage: {minDataAmount}</p>
+        <p>Storage Usage: {storageDataAmount} kB</p>
+        <p>Beatcaps Usage: {minDataAmount} seconds</p>
         <button onClick={fetchData}>FetchData</button>
       </div> :
       <div>
