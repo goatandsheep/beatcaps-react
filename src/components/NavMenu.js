@@ -83,7 +83,7 @@ const NavMenu = () => {
                   <span className="icon is-small">
                     <i className="fas fa-angle-down" aria-hidden="true"></i>
                   </span> */}
-                  <StorageBar/>
+                  <StorageBar storageView={false}/>
                 </button>
               </div>
               <div className="dropdown-menu" id="dropdown-menu" role="menu">
@@ -94,12 +94,6 @@ const NavMenu = () => {
                 </div>
               </div>
             </div>
-          </div>
-          <div className="is-flex is-align-items-center ml-5">
-            <span className="storage-span">Free Storage:</span>
-            <progress className="ml-3 mt-5 progress is-small nav-prog" value="10" max="100">100%</progress>
-            <span className="ml-3" >0.1GB</span>
-            <StorageBar/>
           </div>
         </div>
         <div className="is-flex is-align-items-center">

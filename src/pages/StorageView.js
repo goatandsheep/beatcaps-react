@@ -3,13 +3,14 @@ import {useLocation} from 'react-router-dom';
 import queryString from 'query-string';
 import {GlobalContext} from '../contexts/GlobalState';
 import constants from '../constants';
-
+import StorageBar from '../components/StorageBar';
 
 const StorageView = (props) => {
   const globalConsumer = useContext(GlobalContext);
   const [storageDataAmount, setStorageDataAmount] = useState(0);
   const [minDataAmount, setMinDataAmount] = useState(0);
   const [upgraded, setUpgraded] = useState(false);
+  const [freeTrial, setFreeTrial] = useState(true);
 
   const {search} = useLocation();
 
@@ -64,6 +65,8 @@ const StorageView = (props) => {
       });
       response = await response.json();
       setUpgraded(response.verified);
+      // setFreeTrial(response.trialVerified)
+      setFreeTrial(response.trialVerified);
       setStorageDataAmount(response.storageUsage);
       setMinDataAmount(response.beatcapsUsage);
       // const response = await fetch(`${constants.SERVER_DOMAIN}/usage`)
@@ -83,18 +86,21 @@ const StorageView = (props) => {
         <p>Beatcaps Usage: {minDataAmount} seconds</p>
         <button onClick={fetchData}>FetchData</button>
       </div> :
+      (freeTrial ?
       <div>
-        <div>
-          <p className="is-size-3">Free Storage:</p>
-          <div className="is-flex is-justify-content-center is-align-items-center">
-            <progress className="storage-view ml-3 mt-5 progress is-large" value="10" max="100">100%</progress>
-            <span className="ml-3 is-size-5" >0.1GB</span>
-          </div>
-        </div>
+        <StorageBar storageView={true}/>
         <p>After the initial 1GB free storage, future GB of data cost $8 per GB. <br/> This includes upload and proccessed content.</p>
         <p>Click below to upgrade for more storage.</p>
         <button onClick={handleUpgrade} className="button is-primary is-medium mt-5">Upgrade Now</button>
-      </div>}
+      </div> :
+      <div>
+        <div>
+          <p className="is-size-3">Upgrade Now for More Storage!</p>
+          <p>Future GB of data cost $8 per GB. <br/> This includes upload and proccessed content.</p>
+          <p>Click below to upgrade for more storage.</p>
+          <button onClick={handleUpgrade} className="button is-primary is-medium mt-5">Upgrade Now</button>
+        </div>
+      </div>)}
     </div>
   );
 };
