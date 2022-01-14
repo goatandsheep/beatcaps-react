@@ -79,11 +79,7 @@ const NavMenu = () => {
             <div className="dropdown is-hoverable">
               <div className="dropdown-trigger">
                 <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
-                  {/* <span>Storage</span>
-                  <span className="icon is-small">
-                    <i className="fas fa-angle-down" aria-hidden="true"></i>
-                  </span> */}
-                  <StorageBar storageView={false}/>
+                  <StorageBar isLarge={false}/>
                 </button>
               </div>
               <div className="dropdown-menu" id="dropdown-menu" role="menu">

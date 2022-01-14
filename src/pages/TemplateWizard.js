@@ -12,7 +12,7 @@ const InputList = ({inputs}) => {
   ));
 };
 
-const ViewInputs = ({views = [], inputs = []}) => {
+const ViewInputs = ({views = [], inputs = [], onChange}) => {
   return views.map((view, index) => {
     const num = index+1;
     return (
@@ -20,8 +20,8 @@ const ViewInputs = ({views = [], inputs = []}) => {
         <label className="label" htmlFor={'media-' + num}>Video for View {num}</label>
         <div className="control has-icons-left">
           <span className="select">
-            <select id={'media-' + num} className="input" name={'media-' + num} required>
-              <option disabled selected value="">Choose a video file</option>
+            <select id={'media-' + num} className="input" name={'media-' + num} onChange={onChange} defaultValue="" required>
+              <option disabled value="">Choose a video file</option>
               <InputList inputs={inputs} />
             </select>
           </span>
@@ -39,6 +39,7 @@ const ViewInputs = ({views = [], inputs = []}) => {
 const TemplateWizard = (props) => {
   const globalConsumer = useContext(GlobalContext);
 
+  const [disableControls, setDisableControls] = useState(false);
   const [template, setTemplate] = useState(null);
   const [inputs, setInputs] = useState(null);
 
@@ -80,35 +81,69 @@ const TemplateWizard = (props) => {
     }
   }, [globalConsumer]);
 
-  const handleFileEstimation = async () => {
+  /**
+   * Get the estimated value of the overleia output. Fetches for now, calculate later?
+   * @return {Number} size of the output
+   */
+  const handleFileEstimation = () => {
     try {
-      const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
-        method: 'POST',
-        headers: {
-          'Authorization': globalConsumer.token,
-          'Content-Type': 'application/json',
-          'X-Auth-Token': globalConsumer.user.identityId,
-        },
-      });
-      await response.json();
+      const time = 1; // where does this come from??
+      const resolution = 1000; // this should come from template
+      const compressionRatio = 0.65;
+      return time * resolution * compressionRatio;
     } catch (err) {
       //
     }
   };
 
-  const handleFileSubmit = async (event) => {
-    handleFileEstimation();
-    event.preventDefault();
-    const metadata = Object.fromEntries((new FormData(event.target)).entries());
-    metadata.inputs = [];
-    for (let i = 0; i < template.views.length; i++) {
-      metadata.inputs.push(metadata['media-' + (i+1)]);
-      metadata['media-' + (i+1)] = undefined;
-    }
-    metadata.templateId = props.match.params.id;
-    const fileResp = await uploadFile(metadata);
-    window.location.href = `/file/${fileResp.id}`;
+  /**
+   *  TODO: fix so its right
+   *  Check if it goes over Free Trial for Overleia 
+   *  @param {Number} estimation - estimate value from handleFileEstimation
+   *  @return {Boolean} check of free trial
+   */
+  const checkFreeTrial = (estimation) => {
+    // const storageEstimate = estimation + globalConsumer.storage;
+    const storageEstimate = 1000000001;
+    if ((storageEstimate) > 1000000000) return false;
+    else return true;
   };
+
+  /**
+   * Toggles control over CSS for warning for going over free trial storage also disables submit
+   *
+   */
+  const controlFreeTrial = () => {
+    // if File Estimation greater than 1GB
+    document.querySelector('#warning').classList.toggle('active');
+    setDisableControls(!disableControls);
+  };
+
+  const handleFileSubmit = async (event) => {
+    event.preventDefault();
+    const estimation = handleFileEstimation();
+    if (checkFreeTrial(estimation)) {
+      const metadata = Object.fromEntries((new FormData(event.target)).entries());
+      metadata.inputs = [];
+      for (let i = 0; i < template.views.length; i++) {
+        metadata.inputs.push(metadata['media-' + (i+1)]);
+        metadata['media-' + (i+1)] = undefined;
+      }
+      metadata.templateId = props.match.params.id;
+      const fileResp = await uploadFile(metadata);
+      window.location.href = `/file/${fileResp.id}`;
+    } else {
+      controlFreeTrial();
+      setDisableControls(true);
+    }
+  };
+
+  const clearErrControl = (evt) => {
+    console.log('Im here', evt);
+    controlFreeTrial();
+    setDisableControls(true);
+  };
+
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
@@ -172,9 +207,9 @@ const TemplateWizard = (props) => {
           </div>
           <fieldset className="block">
             <legend className="subtitle is-5">Choose videos for each view:</legend>
-            { template?.views && inputs ? <ViewInputs inputs={inputs} views={template.views} /> : null}
+            { template?.views && inputs ? <ViewInputs onChange={clearErrControl} inputs={inputs} views={template.views} /> : null}
           </fieldset>
-          <div className="mb-5 has-text-left">
+          <div id="warning" className="mb-5 has-text-left">
             <p className="mb-1">
               <span className="has-text-weight-semibold is-size-5">
                 Cannot build this video!
@@ -184,7 +219,7 @@ const TemplateWizard = (props) => {
             <p className="mb-1">To process a video this large please setup your payment details to purchase Storage.</p>
             <p>Note that beyond your free 1GB, it is $8.00 per GB of input/processed storage.</p>
           </div>
-          <button className="button is-primary block" type="submit">Submit</button>
+          <button id="submit-btn" disabled={disableControls} className="button is-primary block" type="submit">Submit</button>
         </div>
       </form>
     </div>

@@ -48,3 +48,11 @@
 .storage-view {
   width: 300px;
 }
+
+#warning {
+  visibility: hidden;
+}
+
+#warning.active {
+  visibility: visible;
+}

@@ -44,6 +44,7 @@ const SubmitFile = () => {
 
   const [misc, setMisc] = useState('');
 
+  /*
   const getStorageSize = async () => {
     try {
       const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
@@ -59,14 +60,18 @@ const SubmitFile = () => {
       //
     }
   };
+  */
   const chooseFile = async () => {
     const fileEl = document.querySelector('#inputFile').files[0];
     setMisc({name: fileEl.name, file: fileEl});
     const filesize = fileEl.size;
     // GET Current Storage Size
-    const currentStorage = getStorageSize;
-    if ((currentStorage + filesize) > 1000000000) {
-      // Make div visible and disable submit button
+    const currentStorage = globalConsumer.storage;
+    console.log(currentStorage);
+    // current filesize goes over and is not verified
+    if ((currentStorage + filesize) > 1000000000 && !globalConsumer.verified) {
+      document.querySelector('#warning').classList.add('active');
+      // disable all buttons
     }
   };
   const handleFileSubmit = async (event) => {
@@ -114,7 +119,7 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
-          <div className="mb-5 has-text-left">
+          <div id="warning" className="mb-5 has-text-left">
             <p className="mb-1">
               <span className="has-text-weight-semibold is-size-5">
                 Cannot upload this video!

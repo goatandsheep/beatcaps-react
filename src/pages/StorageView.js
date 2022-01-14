@@ -10,7 +10,6 @@ const StorageView = (props) => {
   const [storageDataAmount, setStorageDataAmount] = useState(0);
   const [minDataAmount, setMinDataAmount] = useState(0);
   const [upgraded, setUpgraded] = useState(false);
-  const [freeTrial, setFreeTrial] = useState(true);
 
   const {search} = useLocation();
 
@@ -65,8 +64,6 @@ const StorageView = (props) => {
       });
       response = await response.json();
       setUpgraded(response.verified);
-      // setFreeTrial(response.trialVerified)
-      setFreeTrial(response.trialVerified);
       setStorageDataAmount(response.storageUsage);
       setMinDataAmount(response.beatcapsUsage);
       // const response = await fetch(`${constants.SERVER_DOMAIN}/usage`)
@@ -86,9 +83,9 @@ const StorageView = (props) => {
         <p>Beatcaps Usage: {minDataAmount} seconds</p>
         <button onClick={fetchData}>FetchData</button>
       </div> :
-      (freeTrial ?
+      (storageDataAmount < 1 ?
       <div>
-        <StorageBar storageView={true}/>
+        <StorageBar isLarge={true}/>
         <p>After the initial 1GB free storage, future GB of data cost $8 per GB. <br/> This includes upload and proccessed content.</p>
         <p>Click below to upgrade for more storage.</p>
         <button onClick={handleUpgrade} className="button is-primary is-medium mt-5">Upgrade Now</button>
