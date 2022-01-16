@@ -98,7 +98,7 @@ const TemplateWizard = (props) => {
 
   /**
    *  TODO: fix so its right
-   *  Check if it goes over Free Trial for Overleia 
+   *  Check if it goes over Free Trial for Overleia
    *  @param {Number} estimation - estimate value from handleFileEstimation
    *  @return {Boolean} check of free trial
    */

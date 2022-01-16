@@ -35,7 +35,9 @@ const StorageBar = ({isLarge}) => {
         //
       }
     };
-    fetchData();
+    if (typeof globalConsumer.usage.storage === 'undefined') {
+      fetchData();
+    }
   }, [globalConsumer]);
   return (
     <div>

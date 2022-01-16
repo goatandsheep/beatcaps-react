@@ -93,7 +93,8 @@ const BeatcapsWizard = (props) => {
   const checkFreeTrial = (estimation) => {
     // const storageEstimate = estimation + globalConsumer.storage;
     console.log('globalConsumer', globalConsumer.usage.storage);
-    const storageEstimate = 1000000001;
+    const storageEstimate = 1;
+    // const storageEstimate = 1000000001;
     if ((storageEstimate) > 1000000000) return false;
     else return true;
   };
