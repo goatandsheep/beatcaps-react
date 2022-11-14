@@ -11,13 +11,13 @@ const InputList = ({inputs}) => {
   ));
 };
 
-const ViewInputs = ({inputs = []}) => {
+const ViewInputs = ({inputs = [], onChange}) => {
   return (
     <div className="field mb-5" >
       <div className="control has-icons-left">
         <span className="select">
-          <select id='media' className="input" name='media' required>
-            <option disabled selected value="">Choose a video file</option>
+          <select id='media' className="input" name='media' onChange={onChange} required defaultValue="">
+            <option disabled value="">Choose a video file</option>
             <InputList inputs={inputs} />
           </select>
         </span>
@@ -32,7 +32,7 @@ const ViewInputs = ({inputs = []}) => {
 const BeatcapsWizard = (props) => {
   const globalConsumer = useContext(GlobalContext);
 
-  // const [template, setTemplate] = useState(null);
+  const [errControl, setErrControl] = useState(false);
   const [inputs, setInputs] = useState(null);
 
   // useEffect(() => {
@@ -73,22 +73,67 @@ const BeatcapsWizard = (props) => {
     }
   }, [globalConsumer]);
 
+  const handleFileEstimation = async () => {
+    try {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
+        method: 'POST',
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+      const beatcapsEstimation = await response.json();
+      return beatcapsEstimation;
+    } catch (err) {
+      //
+    }
+  };
+
+  const checkFreeTrial = (estimation) => {
+    // const storageEstimate = estimation + globalConsumer.storage;
+    console.log('globalConsumer', globalConsumer.usage.storage);
+    const storageEstimate = 1;
+    // const storageEstimate = 1000000001;
+    if ((storageEstimate) > 1000000000) return false;
+    else return true;
+  };
+
+  const controlFreeTrial = () => {
+    // if File Estimation greater than 1GB
+    document.querySelector('#warning').classList.toggle('active');
+    const submitBtn = document.querySelector('#submit-btn').disabled;
+    document.querySelector('#submit-btn').disabled = !submitBtn;
+  };
+
   const handleFileSubmit = async (event) => {
     event.preventDefault();
-    const metadata = Object.fromEntries((new FormData(event.target)).entries());
-    console.log('metadata', metadata);
-    const inputNameSegs = metadata.media.split('.');
-    inputNameSegs.pop();
-    metadata.name = inputNameSegs.join('.');
-    metadata.inputs = [];
-    // for (let i = 0; i < template.views.length; i++) {
-    metadata.inputs.push(metadata['media']);
-    //   metadata['media-' + (i+1)] = undefined;
-    // }
-    // metadata.templateId = props.match.params.id;
-    const fileResp = await uploadFile(metadata);
-    window.location.href = `/file/${fileResp.id}`;
+    const estimation = handleFileEstimation();
+    if (checkFreeTrial(estimation)) {
+      const metadata = Object.fromEntries((new FormData(event.target)).entries());
+      console.log('metadata', metadata);
+      const inputNameSegs = metadata.media.split('.');
+      inputNameSegs.pop();
+      metadata.name = inputNameSegs.join('.');
+      metadata.inputs = [];
+      // for (let i = 0; i < template.views.length; i++) {
+      metadata.inputs.push(metadata['media']);
+      //   metadata['media-' + (i+1)] = undefined;
+      // }
+      // metadata.templateId = props.match.params.id;
+      const fileResp = await uploadFile(metadata);
+      window.location.href = `/file/${fileResp.id}`;
+    } else {
+      controlFreeTrial();
+      setErrControl(true);
+    }
   };
+  const clearErrControl = (evt) => {
+    console.log('Im here', evt);
+    controlFreeTrial();
+    setErrControl(false);
+  };
+
   const uploadFile = async (req) => {
     if (!globalConsumer.token) {
       throw new Error('Auth token missing' + JSON.stringify(globalConsumer.user));
@@ -111,6 +156,7 @@ const BeatcapsWizard = (props) => {
 
     return await API.post('OverleiaApi', '/jobs', fetchBody);
   };
+
   return (
     <div>
 
@@ -118,9 +164,19 @@ const BeatcapsWizard = (props) => {
         <div className="card-content content">
           <fieldset className="block">
             <legend className="subtitle is-5">Choose videos for each view:</legend>
-            <ViewInputs inputs={inputs} />
+            <ViewInputs inputs={inputs} onChange={clearErrControl} />
           </fieldset>
-          <button className="button is-primary block" type="submit">Submit</button>
+          <div id="warning" className="mb-5">
+            <p className="mb-1">
+              <span className="has-text-weight-semibold is-size-5">
+                Cannot proccess this video!
+              </span>
+              <br/>
+                You will be going over your 10 Free Beatcaps Processing Minutes.</p>
+            <p className="mb-1">To process a video this large please setup your payment details to purchase process time.</p>
+            <p>Note that beyond your free 10 minutes, it is $0.08 per second of processing.</p>
+          </div>
+          <button id="submit-btn" className="button is-primary block" disabled={errControl} type="submit">Submit</button>
         </div>
       </form>
     </div>

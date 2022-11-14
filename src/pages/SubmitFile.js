@@ -43,9 +43,36 @@ const SubmitFile = () => {
   const globalConsumer = useContext(GlobalContext);
 
   const [misc, setMisc] = useState('');
+
+  /*
+  const getStorageSize = async () => {
+    try {
+      const response = await fetch(`${constants.SERVER_DOMAIN}/usage/`, {
+        method: 'GET',
+        headers: {
+          'Authorization': globalConsumer.token,
+          'Content-Type': 'application/json',
+          'X-Auth-Token': globalConsumer.user.identityId,
+        },
+      });
+      return response.json();
+    } catch (err) {
+      //
+    }
+  };
+  */
   const chooseFile = async () => {
     const fileEl = document.querySelector('#inputFile').files[0];
     setMisc({name: fileEl.name, file: fileEl});
+    const filesize = fileEl.size;
+    // GET Current Storage Size
+    const currentStorage = globalConsumer.storage;
+    console.log(currentStorage);
+    // current filesize goes over and is not verified
+    if ((currentStorage + filesize) > 1000000000 && !globalConsumer.verified) {
+      document.querySelector('#warning').classList.add('active');
+      // disable all buttons
+    }
   };
   const handleFileSubmit = async (event) => {
     event.preventDefault();
@@ -92,6 +119,16 @@ const SubmitFile = () => {
       <form className="card" onSubmit={handleFileSubmit} method="post" >
         <fieldset className="card-content content">
           <legend className="subtitle is-6">Enter file information</legend>
+          <div id="warning" className="mb-5 has-text-left">
+            <p className="mb-1">
+              <span className="has-text-weight-semibold is-size-5">
+                Cannot upload this video!
+              </span>
+              <br/>
+                You will be going over your 1 GB of input/processed storage.</p>
+            <p className="mb-1">To process a video this large please setup your payment details to purchase Storage.</p>
+            <p>Note that beyond your free 1GB, it is $8.00 per GB of input/processed storage.</p>
+          </div>
           {/* {constants.SHOW_BEATCAPS && <BeatCapsInputs/>} */}
           <div className="file has-name">
             <label className="file-label" htmlFor="inputFile">

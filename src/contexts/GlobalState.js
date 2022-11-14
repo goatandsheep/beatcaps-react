@@ -10,6 +10,7 @@ export const GlobalProvider = ({state, children}) => {
   const [user, setUser] = useState(state.user);
   const [authState, setAuthState] = React.useState(state.authState);
   const [token, setToken] = React.useState(state.token);
+  const [usage, setUsage] = React.useState(state.usage);
 
   useEffect(() => {
     const updateAuthState = (authState) => setAuthState(authState);
@@ -34,8 +35,10 @@ export const GlobalProvider = ({state, children}) => {
       user,
       authState,
       token,
+      usage,
       setUser,
       setAuthState,
+      setUsage,
     }}>
       {children}
     </GlobalContext.Provider>

@@ -15,8 +15,10 @@
     "@testing-library/react": "^11.2.5",
     "@testing-library/user-event": "^13.2.1",
     "bulma": "^0.9.3",
+    "caption-sync": "0.0.3",
     "eslint-config-google": "^0.14.0",
     "prop-types": "^15.7.2",
+    "query-string": "^7.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-rnd": "^10.3.4",
@@ -33,9 +35,34 @@
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
+    "env": {
+      "node": true,
+      "es6": true
+    },
     "extends": [
       "eslint:recommended",
-      "react-app"
+      "react-app",
+      "google"
+    ],
+    "parserOptions": {
+      "ecmaVersion": 2018,
+      "sourceType": "module"
+    },
+    "ignorePatterns": [
+      "test/*"
+    ],
+    "rules": {
+      "linebreak-style": 0,
+      "max-len": [
+        "warn",
+        {
+          "code": 150
+        }
+      ],
+      "require-jsdoc": "warn"
+    },
+    "plugins": [
+      "jsx-a11y"
     ]
   },
   "browserslist": {

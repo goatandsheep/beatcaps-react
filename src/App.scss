@@ -36,3 +36,23 @@
     transform: rotate(360deg);
   }
 }
+
+.storage-span {
+  white-space: nowrap;
+}
+
+.nav-prog {
+  width: 75px;
+}
+
+.storage-view {
+  width: 300px;
+}
+
+#warning {
+  visibility: hidden;
+}
+
+#warning.active {
+  visibility: visible;
+}

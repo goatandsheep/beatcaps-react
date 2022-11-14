@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import DragDropBox from './DragDropBox';
 import {getUiWidthFromScreenWidth, getUiPxFromViewPx, getViewPxFromUiPx} from '../utils/templateUtils';
 
@@ -10,6 +11,11 @@ const dragDropContainerStyles = (height, width) => {
     background: 'lightgray',
     position: 'relative',
   };
+};
+
+dragDropContainerStyles.PropTypes = {
+  height: PropTypes.number,
+  width: PropTypes.number,
 };
 
 const TemplateDragDrop = ({

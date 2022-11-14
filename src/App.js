@@ -18,6 +18,7 @@ import TemplateDetailsPage from './pages/TemplateDetailsPage';
 import TemplateEditor from './pages/TemplateEditor';
 import TemplateCreator from './pages/TemplateCreator';
 import ProcessPicker from './pages/ProcessPicker';
+import StorageView from './pages/StorageView';
 
 
 // Initialize Amplify
@@ -29,6 +30,11 @@ awsAuthInit();
 const App = () => {
   const [user, setUser] = useState({});
   const [authState, setAuthState] = useState(null);
+  const [usage] = useState({
+    beatcaps: 0,
+    storage: 0,
+    verified: false,
+  });
 
   useEffect(() => {
     return onAuthUIStateChange((nextAuthState, authData) => {
@@ -49,7 +55,7 @@ const App = () => {
   };
 
   return (
-    <GlobalProvider state={{user, authState}}>
+    <GlobalProvider state={{user, authState, usage}}>
       <AmplifyContainer>
         <AmplifyAuthenticator handleAuthStateChange={handleAuthStateChange}/>
         <Router>
@@ -66,6 +72,7 @@ const App = () => {
                 <Route exact={true} path="/templates/:id" component={TemplateDetailsPage} />
                 <Route exact={true} path="/templates" component={TemplatesView} />
                 <Route exact={true} path="/processes" component={ProcessPicker} />
+                <Route exact={true} path="/storage" component={StorageView} />
                 <Route path="/file/:id" component={FileView} />
                 <Route render={() => (<h1>Page Not Found</h1>)} />
               </Switch>

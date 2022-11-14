@@ -1,6 +1,7 @@
 import React from 'react';
 import {Link, NavLink} from 'react-router-dom';
 import AuthButton from './AuthButton';
+import StorageBar from './StorageBar';
 import constants from '../constants';
 const {version} = require('../../package.json');
 
@@ -38,6 +39,7 @@ const NavMenu = () => {
                   <Link to="/file/use" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Create cues
                   </Link>
+                  <hr className="dropdown-divider"></hr>
                   <Link to="/file/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Upload Video
                   </Link>
@@ -67,8 +69,23 @@ const NavMenu = () => {
                   <Link to="/templates" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Templates List
                   </Link>
+                  <hr className="dropdown-divider"></hr>
                   <Link to="/templates/new" className="dropdown-item is-hoverable" style={navButtonStyles}>
                     Create Template
+                  </Link>
+                </div>
+              </div>
+            </div>
+            <div className="dropdown is-hoverable">
+              <div className="dropdown-trigger">
+                <button className="button is-white" aria-haspopup="true" aria-controls="dropdown-menu">
+                  <StorageBar isLarge={false}/>
+                </button>
+              </div>
+              <div className="dropdown-menu" id="dropdown-menu" role="menu">
+                <div className="dropdown-content">
+                  <Link to="/storage" className="dropdown-item is-hoverable" style={navButtonStyles}>
+                    Change Billing
                   </Link>
                 </div>
               </div>
